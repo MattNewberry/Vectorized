@@ -8,12 +8,36 @@
 
 /* Begin PBXBuildFile section */
 		476B01CC1CCC89F2003510D3 /* Vectorized.h in Headers */ = {isa = PBXBuildFile; fileRef = 476B01CB1CCC89F2003510D3 /* Vectorized.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		476B01DB1CCC8EE2003510D3 /* SVGParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476B01DA1CCC8EE2003510D3 /* SVGParser.swift */; };
+		476BB4541CCC99FD000D49E2 /* X.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 476BB4531CCC99FD000D49E2 /* X.framework */; };
+		476BB45A1CCC9AEF000D49E2 /* SVGGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4551CCC9AEF000D49E2 /* SVGGroup.swift */; };
+		476BB45B1CCC9AEF000D49E2 /* SVGLinearGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4561CCC9AEF000D49E2 /* SVGLinearGradient.swift */; };
+		476BB45C1CCC9AEF000D49E2 /* SVGPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4571CCC9AEF000D49E2 /* SVGPath.swift */; };
+		476BB45D1CCC9AEF000D49E2 /* SVGRadialGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4581CCC9AEF000D49E2 /* SVGRadialGradient.swift */; };
+		476BB45E1CCC9AEF000D49E2 /* SVGText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4591CCC9AEF000D49E2 /* SVGText.swift */; };
+		476BB4671CCCA9DF000D49E2 /* SVGDrawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4641CCCA9DF000D49E2 /* SVGDrawable.swift */; };
+		476BB4681CCCA9DF000D49E2 /* SVGFillable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4651CCCA9DF000D49E2 /* SVGFillable.swift */; };
+		476BB4691CCCA9DF000D49E2 /* SVGGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4661CCCA9DF000D49E2 /* SVGGradient.swift */; };
+		476BB46C1CCCACAC000D49E2 /* SVGVectorImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB46B1CCCACAC000D49E2 /* SVGVectorImage.swift */; };
+		476BB46E1CCCBA0B000D49E2 /* BezierPath+SVG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB46D1CCCBA0B000D49E2 /* BezierPath+SVG.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		476B01C81CCC89F2003510D3 /* Vectorized.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Vectorized.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		476B01CB1CCC89F2003510D3 /* Vectorized.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vectorized.h; sourceTree = "<group>"; };
 		476B01CD1CCC89F2003510D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		476B01DA1CCC8EE2003510D3 /* SVGParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGParser.swift; sourceTree = "<group>"; };
+		476BB4531CCC99FD000D49E2 /* X.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = X.framework; path = Carthage/Build/Mac/X.framework; sourceTree = "<group>"; };
+		476BB4551CCC9AEF000D49E2 /* SVGGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGGroup.swift; sourceTree = "<group>"; };
+		476BB4561CCC9AEF000D49E2 /* SVGLinearGradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGLinearGradient.swift; sourceTree = "<group>"; };
+		476BB4571CCC9AEF000D49E2 /* SVGPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGPath.swift; sourceTree = "<group>"; };
+		476BB4581CCC9AEF000D49E2 /* SVGRadialGradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGRadialGradient.swift; sourceTree = "<group>"; };
+		476BB4591CCC9AEF000D49E2 /* SVGText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGText.swift; sourceTree = "<group>"; };
+		476BB4641CCCA9DF000D49E2 /* SVGDrawable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGDrawable.swift; sourceTree = "<group>"; };
+		476BB4651CCCA9DF000D49E2 /* SVGFillable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGFillable.swift; sourceTree = "<group>"; };
+		476BB4661CCCA9DF000D49E2 /* SVGGradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGGradient.swift; sourceTree = "<group>"; };
+		476BB46B1CCCACAC000D49E2 /* SVGVectorImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGVectorImage.swift; sourceTree = "<group>"; };
+		476BB46D1CCCBA0B000D49E2 /* BezierPath+SVG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BezierPath+SVG.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -21,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				476BB4541CCC99FD000D49E2 /* X.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -31,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				476B01CA1CCC89F2003510D3 /* Vectorized */,
+				476B01D61CCC8E43003510D3 /* Externals */,
 				476B01C91CCC89F2003510D3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -56,8 +82,35 @@
 		476B01D31CCC8B54003510D3 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				476BB4551CCC9AEF000D49E2 /* SVGGroup.swift */,
+				476BB4561CCC9AEF000D49E2 /* SVGLinearGradient.swift */,
+				476B01DA1CCC8EE2003510D3 /* SVGParser.swift */,
+				476BB4571CCC9AEF000D49E2 /* SVGPath.swift */,
+				476BB4581CCC9AEF000D49E2 /* SVGRadialGradient.swift */,
+				476BB4591CCC9AEF000D49E2 /* SVGText.swift */,
+				476BB46B1CCCACAC000D49E2 /* SVGVectorImage.swift */,
+				476BB46D1CCCBA0B000D49E2 /* BezierPath+SVG.swift */,
+				476BB46A1CCCA9E3000D49E2 /* Protocols */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		476B01D61CCC8E43003510D3 /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+				476BB4531CCC99FD000D49E2 /* X.framework */,
+			);
+			name = Externals;
+			sourceTree = "<group>";
+		};
+		476BB46A1CCCA9E3000D49E2 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				476BB4641CCCA9DF000D49E2 /* SVGDrawable.swift */,
+				476BB4651CCCA9DF000D49E2 /* SVGFillable.swift */,
+				476BB4661CCCA9DF000D49E2 /* SVGGradient.swift */,
+			);
+			name = Protocols;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,6 +191,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				476BB45A1CCC9AEF000D49E2 /* SVGGroup.swift in Sources */,
+				476BB45C1CCC9AEF000D49E2 /* SVGPath.swift in Sources */,
+				476BB4671CCCA9DF000D49E2 /* SVGDrawable.swift in Sources */,
+				476BB4691CCCA9DF000D49E2 /* SVGGradient.swift in Sources */,
+				476B01DB1CCC8EE2003510D3 /* SVGParser.swift in Sources */,
+				476BB46C1CCCACAC000D49E2 /* SVGVectorImage.swift in Sources */,
+				476BB45E1CCC9AEF000D49E2 /* SVGText.swift in Sources */,
+				476BB46E1CCCBA0B000D49E2 /* BezierPath+SVG.swift in Sources */,
+				476BB45D1CCC9AEF000D49E2 /* SVGRadialGradient.swift in Sources */,
+				476BB45B1CCC9AEF000D49E2 /* SVGLinearGradient.swift in Sources */,
+				476BB4681CCCA9DF000D49E2 /* SVGFillable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,6 +305,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Vectorized/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -261,6 +329,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Vectorized/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";

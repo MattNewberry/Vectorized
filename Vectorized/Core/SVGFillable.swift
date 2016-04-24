@@ -6,16 +6,16 @@
 //  Copyright (c) 2015 Seedling. All rights reserved.
 //
 
-import UIKit
+import X
 
 /// Protocol shared by objects capable of acting as a fill for an SVGPath
-protocol SVGFillable: class {
-    func asColor() -> UIColor?
-    func asGradient() -> SVGGradient?
+public protocol SVGFillable: class {
+	func asColor() -> ColorType?
+	func asGradient() -> SVGGradient?
 }
 
 /// Extend UIColor to conform to SVGFillable
-extension UIColor: SVGFillable{
-    func asColor() -> UIColor? { return self }
-    func asGradient() -> SVGGradient? { return nil}
+extension ColorType: SVGFillable {
+    public func asColor() -> ColorType? { return self }
+    public func asGradient() -> SVGGradient? { return nil}
 }
