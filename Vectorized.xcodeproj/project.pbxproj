@@ -52,6 +52,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		471BB7601CCD885000871570 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		476B01BE1CCC89F2003510D3 = {
 			isa = PBXGroup;
 			children = (
@@ -73,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				476B01D31CCC8B54003510D3 /* Core */,
+				471BB7601CCD885000871570 /* Views */,
 				476B01CB1CCC89F2003510D3 /* Vectorized.h */,
 				476B01CD1CCC89F2003510D3 /* Info.plist */,
 			);

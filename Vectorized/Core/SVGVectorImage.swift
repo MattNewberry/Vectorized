@@ -84,36 +84,44 @@ public class SVGVectorImage: SVGGroup {
             return nil
         }
     }
-    
-    //MARK: Rendering to images
-
+	
     /// Renders the vector image to a raster UIImage
     ///
     /// :param: size the size of the UIImage to be returned
     /// :param: contentMode the contentMode to use for rendering, some values may effect the output size
     /// :returns: a UIImage containing a raster representation of the SVGVectorImage
-	#if !os(OSX)
     public func renderToImage(size size: CGSize, contentMode: ContentMode = .ScaleToFill) -> ImageType {
         let targetSize = sizeWithTargetSize(size, contentMode: contentMode)
         let scale = scaleWithTargetSize(size, contentMode: contentMode)
+		let image: ImageType
 		
+	#if os(OSX)
+		let representation = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: Int(targetSize.width), pixelsHigh: Int(targetSize.height), bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: NSCalibratedRGBColorSpace, bytesPerRow: 0, bitsPerPixel: 0)
+		
+		image = NSImage(size: targetSize)
+		
+		image.addRepresentation(representation!)
+		image.lockFocus()
+	#else
         UIGraphicsBeginImageContext(targetSize)
+	#endif
 		
         let context = GetCurrentGraphicsContext()
 		
         CGContextScaleCTM(context, scale.width, scale.height)
         self.draw()
-		
-        let image = UIGraphicsGetImageFromCurrentImageContext() ?? UIImage()
+	
+	#if os(OSX)
+		image.unlockFocus()
+	#else
+        image = UIGraphicsGetImageFromCurrentImageContext() ?? UIImage()
 		
         UIGraphicsEndImageContext()
-		
+	#endif
+			
         return image
     }
-	#endif
-    
-    //MARK: Private Functions and Variables
-    
+	
     /// Returns the size of the vector image when scaled to fit in the size parameter using
     /// the given content mode
     /// 
