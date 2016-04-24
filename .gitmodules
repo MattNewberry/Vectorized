@@ -1,3 +1,3 @@
 [submodule "Carthage/Checkouts/X"]
 	path = Carthage/Checkouts/X
-	url = https://github.com/soffes/X.git
+	url = https://github.com/alienorb/X.git
