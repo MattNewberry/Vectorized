@@ -164,7 +164,8 @@ public class SVGVectorImage: SVGGroup {
         case .ScaleToFill:
             newSize = size
 			
-            let scaleFactor = CGSize(width: bounds.width / targetSize.width, height: bounds.height / targetSize.height)
+			//??? WTF
+            //let scaleFactor = CGSize(width: bounds.width / targetSize.width, height: bounds.height / targetSize.height)
 			
             return CGPointZero
 			
@@ -189,7 +190,6 @@ public class SVGVectorImage: SVGGroup {
     internal func scaleWithTargetSize(size: CGSize, contentMode: ContentMode) -> CGSize {
         let targetSize = self.size
         let bounds = size
-        var newSize: CGSize
 		
         switch contentMode {
         case .ScaleAspectFit:
