@@ -30,6 +30,65 @@
 //---------------------------------------------------------------------------------------
 
 import X
+import Foundation
+
+private enum CommandType: Int {
+	case Absolute
+	case Relative
+}
+
+private protocol SVGCommand {
+	func processCommandString(commandString: String, withPrevCommand: String, forPath: BezierPathType, factoryIdentifier: String)
+}
+
+private class SVGCommandImpl: SVGCommand {
+	static var paramRegex = try! NSRegularExpression(pattern: "[-+]?[0-9]*\\.?[0-9]+", options: [])
+	
+	var prevCommand: String?
+	
+	func parametersForCommand(commandString: String) -> [Float] {
+		let matches = SVGCommandImpl.paramRegex.matchesInString(commandString, options: [], range: NSRange(location: 0, length: commandString.characters.count))
+		var results: [Float] = []
+		
+		for match in matches {
+			let paramString = (commandString as NSString).substringWithRange(match.range)
+			
+			if let value = Float(paramString) {
+				results.append(value)
+			}
+		}
+		
+		return results
+	}
+	
+	func isAbsoluteCommand(commandLetter: String) -> Bool {
+		return commandLetter == commandLetter.uppercaseString
+	}
+	
+	func processCommandString(commandString: String, withPrevCommand prevCommand: String, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+		self.prevCommand = prevCommand
+		
+		let commandLetter = commandString.substringToIndex(commandString.startIndex.advancedBy(1))
+		let params = parametersForCommand(commandString)
+		let commandType: CommandType = isAbsoluteCommand(commandLetter) ? .Absolute : .Relative
+		
+		performWithParams(params, commandType: commandType, forPath: path, factoryIdentifier: identifier)
+	}
+	
+	func performWithParams(params: [Float], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+		fatalError("You must override \(#function) in a subclass")
+	}
+}
+
+private class SVGMoveCommand: SVGCommandImpl {
+	override func performWithParams(params: [Float], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+		if type == .Absolute {
+			path.moveToPoint(CGPoint(x: CGFloat(params[0]), y: CGFloat(params[1])))
+		} else {
+			path.moveToPoint(CGPoint(x: path.currentPoint.x + CGFloat(params[0]), y: path.currentPoint.y + CGFloat(params[1])))
+		}
+	}
+}
 
 public extension BezierPathType {
 	public convenience init(SVGString: String, factoryIdentifier: String) {
@@ -45,4 +104,10 @@ public extension BezierPathType {
 	private func addPathWithSVGString(SVGString: String, toPath: BezierPathType, factoryIdentifier: String) -> BezierPathType {
 		
 	}*/
+	
+	public func addPathWithSVGString(SVGString: String, factoryIdentifier: String) {
+		//guard SVGString.length > 0 else { return }
+		
+		//let regex = commandRegex
+	}
 }
