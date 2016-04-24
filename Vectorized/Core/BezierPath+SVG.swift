@@ -42,7 +42,7 @@ private protocol SVGCommand {
 }
 
 private class SVGCommandImpl: SVGCommand {
-	static var paramRegex = try! NSRegularExpression(pattern: "[-+]?[0-9]*\\.?[0-9]+", options: [])
+	static let paramRegex = try! NSRegularExpression(pattern: "[-+]?[0-9]*\\.?[0-9]+", options: [])
 	
 	var prevCommand: String?
 	
@@ -132,7 +132,7 @@ private class SVGCurveToCommand: SVGCommandImpl {
 
 private class SVGSmoothCurveToCommand: SVGCommandImpl {
 	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
-		var firstControlPoint = CGPoint(x: path.currentPoint.x, y: path.currentPoint.y)
+		var firstControlPoint = path.currentPoint
 		
 		if let prevCommand = prevCommand {
 			if prevCommand.characters.count > 0 {
@@ -172,24 +172,152 @@ private class SVGSmoothCurveToCommand: SVGCommandImpl {
 	}
 }
 
+private class SVGQuadraticCurveToCommand: SVGCommandImpl {
+	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+		if type == .Absolute {
+			path.addQuadCurveToPoint(CGPoint(x: params[2], y: params[3]), controlPoint: CGPoint(x: params[0], y: params[1]))
+		} else {
+			path.addQuadCurveToPoint(CGPoint(x: path.currentPoint.x + params[2], y: path.currentPoint.y + params[3]), controlPoint: CGPoint(x: path.currentPoint.x + params[0], y: path.currentPoint.y + params[1]))
+		}
+	}
+}
+
+private class SVGSmoothQuadraticCurveToCommand: SVGCommandImpl {
+	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+		var firstControlPoint = path.currentPoint
+		
+		if let prevCommand = prevCommand {
+			if prevCommand.characters.count > 0 {
+				let prevCommandType = prevCommand.substringToIndex(prevCommand.startIndex.advancedBy(1))
+				let prevCommandTypeLowercase = prevCommandType.lowercaseString
+				let isAbsolute = prevCommandType != prevCommandTypeLowercase
+				
+				if prevCommandTypeLowercase == "q" {
+					let prevParams = parametersForCommand(prevCommand)
+					
+					if isAbsolute {
+						firstControlPoint = CGPoint(x: -1 * prevParams[0] + 2 * path.currentPoint.x, y: -1 * prevParams[1] + 2 * path.currentPoint.y)
+					} else {
+						let oldCurrentPoint = CGPoint(x: path.currentPoint.x - prevParams[2], y: path.currentPoint.y - prevParams[3])
+						
+						firstControlPoint = CGPoint(x: -1 * (prevParams[0] + oldCurrentPoint.x) + 2 * path.currentPoint.x, y: -1 * (prevParams[1] + oldCurrentPoint.y) + 2 * path.currentPoint.y)
+					}
+				}
+			}
+		}
+		
+		if type == .Absolute {
+			path.addQuadCurveToPoint(CGPoint(x: params[0], y: params[1]), controlPoint: firstControlPoint)
+		} else {
+			path.addQuadCurveToPoint(CGPoint(x: path.currentPoint.x + params[0], y: path.currentPoint.y + params[1]), controlPoint: firstControlPoint)
+		}
+	}
+}
+
+private class SVGClosePathCommand: SVGCommandImpl {
+	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+		path.closePath()
+	}
+}
+
+private class SVGCommandFactory {
+	static let defaultFactory = SVGCommandFactory()
+	static var factories: [String: SVGCommandFactory] = [:]
+	
+	private var commands: [String: SVGCommand] = [:]
+	
+	class func factoryWithIdentifier(identifier: String) -> SVGCommandFactory {
+		if let factory = factories[identifier] {
+			return factory
+		}
+		
+		factories[identifier] = SVGCommandFactory()
+		
+		return factories[identifier]!
+	}
+	
+	init() {
+		commands["m"] = SVGMoveCommand()
+		commands["l"] = SVGLineToCommand()
+		commands["h"] = SVGHorizontalLineToCommand()
+		commands["v"] = SVGVerticalLineToCommand()
+		commands["c"] = SVGCurveToCommand()
+		commands["s"] = SVGSmoothCurveToCommand()
+		commands["q"] = SVGQuadraticCurveToCommand()
+		commands["t"] = SVGSmoothQuadraticCurveToCommand()
+		commands["z"] = SVGClosePathCommand()
+	}
+	
+	func commandForCommandLetter(commandLetter: String) -> SVGCommand? {
+		return commands[commandLetter.lowercaseString]
+	}
+}
+
+public enum SVGError: ErrorType {
+	case InvalidCommand(String)
+	case UnknownCommand(String)
+}
+
 public extension BezierPathType {
-	public convenience init(SVGString: String, factoryIdentifier: String) {
+	private static let commandRegex = try! NSRegularExpression(pattern: "[A-Za-z]", options: [])
+	
+	private class func processCommandString(commandString: String, withPrevCommandString prevCommand: String, forPath path: BezierPathType, withFactoryIdentifier identifier: String) throws {
+		guard commandString.characters.count > 0 else {
+			throw SVGError.InvalidCommand(commandString)
+		}
+		
+		let commandLetter = commandString.substringToIndex(commandString.startIndex.advancedBy(1))
+		
+		if let command = SVGCommandFactory.factoryWithIdentifier(identifier).commandForCommandLetter(commandLetter) {
+			command.processCommandString(commandString, withPrevCommand: prevCommand, forPath: path, factoryIdentifier: identifier)
+		} else {
+			throw SVGError.UnknownCommand(commandLetter)
+		}
+	}
+	
+	private class func addPathWithSVGString(SVGString: String, toPath path: BezierPathType, factoryIdentifier identifier: String) {
+		guard SVGString.characters.count > 0 else { return }
+		
+		var prevMatch: NSTextCheckingResult?
+		var prevCommand = ""
+		
+		commandRegex.enumerateMatchesInString(SVGString, options: [], range: NSMakeRange(0, SVGString.characters.count)) { (match, flags, stop) in
+			if let match = match {
+				if let prevMatchUnwrapped = prevMatch {
+					let length = match.range.location - prevMatchUnwrapped.range.location
+					let commandString = (SVGString as NSString).substringWithRange(NSMakeRange(prevMatchUnwrapped.range.location, length))
+					
+					do {
+						try processCommandString(commandString, withPrevCommandString: prevCommand, forPath: path, withFactoryIdentifier: identifier)
+					} catch let error {
+						print("SVG parsing failed: \(error)")
+					}
+					
+					prevCommand = commandString
+				}
+			}
+			
+			prevMatch = match
+		}
+		
+		if let prevMatch = prevMatch {
+			let result = (SVGString as NSString).substringWithRange(NSMakeRange(prevMatch.range.location, SVGString.characters.count - prevMatch.range.location))
+			
+			do {
+				try processCommandString(result, withPrevCommandString: prevCommand, forPath: path, withFactoryIdentifier: identifier)
+			} catch let error {
+				print("SVG parsing failed: \(error)")
+			}
+		}
+	}
+	
+	public convenience init(SVGString: String, factoryIdentifier identifier: String) {
 		self.init()
 		
-		
+		addPathFromSVGString(SVGString, factoryIdentifier: identifier)
 	}
 	
-/*	public func addPathFromSVGString(SVGString: String, factoryIdentifier: String) {
-		_ = addPathWithSVGString
-	}
-	
-	private func addPathWithSVGString(SVGString: String, toPath: BezierPathType, factoryIdentifier: String) -> BezierPathType {
-		
-	}*/
-	
-	public func addPathWithSVGString(SVGString: String, factoryIdentifier: String) {
-		//guard SVGString.length > 0 else { return }
-		
-		//let regex = commandRegex
+	public func addPathFromSVGString(SVGString: String, factoryIdentifier identifier: String) {
+		BezierPathType.addPathWithSVGString(SVGString, toPath: self, factoryIdentifier: identifier)
 	}
 }
