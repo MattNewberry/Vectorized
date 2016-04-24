@@ -46,15 +46,15 @@ private class SVGCommandImpl: SVGCommand {
 	
 	var prevCommand: String?
 	
-	func parametersForCommand(commandString: String) -> [Float] {
+	func parametersForCommand(commandString: String) -> [CGFloat] {
 		let matches = SVGCommandImpl.paramRegex.matchesInString(commandString, options: [], range: NSRange(location: 0, length: commandString.characters.count))
-		var results: [Float] = []
+		var results: [CGFloat] = []
 		
 		for match in matches {
 			let paramString = (commandString as NSString).substringWithRange(match.range)
 			
 			if let value = Float(paramString) {
-				results.append(value)
+				results.append(CGFloat(value))
 			}
 		}
 		
@@ -75,17 +75,99 @@ private class SVGCommandImpl: SVGCommand {
 		performWithParams(params, commandType: commandType, forPath: path, factoryIdentifier: identifier)
 	}
 	
-	func performWithParams(params: [Float], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+	func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
 		fatalError("You must override \(#function) in a subclass")
 	}
 }
 
 private class SVGMoveCommand: SVGCommandImpl {
-	override func performWithParams(params: [Float], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
 		if type == .Absolute {
-			path.moveToPoint(CGPoint(x: CGFloat(params[0]), y: CGFloat(params[1])))
+			path.moveToPoint(CGPoint(x: params[0], y: params[1]))
 		} else {
-			path.moveToPoint(CGPoint(x: path.currentPoint.x + CGFloat(params[0]), y: path.currentPoint.y + CGFloat(params[1])))
+			path.moveToPoint(CGPoint(x: path.currentPoint.x + params[0], y: path.currentPoint.y + params[1]))
+		}
+	}
+}
+
+private class SVGLineToCommand: SVGCommandImpl {
+	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+		if type == .Absolute {
+			path.addLineToPoint(CGPoint(x: params[0], y: params[1]))
+		} else {
+			path.addLineToPoint(CGPoint(x: path.currentPoint.x + params[0], y: path.currentPoint.y + params[1]))
+		}
+	}
+}
+
+private class SVGHorizontalLineToCommand: SVGCommandImpl {
+	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+		if type == .Absolute {
+			path.addLineToPoint(CGPoint(x: params[0], y: path.currentPoint.y))
+		} else {
+			path.addLineToPoint(CGPoint(x: path.currentPoint.x + params[0], y: path.currentPoint.y))
+		}
+	}
+}
+
+private class SVGVerticalLineToCommand: SVGCommandImpl {
+	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+		if type == .Absolute {
+			path.addLineToPoint(CGPoint(x: path.currentPoint.x, y: params[0]))
+		} else {
+			path.addLineToPoint(CGPoint(x: path.currentPoint.x, y: path.currentPoint.y + params[0]))
+		}
+	}
+}
+
+private class SVGCurveToCommand: SVGCommandImpl {
+	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+		if type == .Absolute {
+			path.addCurveToPoint(CGPoint(x: params[4], y: params[5]), controlPoint1: CGPoint(x: params[0], y: params[1]), controlPoint2: CGPoint(x: params[2], y: params[3]))
+		} else {
+			path.addCurveToPoint(CGPoint(x: path.currentPoint.x + params[4], y: path.currentPoint.y + params[5]), controlPoint1: CGPoint(x: path.currentPoint.x + params[0], y: path.currentPoint.y + params[1]), controlPoint2: CGPoint(x: path.currentPoint.x + params[2], y: path.currentPoint.y + params[3]))
+		}
+	}
+}
+
+private class SVGSmoothCurveToCommand: SVGCommandImpl {
+	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+		var firstControlPoint = CGPoint(x: path.currentPoint.x, y: path.currentPoint.y)
+		
+		if let prevCommand = prevCommand {
+			if prevCommand.characters.count > 0 {
+				let prevCommandType = prevCommand.substringToIndex(prevCommand.startIndex.advancedBy(1))
+				let prevCommandTypeLowercase = prevCommandType.lowercaseString
+				let isAbsolute = prevCommandType != prevCommandTypeLowercase
+				
+				if prevCommandTypeLowercase == "c" || prevCommandTypeLowercase == "s" {
+					let prevParams = parametersForCommand(prevCommand)
+					
+					if prevCommandTypeLowercase == "c" {
+						if isAbsolute {
+							firstControlPoint = CGPoint(x: -1 * prevParams[2] + 2 * path.currentPoint.x, y: -1 * prevParams[3] + 2 * path.currentPoint.y)
+						} else {
+							let oldCurrentPoint = CGPoint(x: path.currentPoint.x - prevParams[4], y: path.currentPoint.y - prevParams[5])
+							
+							firstControlPoint = CGPoint(x: -1 * (prevParams[2] + oldCurrentPoint.x) + 2 * path.currentPoint.x, y: -1 * (prevParams[3] + oldCurrentPoint.y) + 2 * path.currentPoint.y)
+						}
+					} else {
+						if isAbsolute {
+							firstControlPoint = CGPoint(x: -1 * prevParams[0] + 2 * path.currentPoint.x, y: -1 * prevParams[1] + 2 * path.currentPoint.y)
+						} else {
+							let oldCurrentPoint = CGPoint(x: path.currentPoint.x - prevParams[2], y: path.currentPoint.y - prevParams[3])
+							
+							firstControlPoint = CGPoint(x: -1 * (prevParams[0] + oldCurrentPoint.x) + 2 * path.currentPoint.x, y: -1 * (prevParams[1] + oldCurrentPoint.y) + 2 * path.currentPoint.y)
+						}
+					}
+				}
+			}
+		}
+		
+		if type == .Absolute {
+			path.addCurveToPoint(CGPoint(x: params[2], y: params[3]), controlPoint1: CGPoint(x: firstControlPoint.x, y: firstControlPoint.y), controlPoint2: CGPoint(x: params[0], y: params[1]))
+		} else {
+			path.addCurveToPoint(CGPoint(x: path.currentPoint.x + params[2], y: path.currentPoint.y + params[3]), controlPoint1: CGPoint(x: firstControlPoint.x, y: firstControlPoint.y), controlPoint2: CGPoint(x: path.currentPoint.x + params[0], y: path.currentPoint.y + params[1]))
 		}
 	}
 }
