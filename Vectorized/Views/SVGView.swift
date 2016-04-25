@@ -93,14 +93,20 @@
 		super.drawRect(rect)
 		
 		if let vectorImage = vectorImage {
-			let context = SVGGraphicsGetCurrentContext()
-			let translation = vectorImage.translationWithTargetSize(rect.size, contentMode: contentMode)
-			let scale = vectorImage.scaleWithTargetSize(rect.size, contentMode: contentMode)
-			
-			CGContextScaleCTM(context, scale.width, scale.height)
-			CGContextTranslateCTM(context, translation.x / scale.width, translation.y / scale.height)
-			
-			vectorImage.draw()
+			if let context = SVGGraphicsGetCurrentContext() {
+				let translation = vectorImage.translationWithTargetSize(rect.size, contentMode: contentMode)
+				let scale = vectorImage.scaleWithTargetSize(rect.size, contentMode: contentMode)
+				
+				#if os(OSX)
+					let flipVertical = CGAffineTransform(a: 1.0, b: 0.0, c: 0.0, d: -1.0, tx: 0.0, ty: rect.size.height)
+					CGContextConcatCTM(context, flipVertical)
+				#endif
+				
+				CGContextScaleCTM(context, scale.width, scale.height)
+				CGContextTranslateCTM(context, translation.x / scale.width, translation.y / scale.height)
+				
+				vectorImage.draw()
+			}
 		}
 	}
 	
