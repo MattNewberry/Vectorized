@@ -16,16 +16,38 @@
 		4713183E1CCDA14A005FEABB /* dragon_0.svg in Resources */ = {isa = PBXBuildFile; fileRef = 4713183B1CCDA14A005FEABB /* dragon_0.svg */; };
 		4713183F1CCDA14A005FEABB /* knight_0.svg in Resources */ = {isa = PBXBuildFile; fileRef = 4713183C1CCDA14A005FEABB /* knight_0.svg */; };
 		471318401CCDA14A005FEABB /* knight_0.svg in Resources */ = {isa = PBXBuildFile; fileRef = 4713183C1CCDA14A005FEABB /* knight_0.svg */; };
-		471318551CCDAB4A005FEABB /* Vectorized.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 471BB77E1CCD8D2600871570 /* Vectorized.framework */; };
 		471BB7701CCD8CE600871570 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471BB76F1CCD8CE600871570 /* AppDelegate.swift */; };
 		471BB7721CCD8CE600871570 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471BB7711CCD8CE600871570 /* ViewController.swift */; };
 		471BB7741CCD8CE600871570 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 471BB7731CCD8CE600871570 /* Assets.xcassets */; };
 		471BB7771CCD8CE600871570 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 471BB7751CCD8CE600871570 /* Main.storyboard */; };
-		471BB7831CCD8D4F00871570 /* Vectorized.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 471BB77E1CCD8D2600871570 /* Vectorized.framework */; };
-		471BB7841CCD8D4F00871570 /* Vectorized.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 471BB77E1CCD8D2600871570 /* Vectorized.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		47386B9D1CCDFD600017DDB8 /* Vectorized.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47D2D9FB1CCD98E00051757B /* Vectorized.framework */; };
+		47386B9E1CCDFD600017DDB8 /* Vectorized.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 47D2D9FB1CCD98E00051757B /* Vectorized.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		47386BA11CCDFD750017DDB8 /* Vectorized.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 471318861CCDE7DF005FEABB /* Vectorized.framework */; };
+		47386BA21CCDFD750017DDB8 /* Vectorized.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 471318861CCDE7DF005FEABB /* Vectorized.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		471318851CCDE7DF005FEABB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 471BB78C1CCD8D9A00871570 /* Vectorized.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 471318771CCDE330005FEABB;
+			remoteInfo = "Vectorized (iOS)";
+		};
+		47386B9F1CCDFD600017DDB8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 471BB78C1CCD8D9A00871570 /* Vectorized.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 476B01C71CCC89F2003510D3;
+			remoteInfo = "Vectorized-Mac";
+		};
+		47386BA31CCDFD750017DDB8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 471BB78C1CCD8D9A00871570 /* Vectorized.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 471318761CCDE330005FEABB;
+			remoteInfo = "Vectorized-iOS";
+		};
 		47D2D9FA1CCD98E00051757B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 471BB78C1CCD8D9A00871570 /* Vectorized.xcodeproj */;
@@ -42,7 +64,18 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				471BB7841CCD8D4F00871570 /* Vectorized.framework in Embed Frameworks */,
+				47386B9E1CCDFD600017DDB8 /* Vectorized.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		47386BA51CCDFD750017DDB8 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				47386BA21CCDFD750017DDB8 /* Vectorized.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -65,7 +98,6 @@
 		471BB7731CCD8CE600871570 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		471BB7761CCD8CE600871570 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		471BB7781CCD8CE600871570 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		471BB77E1CCD8D2600871570 /* Vectorized.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vectorized.framework; path = "../../../Library/Developer/Xcode/DerivedData/Vectorized-cgnmwflopjxfmwdydonczssfakft/Build/Products/Debug/Vectorized.framework"; sourceTree = "<group>"; };
 		471BB78C1CCD8D9A00871570 /* Vectorized.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Vectorized.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,7 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				471318551CCDAB4A005FEABB /* Vectorized.framework in Frameworks */,
+				47386BA11CCDFD750017DDB8 /* Vectorized.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,7 +114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				471BB7831CCD8D4F00871570 /* Vectorized.framework in Frameworks */,
+				47386B9D1CCDFD600017DDB8 /* Vectorized.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,7 +179,6 @@
 			isa = PBXGroup;
 			children = (
 				471BB78C1CCD8D9A00871570 /* Vectorized.xcodeproj */,
-				471BB77E1CCD8D2600871570 /* Vectorized.framework */,
 			);
 			name = Dependencies;
 			path = ../..;
@@ -157,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				47D2D9FB1CCD98E00051757B /* Vectorized.framework */,
+				471318861CCDE7DF005FEABB /* Vectorized.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -171,10 +203,12 @@
 				471318231CCDA094005FEABB /* Sources */,
 				471318241CCDA094005FEABB /* Frameworks */,
 				471318251CCDA094005FEABB /* Resources */,
+				47386BA51CCDFD750017DDB8 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				47386BA41CCDFD750017DDB8 /* PBXTargetDependency */,
 			);
 			name = "SimpleSVG-iOS";
 			productName = "SimpleSVG-iOS";
@@ -193,6 +227,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				47386BA01CCDFD600017DDB8 /* PBXTargetDependency */,
 			);
 			name = "SimpleSVG-Mac";
 			productName = SimpleSVG;
@@ -243,6 +278,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		471318861CCDE7DF005FEABB /* Vectorized.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Vectorized.framework;
+			remoteRef = 471318851CCDE7DF005FEABB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		47D2D9FB1CCD98E00051757B /* Vectorized.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -299,6 +341,19 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		47386BA01CCDFD600017DDB8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Vectorized-Mac";
+			targetProxy = 47386B9F1CCDFD600017DDB8 /* PBXContainerItemProxy */;
+		};
+		47386BA41CCDFD750017DDB8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Vectorized-iOS";
+			targetProxy = 47386BA31CCDFD750017DDB8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		4713182D1CCDA094005FEABB /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -334,7 +389,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "SimpleSVG-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alienorb.SimpleSVG-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -349,7 +404,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "SimpleSVG-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alienorb.SimpleSVG-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -445,7 +500,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = SimpleSVG/Info.plist;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = "SimpleSVG-Mac/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alienorb.SimpleSVG;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -457,7 +513,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = SimpleSVG/Info.plist;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = "SimpleSVG-Mac/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alienorb.SimpleSVG;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -474,6 +531,7 @@
 				471318371CCDA094005FEABB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		471BB7671CCD8CE600871570 /* Build configuration list for PBXProject "SimpleSVG" */ = {
 			isa = XCConfigurationList;
