@@ -11,6 +11,22 @@
 		471318591CCDB27E005FEABB /* SVGColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471318581CCDB27E005FEABB /* SVGColor+Hex.swift */; };
 		471BB7621CCD889300871570 /* SVGView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471BB7611CCD889300871570 /* SVGView.swift */; };
 		47386B991CCDFCE70017DDB8 /* Vectorized.h in Headers */ = {isa = PBXBuildFile; fileRef = 47386B981CCDFCE70017DDB8 /* Vectorized.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		47657E301CCE7F1A00A4424A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E2F1CCE7F1A00A4424A /* Parser.swift */; };
+		47657E311CCE7F1A00A4424A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E2F1CCE7F1A00A4424A /* Parser.swift */; };
+		47657E551CCE879900A4424A /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E4E1CCE879900A4424A /* Document.swift */; };
+		47657E561CCE879900A4424A /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E4E1CCE879900A4424A /* Document.swift */; };
+		47657E571CCE879900A4424A /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E4F1CCE879900A4424A /* Element.swift */; };
+		47657E581CCE879900A4424A /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E4F1CCE879900A4424A /* Element.swift */; };
+		47657E591CCE879900A4424A /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E501CCE879900A4424A /* Error.swift */; };
+		47657E5A1CCE879900A4424A /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E501CCE879900A4424A /* Error.swift */; };
+		47657E5B1CCE879900A4424A /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E511CCE879900A4424A /* Helpers.swift */; };
+		47657E5C1CCE879900A4424A /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E511CCE879900A4424A /* Helpers.swift */; };
+		47657E5D1CCE879900A4424A /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E521CCE879900A4424A /* Node.swift */; };
+		47657E5E1CCE879900A4424A /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E521CCE879900A4424A /* Node.swift */; };
+		47657E5F1CCE879900A4424A /* NodeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E531CCE879900A4424A /* NodeSet.swift */; };
+		47657E601CCE879900A4424A /* NodeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E531CCE879900A4424A /* NodeSet.swift */; };
+		47657E611CCE879900A4424A /* Queryable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E541CCE879900A4424A /* Queryable.swift */; };
+		47657E621CCE879900A4424A /* Queryable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E541CCE879900A4424A /* Queryable.swift */; };
 		476B01DB1CCC8EE2003510D3 /* SVGParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476B01DA1CCC8EE2003510D3 /* SVGParser.swift */; };
 		476BB45A1CCC9AEF000D49E2 /* SVGGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4551CCC9AEF000D49E2 /* SVGGroup.swift */; };
 		476BB45B1CCC9AEF000D49E2 /* SVGLinearGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4561CCC9AEF000D49E2 /* SVGLinearGradient.swift */; };
@@ -48,6 +64,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		47657E371CCE813100A4424A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -77,6 +102,14 @@
 		471318811CCDE3D0005FEABB /* iOS-Framework-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "iOS-Framework-Release.xcconfig"; path = "Carthage/Checkouts/AlienXcode/Configurations/iOS/iOS-Framework-Release.xcconfig"; sourceTree = "<group>"; };
 		471BB7611CCD889300871570 /* SVGView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGView.swift; sourceTree = "<group>"; };
 		47386B981CCDFCE70017DDB8 /* Vectorized.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vectorized.h; sourceTree = "<group>"; };
+		47657E2F1CCE7F1A00A4424A /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		47657E4E1CCE879900A4424A /* Document.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Document.swift; path = Carthage/Checkouts/Fuzi/Fuzi/Document.swift; sourceTree = "<group>"; };
+		47657E4F1CCE879900A4424A /* Element.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Element.swift; path = Carthage/Checkouts/Fuzi/Fuzi/Element.swift; sourceTree = "<group>"; };
+		47657E501CCE879900A4424A /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Error.swift; path = Carthage/Checkouts/Fuzi/Fuzi/Error.swift; sourceTree = "<group>"; };
+		47657E511CCE879900A4424A /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Helpers.swift; path = Carthage/Checkouts/Fuzi/Fuzi/Helpers.swift; sourceTree = "<group>"; };
+		47657E521CCE879900A4424A /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Node.swift; path = Carthage/Checkouts/Fuzi/Fuzi/Node.swift; sourceTree = "<group>"; };
+		47657E531CCE879900A4424A /* NodeSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NodeSet.swift; path = Carthage/Checkouts/Fuzi/Fuzi/NodeSet.swift; sourceTree = "<group>"; };
+		47657E541CCE879900A4424A /* Queryable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Queryable.swift; path = Carthage/Checkouts/Fuzi/Fuzi/Queryable.swift; sourceTree = "<group>"; };
 		476B01C81CCC89F2003510D3 /* Vectorized.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Vectorized.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		476B01CD1CCC89F2003510D3 /* Vectorized-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Vectorized-Info.plist"; sourceTree = "<group>"; };
 		476B01DA1CCC8EE2003510D3 /* SVGParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGParser.swift; sourceTree = "<group>"; };
@@ -179,6 +212,28 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		47657E2E1CCE7E8F00A4424A /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				47657E2F1CCE7F1A00A4424A /* Parser.swift */,
+			);
+			path = Parser;
+			sourceTree = "<group>";
+		};
+		47657E4D1CCE878400A4424A /* Fuzi */ = {
+			isa = PBXGroup;
+			children = (
+				47657E4E1CCE879900A4424A /* Document.swift */,
+				47657E4F1CCE879900A4424A /* Element.swift */,
+				47657E501CCE879900A4424A /* Error.swift */,
+				47657E511CCE879900A4424A /* Helpers.swift */,
+				47657E521CCE879900A4424A /* Node.swift */,
+				47657E531CCE879900A4424A /* NodeSet.swift */,
+				47657E541CCE879900A4424A /* Queryable.swift */,
+			);
+			name = Fuzi;
+			sourceTree = "<group>";
+		};
 		476B01BE1CCC89F2003510D3 = {
 			isa = PBXGroup;
 			children = (
@@ -201,6 +256,7 @@
 		476B01CA1CCC89F2003510D3 /* Vectorized */ = {
 			isa = PBXGroup;
 			children = (
+				47657E2E1CCE7E8F00A4424A /* Parser */,
 				476B01D31CCC8B54003510D3 /* Core */,
 				471BB7601CCD885000871570 /* Views */,
 				47386B941CCDF1BC0017DDB8 /* Supporting Files */,
@@ -229,6 +285,7 @@
 		476B01D61CCC8E43003510D3 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				47657E4D1CCE878400A4424A /* Fuzi */,
 			);
 			name = Externals;
 			sourceTree = "<group>";
@@ -272,6 +329,7 @@
 				471318731CCDE330005FEABB /* Frameworks */,
 				471318741CCDE330005FEABB /* Headers */,
 				471318751CCDE330005FEABB /* Resources */,
+				47657E371CCE813100A4424A /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -360,18 +418,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				47D6996C1CCE07C300553899 /* SVGGroup.swift in Sources */,
+				47657E5C1CCE879900A4424A /* Helpers.swift in Sources */,
 				47D699701CCE07C300553899 /* SVGRadialGradient.swift in Sources */,
 				47D699751CCE07C800553899 /* SVGDrawable.swift in Sources */,
 				47D699761CCE07C800553899 /* SVGFillable.swift in Sources */,
 				47D6996F1CCE07C300553899 /* SVGPath.swift in Sources */,
+				47657E311CCE7F1A00A4424A /* Parser.swift in Sources */,
 				47D699771CCE07C800553899 /* SVGGradient.swift in Sources */,
+				47657E621CCE879900A4424A /* Queryable.swift in Sources */,
 				47D6996B1CCE07C300553899 /* CrossPlatform.swift in Sources */,
+				47657E561CCE879900A4424A /* Document.swift in Sources */,
 				47D699711CCE07C300553899 /* SVGText.swift in Sources */,
+				47657E601CCE879900A4424A /* NodeSet.swift in Sources */,
+				47657E5E1CCE879900A4424A /* Node.swift in Sources */,
 				47D699721CCE07C300553899 /* SVGVectorImage.swift in Sources */,
+				47657E581CCE879900A4424A /* Element.swift in Sources */,
 				47D699781CCE07CC00553899 /* SVGView.swift in Sources */,
 				47D699731CCE07C300553899 /* SVGBezierPath.swift in Sources */,
 				47D6996D1CCE07C300553899 /* SVGLinearGradient.swift in Sources */,
 				47D699741CCE07C300553899 /* SVGColor+Hex.swift in Sources */,
+				47657E5A1CCE879900A4424A /* Error.swift in Sources */,
 				47D6996E1CCE07C300553899 /* SVGParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -381,18 +447,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				476BB45A1CCC9AEF000D49E2 /* SVGGroup.swift in Sources */,
+				47657E5B1CCE879900A4424A /* Helpers.swift in Sources */,
 				476BB45C1CCC9AEF000D49E2 /* SVGPath.swift in Sources */,
 				476BB4671CCCA9DF000D49E2 /* SVGDrawable.swift in Sources */,
 				471BB7621CCD889300871570 /* SVGView.swift in Sources */,
 				471318571CCDACD1005FEABB /* CrossPlatform.swift in Sources */,
+				47657E301CCE7F1A00A4424A /* Parser.swift in Sources */,
 				476BB4691CCCA9DF000D49E2 /* SVGGradient.swift in Sources */,
+				47657E611CCE879900A4424A /* Queryable.swift in Sources */,
 				476B01DB1CCC8EE2003510D3 /* SVGParser.swift in Sources */,
+				47657E551CCE879900A4424A /* Document.swift in Sources */,
 				476BB46C1CCCACAC000D49E2 /* SVGVectorImage.swift in Sources */,
+				47657E5F1CCE879900A4424A /* NodeSet.swift in Sources */,
+				47657E5D1CCE879900A4424A /* Node.swift in Sources */,
 				471318591CCDB27E005FEABB /* SVGColor+Hex.swift in Sources */,
+				47657E571CCE879900A4424A /* Element.swift in Sources */,
 				476BB45E1CCC9AEF000D49E2 /* SVGText.swift in Sources */,
 				476BB46E1CCCBA0B000D49E2 /* SVGBezierPath.swift in Sources */,
 				476BB45D1CCC9AEF000D49E2 /* SVGRadialGradient.swift in Sources */,
 				476BB45B1CCC9AEF000D49E2 /* SVGLinearGradient.swift in Sources */,
+				47657E591CCE879900A4424A /* Error.swift in Sources */,
 				476BB4681CCCA9DF000D49E2 /* SVGFillable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -404,6 +478,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 471318801CCDE3D0005FEABB /* iOS-Framework-Debug.xcconfig */;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				OTHER_LDFLAGS = "-lxml2";
 				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
@@ -412,6 +491,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 471318811CCDE3D0005FEABB /* iOS-Framework-Release.xcconfig */;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				OTHER_LDFLAGS = "-lxml2";
 				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
@@ -422,6 +506,8 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				CURRENT_PROJECT_VERSION = 1;
+				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
+				SWIFT_INCLUDE_PATHS = "'$(PROJECT_DIR)/${PROJECT_NAME}/Supporting Files/libxml2'";
 			};
 			name = Debug;
 		};
@@ -431,6 +517,8 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				CURRENT_PROJECT_VERSION = 1;
+				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
+				SWIFT_INCLUDE_PATHS = "'$(PROJECT_DIR)/${PROJECT_NAME}/Supporting Files/libxml2'";
 			};
 			name = Release;
 		};
@@ -438,6 +526,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 471318691CCDDD64005FEABB /* Mac-Framework-Debug.xcconfig */;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alienorb.Vectorized;
 			};
 			name = Debug;
@@ -446,6 +540,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4713186A1CCDDD64005FEABB /* Mac-Framework-Release.xcconfig */;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alienorb.Vectorized;
 			};
 			name = Release;

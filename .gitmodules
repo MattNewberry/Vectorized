@@ -1,3 +1,6 @@
 [submodule "Carthage/Checkouts/AlienXcode"]
 	path = Carthage/Checkouts/AlienXcode
 	url = https://github.com/alienorb/AlienXcode.git
+[submodule "Carthage/Checkouts/Fuzi"]
+	path = Carthage/Checkouts/Fuzi
+	url = https://github.com/cezheng/Fuzi.git
