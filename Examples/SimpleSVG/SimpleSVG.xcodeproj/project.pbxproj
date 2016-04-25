@@ -20,10 +20,10 @@
 		471BB7721CCD8CE600871570 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471BB7711CCD8CE600871570 /* ViewController.swift */; };
 		471BB7741CCD8CE600871570 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 471BB7731CCD8CE600871570 /* Assets.xcassets */; };
 		471BB7771CCD8CE600871570 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 471BB7751CCD8CE600871570 /* Main.storyboard */; };
-		47386B9D1CCDFD600017DDB8 /* Vectorized.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47D2D9FB1CCD98E00051757B /* Vectorized.framework */; };
-		47386B9E1CCDFD600017DDB8 /* Vectorized.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 47D2D9FB1CCD98E00051757B /* Vectorized.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		47386BA11CCDFD750017DDB8 /* Vectorized.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 471318861CCDE7DF005FEABB /* Vectorized.framework */; };
-		47386BA21CCDFD750017DDB8 /* Vectorized.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 471318861CCDE7DF005FEABB /* Vectorized.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		47386B9D1CCDFD600017DDB8 /* .framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47D2D9FB1CCD98E00051757B /* .framework */; };
+		47386B9E1CCDFD600017DDB8 /* .framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 47D2D9FB1CCD98E00051757B /* .framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		47386BA11CCDFD750017DDB8 /* .framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 471318861CCDE7DF005FEABB /* .framework */; };
+		47386BA21CCDFD750017DDB8 /* .framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 471318861CCDE7DF005FEABB /* .framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,7 +64,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				47386B9E1CCDFD600017DDB8 /* Vectorized.framework in Embed Frameworks */,
+				47386B9E1CCDFD600017DDB8 /* .framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -75,7 +75,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				47386BA21CCDFD750017DDB8 /* Vectorized.framework in Embed Frameworks */,
+				47386BA21CCDFD750017DDB8 /* .framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -106,7 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				47386BA11CCDFD750017DDB8 /* Vectorized.framework in Frameworks */,
+				47386BA11CCDFD750017DDB8 /* .framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,7 +114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				47386B9D1CCDFD600017DDB8 /* Vectorized.framework in Frameworks */,
+				47386B9D1CCDFD600017DDB8 /* .framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,8 +187,8 @@
 		47D2D9F71CCD98E00051757B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				47D2D9FB1CCD98E00051757B /* Vectorized.framework */,
-				471318861CCDE7DF005FEABB /* Vectorized.framework */,
+				47D2D9FB1CCD98E00051757B /* .framework */,
+				471318861CCDE7DF005FEABB /* .framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -278,16 +278,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		471318861CCDE7DF005FEABB /* Vectorized.framework */ = {
+		471318861CCDE7DF005FEABB /* .framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
+			name = .framework;
 			path = Vectorized.framework;
 			remoteRef = 471318851CCDE7DF005FEABB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		47D2D9FB1CCD98E00051757B /* Vectorized.framework */ = {
+		47D2D9FB1CCD98E00051757B /* .framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
+			name = .framework;
 			path = Vectorized.framework;
 			remoteRef = 47D2D9FA1CCD98E00051757B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -503,6 +505,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "SimpleSVG-Mac/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.alienorb.SimpleSVG;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -516,6 +519,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "SimpleSVG-Mac/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.alienorb.SimpleSVG;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

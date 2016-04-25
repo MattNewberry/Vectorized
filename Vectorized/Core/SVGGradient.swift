@@ -26,7 +26,7 @@
 //  THE SOFTWARE.
 //---------------------------------------------------------------------------------------
 
-import Foundation
+import CoreGraphics
 
 /// the SVGGradient protocol extends SVGFillable to specify that the conforming type should
 /// be able to supply an CGGradient and modify it with a given opacity when asked

@@ -26,6 +26,7 @@
 //  THE SOFTWARE.
 //---------------------------------------------------------------------------------------
 
+import Foundation
 import CoreGraphics
 
 /// Defines a radial gradient for filling paths.  Create the gradient and then add stops to prepare it for filling.

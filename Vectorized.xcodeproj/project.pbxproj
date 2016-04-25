@@ -22,6 +22,20 @@
 		476BB4691CCCA9DF000D49E2 /* SVGGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4661CCCA9DF000D49E2 /* SVGGradient.swift */; };
 		476BB46C1CCCACAC000D49E2 /* SVGVectorImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB46B1CCCACAC000D49E2 /* SVGVectorImage.swift */; };
 		476BB46E1CCCBA0B000D49E2 /* SVGBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB46D1CCCBA0B000D49E2 /* SVGBezierPath.swift */; };
+		47D6996B1CCE07C300553899 /* CrossPlatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471318561CCDACD1005FEABB /* CrossPlatform.swift */; };
+		47D6996C1CCE07C300553899 /* SVGGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4551CCC9AEF000D49E2 /* SVGGroup.swift */; };
+		47D6996D1CCE07C300553899 /* SVGLinearGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4561CCC9AEF000D49E2 /* SVGLinearGradient.swift */; };
+		47D6996E1CCE07C300553899 /* SVGParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476B01DA1CCC8EE2003510D3 /* SVGParser.swift */; };
+		47D6996F1CCE07C300553899 /* SVGPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4571CCC9AEF000D49E2 /* SVGPath.swift */; };
+		47D699701CCE07C300553899 /* SVGRadialGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4581CCC9AEF000D49E2 /* SVGRadialGradient.swift */; };
+		47D699711CCE07C300553899 /* SVGText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4591CCC9AEF000D49E2 /* SVGText.swift */; };
+		47D699721CCE07C300553899 /* SVGVectorImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB46B1CCCACAC000D49E2 /* SVGVectorImage.swift */; };
+		47D699731CCE07C300553899 /* SVGBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB46D1CCCBA0B000D49E2 /* SVGBezierPath.swift */; };
+		47D699741CCE07C300553899 /* SVGColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471318581CCDB27E005FEABB /* SVGColor+Hex.swift */; };
+		47D699751CCE07C800553899 /* SVGDrawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4641CCCA9DF000D49E2 /* SVGDrawable.swift */; };
+		47D699761CCE07C800553899 /* SVGFillable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4651CCCA9DF000D49E2 /* SVGFillable.swift */; };
+		47D699771CCE07C800553899 /* SVGGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4661CCCA9DF000D49E2 /* SVGGradient.swift */; };
+		47D699781CCE07CC00553899 /* SVGView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471BB7611CCD889300871570 /* SVGView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -57,15 +71,13 @@
 		4713186C1CCDDF6F005FEABB /* iOS-Target-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "iOS-Target-Common.xcconfig"; path = "Carthage/Checkouts/AlienXcode/Configurations/iOS/iOS-Target-Common.xcconfig"; sourceTree = "<group>"; };
 		4713186D1CCDDF6F005FEABB /* iOS-Target-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "iOS-Target-Debug.xcconfig"; path = "Carthage/Checkouts/AlienXcode/Configurations/iOS/iOS-Target-Debug.xcconfig"; sourceTree = "<group>"; };
 		4713186E1CCDDF6F005FEABB /* iOS-Target-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "iOS-Target-Release.xcconfig"; path = "Carthage/Checkouts/AlienXcode/Configurations/iOS/iOS-Target-Release.xcconfig"; sourceTree = "<group>"; };
-		471318771CCDE330005FEABB /* .framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = .framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		471318791CCDE330005FEABB /* Vectorized.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vectorized.h; sourceTree = "<group>"; };
-		4713187B1CCDE330005FEABB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		471318771CCDE330005FEABB /* Vectorized.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Vectorized.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4713187F1CCDE3D0005FEABB /* iOS-Framework-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "iOS-Framework-Common.xcconfig"; path = "Carthage/Checkouts/AlienXcode/Configurations/iOS/iOS-Framework-Common.xcconfig"; sourceTree = "<group>"; };
 		471318801CCDE3D0005FEABB /* iOS-Framework-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "iOS-Framework-Debug.xcconfig"; path = "Carthage/Checkouts/AlienXcode/Configurations/iOS/iOS-Framework-Debug.xcconfig"; sourceTree = "<group>"; };
 		471318811CCDE3D0005FEABB /* iOS-Framework-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "iOS-Framework-Release.xcconfig"; path = "Carthage/Checkouts/AlienXcode/Configurations/iOS/iOS-Framework-Release.xcconfig"; sourceTree = "<group>"; };
 		471BB7611CCD889300871570 /* SVGView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGView.swift; sourceTree = "<group>"; };
 		47386B981CCDFCE70017DDB8 /* Vectorized.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vectorized.h; sourceTree = "<group>"; };
-		476B01C81CCC89F2003510D3 /* .framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = .framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		476B01C81CCC89F2003510D3 /* Vectorized.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Vectorized.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		476B01CD1CCC89F2003510D3 /* Vectorized-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Vectorized-Info.plist"; sourceTree = "<group>"; };
 		476B01DA1CCC8EE2003510D3 /* SVGParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGParser.swift; sourceTree = "<group>"; };
 		476BB4551CCC9AEF000D49E2 /* SVGGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGGroup.swift; sourceTree = "<group>"; };
@@ -150,15 +162,6 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		471318781CCDE330005FEABB /* Vectorized */ = {
-			isa = PBXGroup;
-			children = (
-				471318791CCDE330005FEABB /* Vectorized.h */,
-				4713187B1CCDE330005FEABB /* Info.plist */,
-			);
-			path = Vectorized;
-			sourceTree = "<group>";
-		};
 		471BB7601CCD885000871570 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -182,7 +185,6 @@
 				476B01CA1CCC89F2003510D3 /* Vectorized */,
 				471318411CCDA8D8005FEABB /* Configurations */,
 				476B01D61CCC8E43003510D3 /* Externals */,
-				471318781CCDE330005FEABB /* Vectorized */,
 				476B01C91CCC89F2003510D3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -190,8 +192,8 @@
 		476B01C91CCC89F2003510D3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				476B01C81CCC89F2003510D3 /* .framework */,
-				471318771CCDE330005FEABB /* .framework */,
+				476B01C81CCC89F2003510D3 /* Vectorized.framework */,
+				471318771CCDE330005FEABB /* Vectorized.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -277,7 +279,7 @@
 			);
 			name = "Vectorized-iOS";
 			productName = Vectorized;
-			productReference = 471318771CCDE330005FEABB /* .framework */;
+			productReference = 471318771CCDE330005FEABB /* Vectorized.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		476B01C71CCC89F2003510D3 /* Vectorized-Mac */ = {
@@ -296,7 +298,7 @@
 			);
 			name = "Vectorized-Mac";
 			productName = Vectorized;
-			productReference = 476B01C81CCC89F2003510D3 /* .framework */;
+			productReference = 476B01C81CCC89F2003510D3 /* Vectorized.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -357,6 +359,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47D6996C1CCE07C300553899 /* SVGGroup.swift in Sources */,
+				47D699701CCE07C300553899 /* SVGRadialGradient.swift in Sources */,
+				47D699751CCE07C800553899 /* SVGDrawable.swift in Sources */,
+				47D699761CCE07C800553899 /* SVGFillable.swift in Sources */,
+				47D6996F1CCE07C300553899 /* SVGPath.swift in Sources */,
+				47D699771CCE07C800553899 /* SVGGradient.swift in Sources */,
+				47D6996B1CCE07C300553899 /* CrossPlatform.swift in Sources */,
+				47D699711CCE07C300553899 /* SVGText.swift in Sources */,
+				47D699721CCE07C300553899 /* SVGVectorImage.swift in Sources */,
+				47D699781CCE07CC00553899 /* SVGView.swift in Sources */,
+				47D699731CCE07C300553899 /* SVGBezierPath.swift in Sources */,
+				47D6996D1CCE07C300553899 /* SVGLinearGradient.swift in Sources */,
+				47D699741CCE07C300553899 /* SVGColor+Hex.swift in Sources */,
+				47D6996E1CCE07C300553899 /* SVGParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

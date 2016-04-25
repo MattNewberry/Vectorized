@@ -6,7 +6,7 @@
 //  Copyright © 2016 Alien Orb Software LLC. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for Vectorized.
 FOUNDATION_EXPORT double VectorizedVersionNumber;
@@ -15,5 +15,4 @@ FOUNDATION_EXPORT double VectorizedVersionNumber;
 FOUNDATION_EXPORT const unsigned char VectorizedVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <Vectorized/PublicHeader.h>
-
 

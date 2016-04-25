@@ -1,0 +1,3 @@
+[submodule "Carthage/Checkouts/AlienXcode"]
+	path = Carthage/Checkouts/AlienXcode
+	url = https://github.com/alienorb/AlienXcode.git

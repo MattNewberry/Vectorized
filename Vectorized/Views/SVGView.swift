@@ -47,14 +47,14 @@
 #if os(OSX)
 	public var contentMode: SVGViewContentMode = .Center {
 		didSet {
-			needsDisplay = true
+			setNeedsDisplay()
 		}
 	}
 #endif
 	
 	public var vectorImage: SVGVectorImage? {
 		didSet {
-			needsDisplay = true
+			setNeedsDisplay()
 		}
 	}
 	

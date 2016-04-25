@@ -93,12 +93,18 @@
 			}
 		}
 	}
+	
+	extension NSView {
+		public func setNeedsDisplay() {
+			needsDisplay = true
+		}
+	}
 #else
 	import UIKit
 	
 	public typealias SVGBezierPath = UIBezierPath
 	public typealias SVGColor = UIColor
-	public typealias SVGFont = NSFont
+	public typealias SVGFont = UIFont
 	public typealias SVGImage = UIImage
 	
 	public typealias SVGViewContentMode = UIViewContentMode
