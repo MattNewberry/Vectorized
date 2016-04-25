@@ -115,7 +115,7 @@ public class SVGVectorImage: SVGGroup {
         let context = SVGGraphicsGetCurrentContext()
 		
         CGContextScaleCTM(context, scale.width, scale.height)
-        self.draw()
+        draw()
 	
 	#if os(OSX)
 		image.unlockFocus()
@@ -193,7 +193,7 @@ public class SVGVectorImage: SVGGroup {
             let xTranslation = (bounds.width - newSize.width) / 2.0
             let yTranslation = (bounds.height - newSize.height) / 2.0
 			
-            return CGPoint(x:xTranslation, y:yTranslation)
+            return CGPoint(x: xTranslation, y: yTranslation)
 			
         case .ScaleToFill:
             newSize = size
