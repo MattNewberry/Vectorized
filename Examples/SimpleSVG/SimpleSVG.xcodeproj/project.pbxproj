@@ -1,0 +1,497 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4713182A1CCDA094005FEABB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471318291CCDA094005FEABB /* AppDelegate.swift */; };
+		4713182C1CCDA094005FEABB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4713182B1CCDA094005FEABB /* ViewController.swift */; };
+		4713182F1CCDA094005FEABB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4713182D1CCDA094005FEABB /* Main.storyboard */; };
+		471318311CCDA094005FEABB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 471318301CCDA094005FEABB /* Assets.xcassets */; };
+		471318341CCDA094005FEABB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 471318321CCDA094005FEABB /* LaunchScreen.storyboard */; };
+		4713183D1CCDA14A005FEABB /* dragon_0.svg in Resources */ = {isa = PBXBuildFile; fileRef = 4713183B1CCDA14A005FEABB /* dragon_0.svg */; };
+		4713183E1CCDA14A005FEABB /* dragon_0.svg in Resources */ = {isa = PBXBuildFile; fileRef = 4713183B1CCDA14A005FEABB /* dragon_0.svg */; };
+		4713183F1CCDA14A005FEABB /* knight_0.svg in Resources */ = {isa = PBXBuildFile; fileRef = 4713183C1CCDA14A005FEABB /* knight_0.svg */; };
+		471318401CCDA14A005FEABB /* knight_0.svg in Resources */ = {isa = PBXBuildFile; fileRef = 4713183C1CCDA14A005FEABB /* knight_0.svg */; };
+		471BB7701CCD8CE600871570 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471BB76F1CCD8CE600871570 /* AppDelegate.swift */; };
+		471BB7721CCD8CE600871570 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471BB7711CCD8CE600871570 /* ViewController.swift */; };
+		471BB7741CCD8CE600871570 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 471BB7731CCD8CE600871570 /* Assets.xcassets */; };
+		471BB7771CCD8CE600871570 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 471BB7751CCD8CE600871570 /* Main.storyboard */; };
+		471BB7831CCD8D4F00871570 /* Vectorized.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 471BB77E1CCD8D2600871570 /* Vectorized.framework */; };
+		471BB7841CCD8D4F00871570 /* Vectorized.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 471BB77E1CCD8D2600871570 /* Vectorized.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		47D2D9FA1CCD98E00051757B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 471BB78C1CCD8D9A00871570 /* Vectorized.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 476B01C81CCC89F2003510D3;
+			remoteInfo = Vectorized;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		471BB7851CCD8D4F00871570 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				471BB7841CCD8D4F00871570 /* Vectorized.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		471318271CCDA094005FEABB /* SimpleSVG-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SimpleSVG-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		471318291CCDA094005FEABB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4713182B1CCDA094005FEABB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4713182E1CCDA094005FEABB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		471318301CCDA094005FEABB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		471318331CCDA094005FEABB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		471318351CCDA094005FEABB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4713183B1CCDA14A005FEABB /* dragon_0.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = dragon_0.svg; sourceTree = "<group>"; };
+		4713183C1CCDA14A005FEABB /* knight_0.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = knight_0.svg; sourceTree = "<group>"; };
+		471BB76C1CCD8CE600871570 /* SimpleSVG-Mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SimpleSVG-Mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		471BB76F1CCD8CE600871570 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		471BB7711CCD8CE600871570 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		471BB7731CCD8CE600871570 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		471BB7761CCD8CE600871570 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		471BB7781CCD8CE600871570 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		471BB77E1CCD8D2600871570 /* Vectorized.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vectorized.framework; path = "../../../Library/Developer/Xcode/DerivedData/Vectorized-cgnmwflopjxfmwdydonczssfakft/Build/Products/Debug/Vectorized.framework"; sourceTree = "<group>"; };
+		471BB78C1CCD8D9A00871570 /* Vectorized.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Vectorized.xcodeproj; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		471318241CCDA094005FEABB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		471BB7691CCD8CE600871570 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				471BB7831CCD8D4F00871570 /* Vectorized.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		471318281CCDA094005FEABB /* SimpleSVG-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				471318291CCDA094005FEABB /* AppDelegate.swift */,
+				4713182B1CCDA094005FEABB /* ViewController.swift */,
+				4713182D1CCDA094005FEABB /* Main.storyboard */,
+				471318301CCDA094005FEABB /* Assets.xcassets */,
+				471318321CCDA094005FEABB /* LaunchScreen.storyboard */,
+				471318351CCDA094005FEABB /* Info.plist */,
+			);
+			path = "SimpleSVG-iOS";
+			sourceTree = "<group>";
+		};
+		4713183A1CCDA129005FEABB /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				4713183B1CCDA14A005FEABB /* dragon_0.svg */,
+				4713183C1CCDA14A005FEABB /* knight_0.svg */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		471BB7631CCD8CE600871570 = {
+			isa = PBXGroup;
+			children = (
+				471BB76E1CCD8CE600871570 /* SimpleSVG-Mac */,
+				471318281CCDA094005FEABB /* SimpleSVG-iOS */,
+				4713183A1CCDA129005FEABB /* Shared */,
+				471BB7961CCD8E5300871570 /* Dependencies */,
+				471BB76D1CCD8CE600871570 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		471BB76D1CCD8CE600871570 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				471BB76C1CCD8CE600871570 /* SimpleSVG-Mac.app */,
+				471318271CCDA094005FEABB /* SimpleSVG-iOS.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		471BB76E1CCD8CE600871570 /* SimpleSVG-Mac */ = {
+			isa = PBXGroup;
+			children = (
+				471BB76F1CCD8CE600871570 /* AppDelegate.swift */,
+				471BB7711CCD8CE600871570 /* ViewController.swift */,
+				471BB7731CCD8CE600871570 /* Assets.xcassets */,
+				471BB7751CCD8CE600871570 /* Main.storyboard */,
+				471BB7781CCD8CE600871570 /* Info.plist */,
+			);
+			path = "SimpleSVG-Mac";
+			sourceTree = "<group>";
+		};
+		471BB7961CCD8E5300871570 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				471BB78C1CCD8D9A00871570 /* Vectorized.xcodeproj */,
+				471BB77E1CCD8D2600871570 /* Vectorized.framework */,
+			);
+			name = Dependencies;
+			path = ../..;
+			sourceTree = "<group>";
+		};
+		47D2D9F71CCD98E00051757B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				47D2D9FB1CCD98E00051757B /* Vectorized.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		471318261CCDA094005FEABB /* SimpleSVG-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 471318391CCDA094005FEABB /* Build configuration list for PBXNativeTarget "SimpleSVG-iOS" */;
+			buildPhases = (
+				471318231CCDA094005FEABB /* Sources */,
+				471318241CCDA094005FEABB /* Frameworks */,
+				471318251CCDA094005FEABB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SimpleSVG-iOS";
+			productName = "SimpleSVG-iOS";
+			productReference = 471318271CCDA094005FEABB /* SimpleSVG-iOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		471BB76B1CCD8CE600871570 /* SimpleSVG-Mac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 471BB77B1CCD8CE600871570 /* Build configuration list for PBXNativeTarget "SimpleSVG-Mac" */;
+			buildPhases = (
+				471BB7681CCD8CE600871570 /* Sources */,
+				471BB7691CCD8CE600871570 /* Frameworks */,
+				471BB76A1CCD8CE600871570 /* Resources */,
+				471BB7851CCD8D4F00871570 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SimpleSVG-Mac";
+			productName = SimpleSVG;
+			productReference = 471BB76C1CCD8CE600871570 /* SimpleSVG-Mac.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		471BB7641CCD8CE600871570 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "Alien Orb Software LLC";
+				TargetAttributes = {
+					471318261CCDA094005FEABB = {
+						CreatedOnToolsVersion = 7.3;
+					};
+					471BB76B1CCD8CE600871570 = {
+						CreatedOnToolsVersion = 7.3;
+					};
+				};
+			};
+			buildConfigurationList = 471BB7671CCD8CE600871570 /* Build configuration list for PBXProject "SimpleSVG" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 471BB7631CCD8CE600871570;
+			productRefGroup = 471BB76D1CCD8CE600871570 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 47D2D9F71CCD98E00051757B /* Products */;
+					ProjectRef = 471BB78C1CCD8D9A00871570 /* Vectorized.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				471BB76B1CCD8CE600871570 /* SimpleSVG-Mac */,
+				471318261CCDA094005FEABB /* SimpleSVG-iOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		47D2D9FB1CCD98E00051757B /* Vectorized.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Vectorized.framework;
+			remoteRef = 47D2D9FA1CCD98E00051757B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		471318251CCDA094005FEABB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				471318401CCDA14A005FEABB /* knight_0.svg in Resources */,
+				4713183E1CCDA14A005FEABB /* dragon_0.svg in Resources */,
+				471318341CCDA094005FEABB /* LaunchScreen.storyboard in Resources */,
+				471318311CCDA094005FEABB /* Assets.xcassets in Resources */,
+				4713182F1CCDA094005FEABB /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		471BB76A1CCD8CE600871570 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4713183D1CCDA14A005FEABB /* dragon_0.svg in Resources */,
+				471BB7741CCD8CE600871570 /* Assets.xcassets in Resources */,
+				4713183F1CCDA14A005FEABB /* knight_0.svg in Resources */,
+				471BB7771CCD8CE600871570 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		471318231CCDA094005FEABB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4713182C1CCDA094005FEABB /* ViewController.swift in Sources */,
+				4713182A1CCDA094005FEABB /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		471BB7681CCD8CE600871570 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				471BB7721CCD8CE600871570 /* ViewController.swift in Sources */,
+				471BB7701CCD8CE600871570 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		4713182D1CCDA094005FEABB /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4713182E1CCDA094005FEABB /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		471318321CCDA094005FEABB /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				471318331CCDA094005FEABB /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		471BB7751CCD8CE600871570 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				471BB7761CCD8CE600871570 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		471318361CCDA094005FEABB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "SimpleSVG-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alienorb.SimpleSVG-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		471318371CCDA094005FEABB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "SimpleSVG-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alienorb.SimpleSVG-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		471BB7791CCD8CE600871570 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		471BB77A1CCD8CE600871570 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		471BB77C1CCD8CE600871570 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = SimpleSVG/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.alienorb.SimpleSVG;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		471BB77D1CCD8CE600871570 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = SimpleSVG/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.alienorb.SimpleSVG;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		471318391CCDA094005FEABB /* Build configuration list for PBXNativeTarget "SimpleSVG-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				471318361CCDA094005FEABB /* Debug */,
+				471318371CCDA094005FEABB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		471BB7671CCD8CE600871570 /* Build configuration list for PBXProject "SimpleSVG" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				471BB7791CCD8CE600871570 /* Debug */,
+				471BB77A1CCD8CE600871570 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		471BB77B1CCD8CE600871570 /* Build configuration list for PBXNativeTarget "SimpleSVG-Mac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				471BB77C1CCD8CE600871570 /* Debug */,
+				471BB77D1CCD8CE600871570 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 471BB7641CCD8CE600871570 /* Project object */;
+}

@@ -70,16 +70,16 @@ public class SVGLinearGradient: SVGGradient {
     ///
     /// :param: attributeDict the attributeDict directly from the NSXMLParser
     /// :returns: an SVGLinearGradient with no stops.  Stops will need to be added with addStop(offset, color)
-    public convenience init(attributeDict: [NSObject: AnyObject], viewBox: CGRect) {
-        let id = attributeDict["id"] as! String
-        let startPoint = CGPoint(x: CGFloat((attributeDict["x1"] as! NSString).floatValue), y: CGFloat((attributeDict["y1"] as! NSString).floatValue))
-        let endPoint = CGPoint(x: CGFloat((attributeDict["x2"] as! NSString).floatValue), y: CGFloat((attributeDict["y2"] as! NSString).floatValue))
-        let gradientTransform = attributeDict["gradientTransform"] as? String
-        let gradientUnits = attributeDict["gradientUnits"] as! String
+	public convenience init(attributeDict: [String: String], viewBox: CGRect) {
+        let id = attributeDict["id"]
+		let startPoint = CGPoint(x: CGFloat(Float(attributeDict["x1"] ?? "") ?? 0.0), y: CGFloat(Float(attributeDict["y1"] ?? "") ?? 0.0))
+		let endPoint = CGPoint(x: CGFloat(Float(attributeDict["x2"] ?? "") ?? 0.0), y: CGFloat(Float(attributeDict["y2"] ?? "") ?? 0.0))
+        let gradientTransform = attributeDict["gradientTransform"]
+        let gradientUnits = attributeDict["gradientUnits"] ?? ""
 		
-        self.init(id: id, startPoint: startPoint, endPoint: endPoint, gradientTransform: gradientTransform, gradientUnits: gradientUnits, viewBox: viewBox)
+        self.init(id: id!, startPoint: startPoint, endPoint: endPoint, gradientTransform: gradientTransform, gradientUnits: gradientUnits, viewBox: viewBox)
     }
-    
+	
     /// Adds a Stop to the gradient - a Gradient is made up of several stops
     ///
     /// :param: offset the offset location of the stop

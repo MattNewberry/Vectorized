@@ -135,10 +135,10 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
     /// Parses a viewBox string and sets the view box of the SVG
     ///
     /// :param: attributeDict the attribute dictionary from the SVG element form which to extract a view box
-    public func setViewBox(attributeDict: [NSObject: AnyObject]) {
-        if let viewBox = attributeDict["viewBox"] as? NSString {
+    public func setViewBox(attributeDict: [String: String]) {
+        if let viewBox = attributeDict["viewBox"] {
             let floats: [CGFloat] = viewBox.componentsSeparatedByString(" ").map {
-				CGFloat(($0 as NSString).floatValue)
+				CGFloat(Float($0) ?? 0.0)
 			}
 			
             if floats.count < 4 {
@@ -147,8 +147,8 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
 			
             svgViewBox = CGRect(x: floats[0], y: floats[1], width: floats[2], height: floats[3])
         } else {
-            let width = (attributeDict["width"] as! NSString).floatValue
-            let height = (attributeDict["height"] as! NSString).floatValue
+            let width = Float(attributeDict["width"] ?? "") ?? 0.0
+            let height = Float(attributeDict["height"] ?? "") ?? 0.0
 			
             svgViewBox = CGRect(x: 0, y: 0, width: CGFloat(width), height: CGFloat(height))
         }
@@ -177,8 +177,8 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
 			($0.utf16.count > 0)
 		}.map {
 			let numbers = $0.componentsSeparatedByString(",")
-			let x = (numbers[0] as NSString).floatValue
-			let y = (numbers[1] as NSString).floatValue
+			let x = Float(numbers[0] ?? "") ?? 0.0
+			let y = Float(numbers[1] ?? "") ?? 0.0
 			
             return CGPoint(x: CGFloat(x) - self.svgViewBox.origin.x, y: CGFloat(y) - self.svgViewBox.origin.y)
         }
@@ -188,12 +188,12 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
     /// for later use.  If we're not currently defining <defs> then we'll interpret it as a rectangular path.
     ///
     /// :param: attributeDict The attributes from the XML element - currently "x", "y", "width", "height", "id", "opacity", "fill" are supported.
-    public func addRect(attributeDict: [NSObject: AnyObject]) {
-        let id = attributeDict["id"] as? String
-        let originX = CGFloat((attributeDict["x"] as! NSString).floatValue)
-        let originY = CGFloat((attributeDict["y"] as! NSString).floatValue)
-        let width = CGFloat((attributeDict["width"] as! NSString).floatValue)
-        let height = CGFloat((attributeDict["height"] as! NSString).floatValue)
+    public func addRect(attributeDict: [String: String]) {
+        let id = attributeDict["id"]
+		let originX = CGFloat(Float(attributeDict["x"] ?? "") ?? 0.0)
+        let originY = CGFloat(Float(attributeDict["y"] ?? "") ?? 0.0)
+        let width = CGFloat(Float(attributeDict["width"] ?? "") ?? 0.0)
+        let height = CGFloat(Float(attributeDict["height"] ?? "") ?? 0.0)
         let rect = CGRectOffset(CGRect(x: originX, y: originY, width: width, height: height), -svgViewBox.origin.x, -svgViewBox.origin.y)
 		
         if definingDefs {
@@ -205,7 +205,7 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
         } else {
             let bezierPath = BezierPathType(rect: rect)
 			
-            bezierPath.applyTransform(SVGParser.transformFromString(attributeDict["transform"] as? String))
+            bezierPath.applyTransform(SVGParser.transformFromString(attributeDict["transform"]))
             createSVGPath(bezierPath, attributeDict: attributeDict)
         }
     }
@@ -213,9 +213,9 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
     /// Adds a path defined by attributeDict to either the last group or the root element, if no group exists
     ///
     /// :param: attributeDict The attributes from the XML element - currently "fill", "opacity" and "d" are supported.
-    private func addPath(attributeDict: [NSObject: AnyObject]) {
-        let id = attributeDict["id"] as? String
-        let d = attributeDict["d"] as! String
+    private func addPath(attributeDict: [String: String]) {
+        let id = attributeDict["id"]
+        let d = attributeDict["d"]!
         let bezierPath = BezierPathType(SVGString: d, factoryIdentifier: parserId)
 		
         bezierPath.applyTransform(CGAffineTransformMakeTranslation(-svgViewBox.origin.x, -svgViewBox.origin.y))
@@ -235,9 +235,9 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
     /// Adds a path in the shape of the polygon defined by attributeDict
     ///
     /// :param: attributeDict the attributes from the XML - currently "points", "fill", and "opacity"
-    private func addPolygon(attributeDict: [NSObject: AnyObject]) {
-        let id = attributeDict["id"] as? String
-        let points = pointsFromPointString(attributeDict["points"] as? String)
+    private func addPolygon(attributeDict: [String: String]) {
+        let id = attributeDict["id"]
+        let points = pointsFromPointString(attributeDict["points"])
         let bezierPath = BezierPathType()
 		
         bezierPath.moveToPoint(points[0])
@@ -262,12 +262,12 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
     /// Adds an ellipse defined by the attributes
     ///
     /// :param: attributeDict the attributes defined by the XML
-    private func addEllipse(attributeDict: [NSObject: AnyObject]){
-        let id = attributeDict["id"] as? String
-        let centerX = CGFloat((attributeDict["cx"] as! NSString).floatValue)
-        let centerY = CGFloat((attributeDict["cy"] as! NSString).floatValue)
-        let radiusX = CGFloat((attributeDict["rx"] as! NSString).floatValue)
-        let radiusY = CGFloat((attributeDict["ry"] as! NSString).floatValue)
+    private func addEllipse(attributeDict: [String: String]){
+        let id = attributeDict["id"]
+        let centerX = CGFloat(Float(attributeDict["cx"] ?? "") ?? 0.0)
+        let centerY = CGFloat(Float(attributeDict["cy"] ?? "") ?? 0.0)
+        let radiusX = CGFloat(Float(attributeDict["rx"] ?? "") ?? 0.0)
+        let radiusY = CGFloat(Float(attributeDict["ry"] ?? "") ?? 0.0)
 //        let rect = CGRectOffset(CGRect(x: centerX - radiusX, y: centerY - radiusY, width: radiusX * 2.0, height: radiusY * 2.0), -svgViewBox.origin.x, -svgViewBox.origin.y)
         let rect = CGRect(x: centerX - radiusX, y: centerY - radiusY, width: radiusX * 2.0, height: radiusY * 2.0)
         let bezierPath = BezierPathType(ovalInRect: rect)
@@ -279,7 +279,7 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
                 print("Defining defs, but didn't find id for rect")
             }
         } else {
-            bezierPath.applyTransform(SVGParser.transformFromString(attributeDict["transform"] as? String))
+            bezierPath.applyTransform(SVGParser.transformFromString(attributeDict["transform"]))
             bezierPath.applyTransform(CGAffineTransformMakeTranslation(-svgViewBox.origin.x, -svgViewBox.origin.y))
             createSVGPath(bezierPath, attributeDict: attributeDict)
         }
@@ -288,9 +288,9 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
     /// Adds a polyline defined by the attributes
     ///
     /// :param: attributeDict the attributes from the XML - currently "points", "fill", and "opacity"
-    private func addPolyline(attributeDict: [NSObject: AnyObject]){
-        let id = attributeDict["id"] as? String
-        let points = pointsFromPointString(attributeDict["points"] as? String)
+    private func addPolyline(attributeDict: [String: String]){
+        let id = attributeDict["id"]
+        let points = pointsFromPointString(attributeDict["points"])
         let bezierPath = BezierPathType()
 		
         bezierPath.moveToPoint(points[0])
@@ -313,20 +313,15 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
     }
     
     /// Takes a bezierPath and an attributeDict and inserts the path into the last group
-    private func createSVGPath(bezierPath: BezierPathType, attributeDict: [NSObject: AnyObject]){
+    private func createSVGPath(bezierPath: BezierPathType, attributeDict: [String: String]){
         var fill: SVGFillable? = nil
 		
-        if let attr = itemIDOrHexFromAttribute(attributeDict["fill"] as? String){
+        if let attr = itemIDOrHexFromAttribute(attributeDict["fill"]) {
             fill = gradients[attr] ?? addColor(attr)
         }
 		
-        var opacity = CGFloat(1.0)
-		
-        if let o = (attributeDict["opacity"] as? NSString)?.floatValue {
-            opacity = CGFloat(o)
-        }
-		
-        let fillRule = attributeDict["fill-rule"] as? String ?? ""
+		let opacity = CGFloat(Float(attributeDict["opacity"] ?? "") ?? 1.0)
+        let fillRule = attributeDict["fill-rule"] ?? ""
 		
         if fillRule == "evenodd" {
             bezierPath.usesEvenOddFillRule = true
@@ -334,13 +329,13 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
 		
         var clippingPath: BezierPathType?
 		
-        if let clippingPathName = itemIDOrHexFromAttribute(attributeDict["clip-path"] as? String){
+        if let clippingPathName = itemIDOrHexFromAttribute(attributeDict["clip-path"]) {
             clippingPath = clippingPaths[clippingPathName]
         }
 		
         let path = SVGPath(bezierPath: bezierPath, fill: fill, opacity: opacity, clippingPath: clippingPath)
 		
-        path.identifier = attributeDict["id"] as? String
+        path.identifier = attributeDict["id"]
 		
         if lastGroup != nil {
             lastGroup?.addToGroup(path)
@@ -349,27 +344,27 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
         }
     }
     
-    private func beginText(attributeDict: [NSObject: AnyObject]){
+    private func beginText(attributeDict: [String: String]){
         var fill: SVGFillable? = nil
 		
-        if let attr = itemIDOrHexFromAttribute(attributeDict["fill"] as? String){
+        if let attr = itemIDOrHexFromAttribute(attributeDict["fill"]){
             fill = gradients[attr] ?? addColor(attr)
         }
 		
-        let transform = SVGParser.transformFromString(attributeDict["transform"] as? String)
+        let transform = SVGParser.transformFromString(attributeDict["transform"])
         let text = SVGText()
 		
-        text.identifier = attributeDict["id"] as? String
+        text.identifier = attributeDict["id"]
         text.transform = transform
         text.fill = fill
         text.viewBox = svgViewBox
 		
-        if let fontName = attributeDict["font-family"] as? String {
-            if let size = (attributeDict["font-size"] as? NSString)?.floatValue{
-                let name = fontName.stringByReplacingOccurrencesOfString("'", withString: "", options: [], range: nil)
-                let font = FontType(name: name, size: CGFloat(size))
-                text.font = font
-            }
+        if let fontName = attributeDict["font-family"] {
+			if let size = Float(attributeDict["font-size"] ?? "") {
+				let name = fontName.stringByReplacingOccurrencesOfString("'", withString: "", options: [], range: nil)
+				let font = FontType(name: name, size: CGFloat(size))
+				text.font = font
+			}
         }
 		
         lastText = text
@@ -388,14 +383,14 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
     }
     
     /// Begins a new group, setting "lastGroup" to the newly created group
-    private func beginGroup(attributeDict: [NSObject: AnyObject]) {
+    private func beginGroup(attributeDict: [String: String]) {
         let newGroup = SVGGroup()
 		
-        newGroup.identifier = attributeDict["id"] as? String
+        newGroup.identifier = attributeDict["id"]
 		
-        var clippingPath:BezierPathType?
+        var clippingPath: BezierPathType?
 		
-        if let clippingPathName = itemIDOrHexFromAttribute(attributeDict["clip-path"] as? String){
+        if let clippingPathName = itemIDOrHexFromAttribute(attributeDict["clip-path"]) {
             clippingPath = clippingPaths[clippingPathName]
         }
 		
@@ -420,8 +415,8 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
     }
     
     /// Begins a new clipping path (we're waiting on "use" at this point)
-    private func beginClippingPath(attributeDict: [NSObject: AnyObject]) {
-        lastClippingPath = attributeDict["id"] as? String
+    private func beginClippingPath(attributeDict: [String: String]) {
+        lastClippingPath = attributeDict["id"]
     }
     
     /// Ends the current clipping path
@@ -430,18 +425,18 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
     }
     
     // Adds a use, probably for a clipping path
-    private func addUse(attributeDict: [NSObject: AnyObject]) {
+    private func addUse(attributeDict: [String: String]) {
         if let clippingPath = lastClippingPath {
-            if let pathId = ((attributeDict["xlink:href"] ?? attributeDict["href"]) as? String)?.stringByReplacingOccurrencesOfString("#", withString: "", options: [], range: nil) {
+            if let pathId = ((attributeDict["xlink:href"] ?? attributeDict["href"]))?.stringByReplacingOccurrencesOfString("#", withString: "", options: [], range: nil) {
                 clippingPaths[clippingPath] = namedPaths[pathId]
             }
         }
     }
     
-    private func addStop(attributeDict: [NSObject: AnyObject]) {
-        let offset = CGFloat((attributeDict["offset"] as! NSString).floatValue)
+    private func addStop(attributeDict: [String: String]) {
+        let offset = CGFloat(Float(attributeDict["offset"] ?? "") ?? 0.0)
         
-        if let styleAttributes = (attributeDict["style"] as? String)?.componentsSeparatedByString(";") {
+        if let styleAttributes = (attributeDict["style"])?.componentsSeparatedByString(";") {
             var color = ColorType.blackColor()
             var opacity = CGFloat(1.0)
 			
@@ -455,7 +450,7 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
                     //SET STOP OPACITY
                     let range = opacityRange.endIndex ..< styleAttribute.endIndex
 					
-                    opacity = CGFloat(((styleAttribute.substringWithRange(range)) as NSString).floatValue)
+					opacity = CGFloat(Float(styleAttribute.substringWithRange(range)) ?? 1.0)
                 }
             }
 			

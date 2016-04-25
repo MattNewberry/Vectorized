@@ -4,4 +4,11 @@
    <FileRef
       location = "group:Vectorized.xcodeproj">
    </FileRef>
+   <Group
+      location = "container:"
+      name = "Examples">
+      <FileRef
+         location = "group:Examples/SimpleSVG/SimpleSVG.xcodeproj">
+      </FileRef>
+   </Group>
 </Workspace>

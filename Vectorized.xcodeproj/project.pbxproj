@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		471BB7621CCD889300871570 /* SVGView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471BB7611CCD889300871570 /* SVGView.swift */; };
+		471BB7951CCD8E2000871570 /* X.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 476BB4531CCC99FD000D49E2 /* X.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		476B01CC1CCC89F2003510D3 /* Vectorized.h in Headers */ = {isa = PBXBuildFile; fileRef = 476B01CB1CCC89F2003510D3 /* Vectorized.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		476B01DB1CCC8EE2003510D3 /* SVGParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476B01DA1CCC8EE2003510D3 /* SVGParser.swift */; };
 		476BB4541CCC99FD000D49E2 /* X.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 476BB4531CCC99FD000D49E2 /* X.framework */; };
@@ -22,7 +24,21 @@
 		476BB46E1CCCBA0B000D49E2 /* BezierPath+SVG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB46D1CCCBA0B000D49E2 /* BezierPath+SVG.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		471BB7941CCD8E1500871570 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				471BB7951CCD8E2000871570 /* X.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		471BB7611CCD889300871570 /* SVGView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGView.swift; sourceTree = "<group>"; };
 		476B01C81CCC89F2003510D3 /* Vectorized.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Vectorized.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		476B01CB1CCC89F2003510D3 /* Vectorized.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vectorized.h; sourceTree = "<group>"; };
 		476B01CD1CCC89F2003510D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -55,6 +71,7 @@
 		471BB7601CCD885000871570 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				471BB7611CCD889300871570 /* SVGView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -143,6 +160,7 @@
 				476B01C41CCC89F2003510D3 /* Frameworks */,
 				476B01C51CCC89F2003510D3 /* Headers */,
 				476B01C61CCC89F2003510D3 /* Resources */,
+				471BB7941CCD8E1500871570 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -202,6 +220,7 @@
 				476BB45A1CCC9AEF000D49E2 /* SVGGroup.swift in Sources */,
 				476BB45C1CCC9AEF000D49E2 /* SVGPath.swift in Sources */,
 				476BB4671CCCA9DF000D49E2 /* SVGDrawable.swift in Sources */,
+				471BB7621CCD889300871570 /* SVGView.swift in Sources */,
 				476BB4691CCCA9DF000D49E2 /* SVGGradient.swift in Sources */,
 				476B01DB1CCC8EE2003510D3 /* SVGParser.swift in Sources */,
 				476BB46C1CCCACAC000D49E2 /* SVGVectorImage.swift in Sources */,

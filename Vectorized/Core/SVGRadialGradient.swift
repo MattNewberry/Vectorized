@@ -69,14 +69,14 @@ public class SVGRadialGradient: SVGGradient {
     ///
     /// :param: attributeDict the attributeDict directly from the NSXMLParser
     /// :returns: an SVGRadialGradient with no stops.  Stops will need to be added with addStop(offset, color)
-    public convenience init(attributeDict: [NSObject: AnyObject], viewBox: CGRect) {
-        let id = attributeDict["id"] as! String
-        let center = CGPoint(x: CGFloat((attributeDict["cx"] as! NSString).floatValue), y: CGFloat((attributeDict["cy"] as! NSString).floatValue))
-        let radius = CGFloat((attributeDict["r"] as! NSString).floatValue)
-        let gradientTransform = attributeDict["gradientTransform"] as? String
-        let gradientUnits = attributeDict["gradientUnits"] as! String
+    public convenience init(attributeDict: [String: String], viewBox: CGRect) {
+        let id = attributeDict["id"]
+		let center = CGPoint(x: CGFloat(Float(attributeDict["cx"] ?? "") ?? 0.0), y: CGFloat(Float(attributeDict["cy"] ?? "") ?? 0.0))
+        let radius = CGFloat(Float(attributeDict["r"] ?? "") ?? 0.0)
+        let gradientTransform = attributeDict["gradientTransform"]
+        let gradientUnits = attributeDict["gradientUnits"]
 		
-        self.init(id: id, center:center, radius: radius, gradientTransform: gradientTransform, gradientUnits:gradientUnits, viewBox: viewBox)
+        self.init(id: id!, center:center, radius: radius, gradientTransform: gradientTransform, gradientUnits:gradientUnits!, viewBox: viewBox)
     }
     
     /// Draws the gradient to the current context
