@@ -26,7 +26,7 @@
 //  THE SOFTWARE.
 //---------------------------------------------------------------------------------------
 
-import X
+import Foundation
 
 /// the SVGGradient protocol extends SVGFillable to specify that the conforming type should
 /// be able to supply an CGGradient and modify it with a given opacity when asked
@@ -34,7 +34,7 @@ public protocol SVGGradient: SVGFillable {
     var id: String { get }
 	var stops: [GradientStop] { get }
 	
-    func addStop(offset: CGFloat, color: ColorType, opacity: CGFloat)
+    func addStop(offset: CGFloat, color: SVGColor, opacity: CGFloat)
     func removeStop(stop: GradientStop)
     func drawGradientWithOpacity(opacity: CGFloat)
 }
@@ -42,7 +42,7 @@ public protocol SVGGradient: SVGFillable {
 /// Structure defining a gradient stop - contains an offset and a color
 public struct GradientStop: Equatable {
     var offset: CGFloat
-    var color: ColorType
+    var color: SVGColor
     var opacity: CGFloat = 1.0
 }
 

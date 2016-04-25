@@ -26,16 +26,21 @@
 //  THE SOFTWARE.
 //---------------------------------------------------------------------------------------
 
-import X
 import CoreGraphics
+
+#if os(OSX)
+	import AppKit
+#else
+	import UIKit
+#endif
 
 public class SVGText: SVGDrawable {
     public var group: SVGGroup?
-    public var clippingPath: BezierPathType?
+    public var clippingPath: SVGBezierPath?
     public var text: String?
     public var transform: CGAffineTransform?
     public var fill: SVGFillable?
-    public var font: FontType?
+    public var font: SVGFont?
     public var viewBox: CGRect?
     public var identifier: String?
     
@@ -48,15 +53,15 @@ public class SVGText: SVGDrawable {
     public func draw() {
         onWillDraw?()
 		
-        let color = fill?.asColor() ?? Color.whiteColor()
-        let attributes: [String: AnyObject] = [NSFontAttributeName: font ?? Font.systemFontOfSize(24), NSForegroundColorAttributeName: color]
+        let color = fill?.asColor() ?? SVGColor.whiteColor()
+        let attributes: [String: AnyObject] = [NSFontAttributeName: font ?? SVGFont.systemFontOfSize(24), NSForegroundColorAttributeName: color]
         let line = CTLineCreateWithAttributedString(NSAttributedString(string: text!, attributes: attributes))
         var ascent = CGFloat(0)
 		
         CTLineGetTypographicBounds(line, &ascent, nil, nil)
 		
         let offsetToConvertSVGOriginToAppleOrigin = -ascent
-        let context = GetCurrentGraphicsContext()
+        let context = SVGGraphicsGetCurrentContext()
 		
         CGContextSaveGState(context)
         CGContextConcatCTM(context, CGAffineTransformMakeTranslation(-viewBox!.origin.x, -viewBox!.origin.y))

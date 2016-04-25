@@ -26,7 +26,6 @@
 //  THE SOFTWARE.
 //---------------------------------------------------------------------------------------
 
-import X
 import CoreGraphics
 
 /// Defines a radial gradient for filling paths.  Create the gradient and then add stops to prepare it for filling.
@@ -83,7 +82,7 @@ public class SVGRadialGradient: SVGGradient {
     ///
     /// :param: opacity modify the colors by adjusting opacity
     public func drawGradientWithOpacity(opacity: CGFloat) {
-        let context = GetCurrentGraphicsContext()
+        let context = SVGGraphicsGetCurrentContext()
 
         CGContextDrawRadialGradient(context, CGGradientWithOpacity(opacity), center, 0, center, radius, [.DrawsBeforeStartLocation, .DrawsAfterEndLocation])
     }
@@ -92,7 +91,7 @@ public class SVGRadialGradient: SVGGradient {
     ///
     /// :param: offset the offset location of the stop
     /// :color: the color to blend from/towards at this stop
-    public func addStop(offset: CGFloat, color: ColorType, opacity: CGFloat) {
+    public func addStop(offset: CGFloat, color: SVGColor, opacity: CGFloat) {
         stops.append(GradientStop(offset: offset, color: color, opacity:opacity))
     }
 	
@@ -126,8 +125,8 @@ public class SVGRadialGradient: SVGGradient {
     }
     
     /// Returns nil
-    /// :returns: self, if self is a ColorType, or nil
-    public func asColor() -> ColorType? {
+    /// :returns: self, if self is a SVGColor, or nil
+    public func asColor() -> SVGColor? {
         return nil
     }
 

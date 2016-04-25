@@ -16,6 +16,7 @@
 		4713183E1CCDA14A005FEABB /* dragon_0.svg in Resources */ = {isa = PBXBuildFile; fileRef = 4713183B1CCDA14A005FEABB /* dragon_0.svg */; };
 		4713183F1CCDA14A005FEABB /* knight_0.svg in Resources */ = {isa = PBXBuildFile; fileRef = 4713183C1CCDA14A005FEABB /* knight_0.svg */; };
 		471318401CCDA14A005FEABB /* knight_0.svg in Resources */ = {isa = PBXBuildFile; fileRef = 4713183C1CCDA14A005FEABB /* knight_0.svg */; };
+		471318551CCDAB4A005FEABB /* Vectorized.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 471BB77E1CCD8D2600871570 /* Vectorized.framework */; };
 		471BB7701CCD8CE600871570 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471BB76F1CCD8CE600871570 /* AppDelegate.swift */; };
 		471BB7721CCD8CE600871570 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471BB7711CCD8CE600871570 /* ViewController.swift */; };
 		471BB7741CCD8CE600871570 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 471BB7731CCD8CE600871570 /* Assets.xcassets */; };
@@ -73,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				471318551CCDAB4A005FEABB /* Vectorized.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

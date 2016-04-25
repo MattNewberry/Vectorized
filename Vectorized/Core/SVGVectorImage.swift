@@ -26,7 +26,13 @@
 //  THE SOFTWARE.
 //---------------------------------------------------------------------------------------
 
-import X
+import Foundation
+
+#if os(OSX)
+	import AppKit
+#else
+	import UIKit
+#endif
 
 /// An SVGVectorImage is used by a SVGView to display an SVG to the screen.
 public class SVGVectorImage: SVGGroup {
@@ -90,10 +96,10 @@ public class SVGVectorImage: SVGGroup {
     /// :param: size the size of the UIImage to be returned
     /// :param: contentMode the contentMode to use for rendering, some values may effect the output size
     /// :returns: a UIImage containing a raster representation of the SVGVectorImage
-    public func renderToImage(size size: CGSize, contentMode: ContentMode = .ScaleToFill) -> ImageType {
+    public func renderToImage(size size: CGSize, contentMode: SVGViewContentMode = .ScaleToFill) -> SVGImage {
         let targetSize = sizeWithTargetSize(size, contentMode: contentMode)
         let scale = scaleWithTargetSize(size, contentMode: contentMode)
-		let image: ImageType
+		let image: SVGImage
 		
 	#if os(OSX)
 		let representation = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: Int(targetSize.width), pixelsHigh: Int(targetSize.height), bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: NSCalibratedRGBColorSpace, bytesPerRow: 0, bitsPerPixel: 0)
@@ -106,7 +112,7 @@ public class SVGVectorImage: SVGGroup {
         UIGraphicsBeginImageContext(targetSize)
 	#endif
 		
-        let context = GetCurrentGraphicsContext()
+        let context = SVGGraphicsGetCurrentContext()
 		
         CGContextScaleCTM(context, scale.width, scale.height)
         self.draw()
@@ -128,7 +134,7 @@ public class SVGVectorImage: SVGGroup {
     /// :param: size The size to render at
     /// :param: contentMode the contentMode to use for rendering
     /// :returns: the size to render at
-    internal func sizeWithTargetSize(size: CGSize, contentMode: ContentMode) -> CGSize {
+    internal func sizeWithTargetSize(size: CGSize, contentMode: SVGViewContentMode) -> CGSize {
         let targetSize = self.size
         let bounds = size
 		
@@ -161,7 +167,7 @@ public class SVGVectorImage: SVGGroup {
     /// :param: size The size to render at
     /// :param: contentMode the contentMode to use for rendering
     /// :returns: the translation to apply when rendering
-    internal func translationWithTargetSize(size: CGSize, contentMode: ContentMode) -> CGPoint {
+    internal func translationWithTargetSize(size: CGSize, contentMode: SVGViewContentMode) -> CGPoint {
         let targetSize = self.size
         let bounds = size
         var newSize: CGSize
@@ -215,7 +221,7 @@ public class SVGVectorImage: SVGGroup {
     /// :param: size The size to render at
     /// :param: contentMode the contentMode to use for rendering
     /// :returns: the scale to apply to the context when rendering
-    internal func scaleWithTargetSize(size: CGSize, contentMode: ContentMode) -> CGSize {
+    internal func scaleWithTargetSize(size: CGSize, contentMode: SVGViewContentMode) -> CGSize {
         let targetSize = self.size
         let bounds = size
 		

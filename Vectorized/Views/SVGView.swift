@@ -26,16 +26,18 @@
 //  THE SOFTWARE.
 //---------------------------------------------------------------------------------------
 
-import X
-
 #if os(OSX)
-import AppKit
+	import AppKit
+	
+	public typealias BaseView = NSView
 #else
-import UIKit
+	import UIKit
+	
+	public typealias BaseView = UIView
 #endif
 
 /// An SVGView provides a way to display SVGVectorImages to the screen respecting the contentMode property.
-@IBDesignable public class SVGView: ViewType {
+@IBDesignable public class SVGView: BaseView {
 	@IBInspectable var svgName: String? {
 		didSet {
 			svgNameChanged()
@@ -43,7 +45,7 @@ import UIKit
 	}
 	
 #if os(OSX)
-	public var contentMode: ContentMode = .Center {
+	public var contentMode: SVGViewContentMode = .Center {
 		didSet {
 			needsDisplay = true
 		}
@@ -91,7 +93,7 @@ import UIKit
 		super.drawRect(rect)
 		
 		if let vectorImage = vectorImage {
-			let context = GetCurrentGraphicsContext()
+			let context = SVGGraphicsGetCurrentContext()
 			let translation = vectorImage.translationWithTargetSize(rect.size, contentMode: contentMode)
 			let scale = vectorImage.scaleWithTargetSize(rect.size, contentMode: contentMode)
 			

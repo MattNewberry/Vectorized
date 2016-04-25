@@ -7,11 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		471318571CCDACD1005FEABB /* CrossPlatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471318561CCDACD1005FEABB /* CrossPlatform.swift */; };
+		471318591CCDB27E005FEABB /* SVGColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471318581CCDB27E005FEABB /* SVGColor+Hex.swift */; };
 		471BB7621CCD889300871570 /* SVGView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471BB7611CCD889300871570 /* SVGView.swift */; };
-		471BB7951CCD8E2000871570 /* X.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 476BB4531CCC99FD000D49E2 /* X.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		476B01CC1CCC89F2003510D3 /* Vectorized.h in Headers */ = {isa = PBXBuildFile; fileRef = 476B01CB1CCC89F2003510D3 /* Vectorized.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		476B01DB1CCC8EE2003510D3 /* SVGParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476B01DA1CCC8EE2003510D3 /* SVGParser.swift */; };
-		476BB4541CCC99FD000D49E2 /* X.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 476BB4531CCC99FD000D49E2 /* X.framework */; };
 		476BB45A1CCC9AEF000D49E2 /* SVGGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4551CCC9AEF000D49E2 /* SVGGroup.swift */; };
 		476BB45B1CCC9AEF000D49E2 /* SVGLinearGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4561CCC9AEF000D49E2 /* SVGLinearGradient.swift */; };
 		476BB45C1CCC9AEF000D49E2 /* SVGPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4571CCC9AEF000D49E2 /* SVGPath.swift */; };
@@ -21,7 +20,7 @@
 		476BB4681CCCA9DF000D49E2 /* SVGFillable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4651CCCA9DF000D49E2 /* SVGFillable.swift */; };
 		476BB4691CCCA9DF000D49E2 /* SVGGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4661CCCA9DF000D49E2 /* SVGGradient.swift */; };
 		476BB46C1CCCACAC000D49E2 /* SVGVectorImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB46B1CCCACAC000D49E2 /* SVGVectorImage.swift */; };
-		476BB46E1CCCBA0B000D49E2 /* BezierPath+SVG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB46D1CCCBA0B000D49E2 /* BezierPath+SVG.swift */; };
+		476BB46E1CCCBA0B000D49E2 /* SVGBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB46D1CCCBA0B000D49E2 /* SVGBezierPath.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,16 +30,25 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				471BB7951CCD8E2000871570 /* X.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		471318431CCDA952005FEABB /* Project-Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Project-Common.xcconfig"; path = "Carthage/Checkouts/AlienXcode/Configurations/Common/Project-Common.xcconfig"; sourceTree = "<group>"; };
+		471318441CCDA952005FEABB /* Project-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Project-Debug.xcconfig"; path = "Carthage/Checkouts/AlienXcode/Configurations/Common/Project-Debug.xcconfig"; sourceTree = "<group>"; };
+		471318451CCDA952005FEABB /* Project-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Project-Release.xcconfig"; path = "Carthage/Checkouts/AlienXcode/Configurations/Common/Project-Release.xcconfig"; sourceTree = "<group>"; };
+		471318461CCDA952005FEABB /* Target-Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Target-Common.xcconfig"; path = "Carthage/Checkouts/AlienXcode/Configurations/Common/Target-Common.xcconfig"; sourceTree = "<group>"; };
+		471318471CCDA952005FEABB /* Target-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Target-Debug.xcconfig"; path = "Carthage/Checkouts/AlienXcode/Configurations/Common/Target-Debug.xcconfig"; sourceTree = "<group>"; };
+		471318481CCDA952005FEABB /* Target-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Target-Release.xcconfig"; path = "Carthage/Checkouts/AlienXcode/Configurations/Common/Target-Release.xcconfig"; sourceTree = "<group>"; };
+		4713184F1CCDA958005FEABB /* Framework-Target-Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Framework-Target-Common.xcconfig"; path = "Carthage/Checkouts/AlienXcode/Configurations/Common/Framework-Target-Common.xcconfig"; sourceTree = "<group>"; };
+		471318501CCDA958005FEABB /* Framework-Target-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Framework-Target-Debug.xcconfig"; path = "Carthage/Checkouts/AlienXcode/Configurations/Common/Framework-Target-Debug.xcconfig"; sourceTree = "<group>"; };
+		471318511CCDA958005FEABB /* Framework-Target-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Framework-Target-Release.xcconfig"; path = "Carthage/Checkouts/AlienXcode/Configurations/Common/Framework-Target-Release.xcconfig"; sourceTree = "<group>"; };
+		471318561CCDACD1005FEABB /* CrossPlatform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrossPlatform.swift; sourceTree = "<group>"; };
+		471318581CCDB27E005FEABB /* SVGColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SVGColor+Hex.swift"; sourceTree = "<group>"; };
 		471BB7611CCD889300871570 /* SVGView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGView.swift; sourceTree = "<group>"; };
 		476B01C81CCC89F2003510D3 /* Vectorized.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Vectorized.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		476B01CB1CCC89F2003510D3 /* Vectorized.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vectorized.h; sourceTree = "<group>"; };
 		476B01CD1CCC89F2003510D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		476B01DA1CCC8EE2003510D3 /* SVGParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGParser.swift; sourceTree = "<group>"; };
 		476BB4531CCC99FD000D49E2 /* X.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = X.framework; path = Carthage/Build/Mac/X.framework; sourceTree = "<group>"; };
@@ -53,7 +61,7 @@
 		476BB4651CCCA9DF000D49E2 /* SVGFillable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGFillable.swift; sourceTree = "<group>"; };
 		476BB4661CCCA9DF000D49E2 /* SVGGradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGGradient.swift; sourceTree = "<group>"; };
 		476BB46B1CCCACAC000D49E2 /* SVGVectorImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGVectorImage.swift; sourceTree = "<group>"; };
-		476BB46D1CCCBA0B000D49E2 /* BezierPath+SVG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BezierPath+SVG.swift"; sourceTree = "<group>"; };
+		476BB46D1CCCBA0B000D49E2 /* SVGBezierPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGBezierPath.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,13 +69,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				476BB4541CCC99FD000D49E2 /* X.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		471318411CCDA8D8005FEABB /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				471318421CCDA91A005FEABB /* Common */,
+			);
+			name = Configurations;
+			sourceTree = "<group>";
+		};
+		471318421CCDA91A005FEABB /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				471318431CCDA952005FEABB /* Project-Common.xcconfig */,
+				471318441CCDA952005FEABB /* Project-Debug.xcconfig */,
+				471318451CCDA952005FEABB /* Project-Release.xcconfig */,
+				471318461CCDA952005FEABB /* Target-Common.xcconfig */,
+				471318471CCDA952005FEABB /* Target-Debug.xcconfig */,
+				471318481CCDA952005FEABB /* Target-Release.xcconfig */,
+				4713184F1CCDA958005FEABB /* Framework-Target-Common.xcconfig */,
+				471318501CCDA958005FEABB /* Framework-Target-Debug.xcconfig */,
+				471318511CCDA958005FEABB /* Framework-Target-Release.xcconfig */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
 		471BB7601CCD885000871570 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -80,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				476B01CA1CCC89F2003510D3 /* Vectorized */,
+				471318411CCDA8D8005FEABB /* Configurations */,
 				476B01D61CCC8E43003510D3 /* Externals */,
 				476B01C91CCC89F2003510D3 /* Products */,
 			);
@@ -98,7 +130,6 @@
 			children = (
 				476B01D31CCC8B54003510D3 /* Core */,
 				471BB7601CCD885000871570 /* Views */,
-				476B01CB1CCC89F2003510D3 /* Vectorized.h */,
 				476B01CD1CCC89F2003510D3 /* Info.plist */,
 			);
 			path = Vectorized;
@@ -107,6 +138,7 @@
 		476B01D31CCC8B54003510D3 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				471318561CCDACD1005FEABB /* CrossPlatform.swift */,
 				476BB4551CCC9AEF000D49E2 /* SVGGroup.swift */,
 				476BB4561CCC9AEF000D49E2 /* SVGLinearGradient.swift */,
 				476B01DA1CCC8EE2003510D3 /* SVGParser.swift */,
@@ -114,7 +146,8 @@
 				476BB4581CCC9AEF000D49E2 /* SVGRadialGradient.swift */,
 				476BB4591CCC9AEF000D49E2 /* SVGText.swift */,
 				476BB46B1CCCACAC000D49E2 /* SVGVectorImage.swift */,
-				476BB46D1CCCBA0B000D49E2 /* BezierPath+SVG.swift */,
+				476BB46D1CCCBA0B000D49E2 /* SVGBezierPath.swift */,
+				471318581CCDB27E005FEABB /* SVGColor+Hex.swift */,
 				476BB46A1CCCA9E3000D49E2 /* Protocols */,
 			);
 			path = Core;
@@ -145,7 +178,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				476B01CC1CCC89F2003510D3 /* Vectorized.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,11 +253,13 @@
 				476BB45C1CCC9AEF000D49E2 /* SVGPath.swift in Sources */,
 				476BB4671CCCA9DF000D49E2 /* SVGDrawable.swift in Sources */,
 				471BB7621CCD889300871570 /* SVGView.swift in Sources */,
+				471318571CCDACD1005FEABB /* CrossPlatform.swift in Sources */,
 				476BB4691CCCA9DF000D49E2 /* SVGGradient.swift in Sources */,
 				476B01DB1CCC8EE2003510D3 /* SVGParser.swift in Sources */,
 				476BB46C1CCCACAC000D49E2 /* SVGVectorImage.swift in Sources */,
+				471318591CCDB27E005FEABB /* SVGColor+Hex.swift in Sources */,
 				476BB45E1CCC9AEF000D49E2 /* SVGText.swift in Sources */,
-				476BB46E1CCCBA0B000D49E2 /* BezierPath+SVG.swift in Sources */,
+				476BB46E1CCCBA0B000D49E2 /* SVGBezierPath.swift in Sources */,
 				476BB45D1CCC9AEF000D49E2 /* SVGRadialGradient.swift in Sources */,
 				476BB45B1CCC9AEF000D49E2 /* SVGLinearGradient.swift in Sources */,
 				476BB4681CCCA9DF000D49E2 /* SVGFillable.swift in Sources */,
@@ -237,6 +271,7 @@
 /* Begin XCBuildConfiguration section */
 		476B01CE1CCC89F2003510D3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4713184F1CCDA958005FEABB /* Framework-Target-Common.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -285,6 +320,7 @@
 		};
 		476B01CF1CCC89F2003510D3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4713184F1CCDA958005FEABB /* Framework-Target-Common.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -325,6 +361,7 @@
 		};
 		476B01D11CCC89F2003510D3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 471318501CCDA958005FEABB /* Framework-Target-Debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -349,6 +386,7 @@
 		};
 		476B01D21CCC89F2003510D3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 471318511CCDA958005FEABB /* Framework-Target-Release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;

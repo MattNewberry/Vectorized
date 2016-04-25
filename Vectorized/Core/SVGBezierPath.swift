@@ -29,7 +29,6 @@
 //  THE SOFTWARE.
 //---------------------------------------------------------------------------------------
 
-import X
 import Foundation
 
 private enum CommandType: Int {
@@ -38,7 +37,7 @@ private enum CommandType: Int {
 }
 
 private protocol SVGCommand {
-	func processCommandString(commandString: String, withPrevCommand: String, forPath: BezierPathType, factoryIdentifier: String)
+	func processCommandString(commandString: String, withPrevCommand: String, forPath: SVGBezierPath, factoryIdentifier: String)
 }
 
 private class SVGCommandImpl: SVGCommand {
@@ -65,7 +64,7 @@ private class SVGCommandImpl: SVGCommand {
 		return commandLetter == commandLetter.uppercaseString
 	}
 	
-	func processCommandString(commandString: String, withPrevCommand prevCommand: String, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+	func processCommandString(commandString: String, withPrevCommand prevCommand: String, forPath path: SVGBezierPath, factoryIdentifier identifier: String) {
 		self.prevCommand = prevCommand
 		
 		let commandLetter = commandString.substringToIndex(commandString.startIndex.advancedBy(1))
@@ -75,13 +74,13 @@ private class SVGCommandImpl: SVGCommand {
 		performWithParams(params, commandType: commandType, forPath: path, factoryIdentifier: identifier)
 	}
 	
-	func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+	func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: SVGBezierPath, factoryIdentifier identifier: String) {
 		fatalError("You must override \(#function) in a subclass")
 	}
 }
 
 private class SVGMoveCommand: SVGCommandImpl {
-	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: SVGBezierPath, factoryIdentifier identifier: String) {
 		if type == .Absolute {
 			path.moveToPoint(CGPoint(x: params[0], y: params[1]))
 		} else {
@@ -91,7 +90,7 @@ private class SVGMoveCommand: SVGCommandImpl {
 }
 
 private class SVGLineToCommand: SVGCommandImpl {
-	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: SVGBezierPath, factoryIdentifier identifier: String) {
 		if type == .Absolute {
 			path.addLineToPoint(CGPoint(x: params[0], y: params[1]))
 		} else {
@@ -101,7 +100,7 @@ private class SVGLineToCommand: SVGCommandImpl {
 }
 
 private class SVGHorizontalLineToCommand: SVGCommandImpl {
-	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: SVGBezierPath, factoryIdentifier identifier: String) {
 		if type == .Absolute {
 			path.addLineToPoint(CGPoint(x: params[0], y: path.currentPoint.y))
 		} else {
@@ -111,7 +110,7 @@ private class SVGHorizontalLineToCommand: SVGCommandImpl {
 }
 
 private class SVGVerticalLineToCommand: SVGCommandImpl {
-	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: SVGBezierPath, factoryIdentifier identifier: String) {
 		if type == .Absolute {
 			path.addLineToPoint(CGPoint(x: path.currentPoint.x, y: params[0]))
 		} else {
@@ -121,7 +120,7 @@ private class SVGVerticalLineToCommand: SVGCommandImpl {
 }
 
 private class SVGCurveToCommand: SVGCommandImpl {
-	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: SVGBezierPath, factoryIdentifier identifier: String) {
 		if type == .Absolute {
 			path.addCurveToPoint(CGPoint(x: params[4], y: params[5]), controlPoint1: CGPoint(x: params[0], y: params[1]), controlPoint2: CGPoint(x: params[2], y: params[3]))
 		} else {
@@ -131,7 +130,7 @@ private class SVGCurveToCommand: SVGCommandImpl {
 }
 
 private class SVGSmoothCurveToCommand: SVGCommandImpl {
-	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: SVGBezierPath, factoryIdentifier identifier: String) {
 		var firstControlPoint = path.currentPoint
 		
 		if let prevCommand = prevCommand {
@@ -173,7 +172,7 @@ private class SVGSmoothCurveToCommand: SVGCommandImpl {
 }
 
 private class SVGQuadraticCurveToCommand: SVGCommandImpl {
-	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: SVGBezierPath, factoryIdentifier identifier: String) {
 		if type == .Absolute {
 			path.addQuadCurveToPoint(CGPoint(x: params[2], y: params[3]), controlPoint: CGPoint(x: params[0], y: params[1]))
 		} else {
@@ -183,7 +182,7 @@ private class SVGQuadraticCurveToCommand: SVGCommandImpl {
 }
 
 private class SVGSmoothQuadraticCurveToCommand: SVGCommandImpl {
-	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: SVGBezierPath, factoryIdentifier identifier: String) {
 		var firstControlPoint = path.currentPoint
 		
 		if let prevCommand = prevCommand {
@@ -215,7 +214,7 @@ private class SVGSmoothQuadraticCurveToCommand: SVGCommandImpl {
 }
 
 private class SVGClosePathCommand: SVGCommandImpl {
-	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: BezierPathType, factoryIdentifier identifier: String) {
+	override func performWithParams(params: [CGFloat], commandType type: CommandType, forPath path: SVGBezierPath, factoryIdentifier identifier: String) {
 		path.closePath()
 	}
 }
@@ -258,10 +257,10 @@ public enum SVGError: ErrorType {
 	case UnknownCommand(String)
 }
 
-public extension BezierPathType {
+public extension SVGBezierPath {
 	private static let commandRegex = try! NSRegularExpression(pattern: "[A-Za-z]", options: [])
 	
-	private class func processCommandString(commandString: String, withPrevCommandString prevCommand: String, forPath path: BezierPathType, withFactoryIdentifier identifier: String) throws {
+	private class func processCommandString(commandString: String, withPrevCommandString prevCommand: String, forPath path: SVGBezierPath, withFactoryIdentifier identifier: String) throws {
 		guard commandString.characters.count > 0 else {
 			throw SVGError.InvalidCommand(commandString)
 		}
@@ -275,7 +274,7 @@ public extension BezierPathType {
 		}
 	}
 	
-	private class func addPathWithSVGString(SVGString: String, toPath path: BezierPathType, factoryIdentifier identifier: String) {
+	private class func addPathWithSVGString(SVGString: String, toPath path: SVGBezierPath, factoryIdentifier identifier: String) {
 		guard SVGString.characters.count > 0 else { return }
 		
 		var prevMatch: NSTextCheckingResult?
@@ -318,6 +317,6 @@ public extension BezierPathType {
 	}
 	
 	public func addPathFromSVGString(SVGString: String, factoryIdentifier identifier: String) {
-		BezierPathType.addPathWithSVGString(SVGString, toPath: self, factoryIdentifier: identifier)
+		SVGBezierPath.addPathWithSVGString(SVGString, toPath: self, factoryIdentifier: identifier)
 	}
 }

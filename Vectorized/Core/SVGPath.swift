@@ -26,7 +26,6 @@
 //  THE SOFTWARE.
 //---------------------------------------------------------------------------------------
 
-import X
 import CoreGraphics
 
 /// An SVGPath is the most common SVGDrawable element in an SVGVectorImage
@@ -34,11 +33,11 @@ import CoreGraphics
 /// with its draw() method
 public class SVGPath: SVGDrawable, CustomStringConvertible {
     public var identifier: String?
-    public var bezierPath: BezierPathType
+    public var bezierPath: SVGBezierPath
     public var fill: SVGFillable?
     public var opacity: CGFloat
     public var group: SVGGroup?
-    public var clippingPath: BezierPathType?
+    public var clippingPath: SVGBezierPath?
     
     public var onWillDraw:(()->())?
     public var onDidDraw:(()->())?
@@ -53,13 +52,13 @@ public class SVGPath: SVGDrawable, CustomStringConvertible {
 	
     /// Initializes a SVGPath
     ///
-    /// :param: bezierPath The BezierPathType to use for drawing to the canvas
-    /// :param: fill An Object conforming to Fillable to use as the fill. ColorType and SVGGradient are common choices
+    /// :param: bezierPath The SVGBezierPath to use for drawing to the canvas
+    /// :param: fill An Object conforming to Fillable to use as the fill. SVGColor and SVGGradient are common choices
     /// :param: opacity The opacity to draw the path at
     /// :returns: an SVGPath ready for drawing with draw()
-    public init(bezierPath: BezierPathType, fill: SVGFillable?, opacity: CGFloat = 1.0, clippingPath: BezierPathType? = nil) {
+    public init(bezierPath: SVGBezierPath, fill: SVGFillable?, opacity: CGFloat = 1.0, clippingPath: SVGBezierPath? = nil) {
         self.bezierPath = bezierPath
-        self.fill = fill ?? Color.blackColor()
+        self.fill = fill ?? SVGColor.blackColor()
         self.opacity = opacity
         self.clippingPath = clippingPath
     }
@@ -68,7 +67,7 @@ public class SVGPath: SVGDrawable, CustomStringConvertible {
     public func draw() {
         onWillDraw?()
 		
-        CGContextSaveGState(GetCurrentGraphicsContext())
+        CGContextSaveGState(SVGGraphicsGetCurrentContext())
 		
         clippingPath?.addClip()
 		
@@ -81,7 +80,7 @@ public class SVGPath: SVGDrawable, CustomStringConvertible {
 			
             bezierPath.fill()
         } else if let gradient = fill?.asGradient() {
-            let context = GetCurrentGraphicsContext()
+            let context = SVGGraphicsGetCurrentContext()
 			
             CGContextSaveGState(context)
 			
@@ -91,7 +90,7 @@ public class SVGPath: SVGDrawable, CustomStringConvertible {
             CGContextRestoreGState(context)
         }
 		
-        CGContextRestoreGState(GetCurrentGraphicsContext())
+        CGContextRestoreGState(SVGGraphicsGetCurrentContext())
 		
         onDidDraw?()
     }

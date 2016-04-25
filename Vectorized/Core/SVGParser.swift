@@ -26,7 +26,7 @@
 //  THE SOFTWARE.
 //---------------------------------------------------------------------------------------
 
-import X
+import Foundation
 import CoreGraphics
 
 /// A Parser which takes in a .svg file and spits out an SVGVectorImage for display
@@ -38,10 +38,10 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
 	private var parser: NSXMLParser?
 	private var svgViewBox: CGRect = CGRectZero
 	private var drawables: [SVGDrawable] = []
-	private var colors: [String: ColorType] = [:]
+	private var colors: [String: SVGColor] = [:]
 	private var gradients: [String: SVGGradient] = [:]
-	private var namedPaths: [String: BezierPathType] = [:]
-	private var clippingPaths: [String: BezierPathType] = [:]
+	private var namedPaths: [String: SVGBezierPath] = [:]
+	private var clippingPaths: [String: SVGBezierPath] = [:]
 	private var lastGradient: SVGGradient?
 	private var lastGroup: SVGGroup?
 	private var lastClippingPath: String?
@@ -112,18 +112,18 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
 	
 
 
-    /// Takes a string containing a hex value and converts it to a ColorType.  Caches the ColorType for later use.
+    /// Takes a string containing a hex value and converts it to a SVGColor.  Caches the SVGColor for later use.
     ///
-    /// :param: potentialHexString the string potentially containing a hex value to parse into a ColorType
-    /// :returns: ColorType representation of the hex string - or nil if no hex string is found
-    public func addColor(potentialHexString: String?) -> ColorType? {
-		guard potentialHexString != "none" else { return Color.clearColor() }
+    /// :param: potentialHexString the string potentially containing a hex value to parse into a SVGColor
+    /// :returns: SVGColor representation of the hex string - or nil if no hex string is found
+    public func addColor(potentialHexString: String?) -> SVGColor? {
+		guard potentialHexString != "none" else { return SVGColor.clearColor() }
 		
         if let potentialHexString = potentialHexString {
             if let hexRange = potentialHexString.rangeOfString("#", options: [], range: nil, locale: nil) {
                 let hexString = potentialHexString.stringByReplacingCharactersInRange(potentialHexString.startIndex..<hexRange.startIndex, withString: "")
 				
-                colors[hexString] = colors[hexString] ?? Color(hex: hexString)
+                colors[hexString] = colors[hexString] ?? SVGColor(hex: hexString)
 				
                 return colors[hexString]
             }
@@ -198,12 +198,12 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
 		
         if definingDefs {
             if let id = id {
-                namedPaths[id] = BezierPath(rect: rect)
+                namedPaths[id] = SVGBezierPath(rect: rect)
             } else {
                 print("Defining defs, but didn't find id for rect")
             }
         } else {
-            let bezierPath = BezierPath(rect: rect)
+            let bezierPath = SVGBezierPath(rect: rect)
 			
             bezierPath.applyTransform(SVGParser.transformFromString(attributeDict["transform"]))
             createSVGPath(bezierPath, attributeDict: attributeDict)
@@ -216,7 +216,7 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
     private func addPath(attributeDict: [String: String]) {
         let id = attributeDict["id"]
         let d = attributeDict["d"]!
-        let bezierPath = BezierPath(SVGString: d, factoryIdentifier: parserId)
+        let bezierPath = SVGBezierPath(SVGString: d, factoryIdentifier: parserId)
 		
         bezierPath.applyTransform(CGAffineTransformMakeTranslation(-svgViewBox.origin.x, -svgViewBox.origin.y))
         bezierPath.miterLimit = 4
@@ -238,7 +238,7 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
     private func addPolygon(attributeDict: [String: String]) {
         let id = attributeDict["id"]
         let points = pointsFromPointString(attributeDict["points"])
-        let bezierPath = BezierPath()
+        let bezierPath = SVGBezierPath()
 		
         bezierPath.moveToPoint(points[0])
 		
@@ -270,7 +270,7 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
         let radiusY = CGFloat(Float(attributeDict["ry"] ?? "") ?? 0.0)
 //        let rect = CGRectOffset(CGRect(x: centerX - radiusX, y: centerY - radiusY, width: radiusX * 2.0, height: radiusY * 2.0), -svgViewBox.origin.x, -svgViewBox.origin.y)
         let rect = CGRect(x: centerX - radiusX, y: centerY - radiusY, width: radiusX * 2.0, height: radiusY * 2.0)
-        let bezierPath = BezierPath(ovalInRect: rect)
+        let bezierPath = SVGBezierPath(ovalInRect: rect)
 		
         if definingDefs {
             if let id = id {
@@ -291,7 +291,7 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
     private func addPolyline(attributeDict: [String: String]){
         let id = attributeDict["id"]
         let points = pointsFromPointString(attributeDict["points"])
-        let bezierPath = BezierPath()
+        let bezierPath = SVGBezierPath()
 		
         bezierPath.moveToPoint(points[0])
 		
@@ -313,7 +313,7 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
     }
     
     /// Takes a bezierPath and an attributeDict and inserts the path into the last group
-    private func createSVGPath(bezierPath: BezierPathType, attributeDict: [String: String]){
+    private func createSVGPath(bezierPath: SVGBezierPath, attributeDict: [String: String]){
         var fill: SVGFillable? = nil
 		
         if let attr = itemIDOrHexFromAttribute(attributeDict["fill"]) {
@@ -327,7 +327,7 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
             bezierPath.usesEvenOddFillRule = true
         }
 		
-        var clippingPath: BezierPathType?
+        var clippingPath: SVGBezierPath?
 		
         if let clippingPathName = itemIDOrHexFromAttribute(attributeDict["clip-path"]) {
             clippingPath = clippingPaths[clippingPathName]
@@ -362,7 +362,7 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
         if let fontName = attributeDict["font-family"] {
 			if let size = Float(attributeDict["font-size"] ?? "") {
 				let name = fontName.stringByReplacingOccurrencesOfString("'", withString: "", options: [], range: nil)
-				let font = Font(name: name, size: CGFloat(size))
+				let font = SVGFont(name: name, size: CGFloat(size))
 				text.font = font
 			}
         }
@@ -388,7 +388,7 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
 		
         newGroup.identifier = attributeDict["id"]
 		
-        var clippingPath: BezierPathType?
+        var clippingPath: SVGBezierPath?
 		
         if let clippingPathName = itemIDOrHexFromAttribute(attributeDict["clip-path"]) {
             clippingPath = clippingPaths[clippingPathName]
@@ -437,7 +437,7 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
         let offset = CGFloat(Float(attributeDict["offset"] ?? "") ?? 0.0)
         
         if let styleAttributes = (attributeDict["style"])?.componentsSeparatedByString(";") {
-            var color = Color.blackColor()
+            var color = SVGColor.blackColor()
             var opacity = CGFloat(1.0)
 			
             for styleAttribute in styleAttributes {
@@ -445,7 +445,7 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
                     //SET STOP COLOR
                     let range = colorRange.endIndex ..< styleAttribute.endIndex
 					
-                    color = addColor(styleAttribute.substringWithRange(range)) ?? Color.blackColor()
+                    color = addColor(styleAttribute.substringWithRange(range)) ?? SVGColor.blackColor()
                 } else if let opacityRange = styleAttribute.rangeOfString("stop-opacity:", options: .CaseInsensitiveSearch, range: nil, locale: nil) {
                     //SET STOP OPACITY
                     let range = opacityRange.endIndex ..< styleAttribute.endIndex

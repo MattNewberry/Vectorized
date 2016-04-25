@@ -26,13 +26,12 @@
 //  THE SOFTWARE.
 //---------------------------------------------------------------------------------------
 
-import X
 import CoreGraphics
 
 /// an SVGGroup contains a set of SVGDrawable objects, which could be SVGPaths or SVGGroups.
 public class SVGGroup: SVGDrawable, CustomStringConvertible {
     public var group: SVGGroup? // The parent of this group, if any
-    public var clippingPath: BezierPathType?
+    public var clippingPath: SVGBezierPath?
     public var identifier: String?
     
     public var onWillDraw: (()->())?
@@ -64,7 +63,7 @@ public class SVGGroup: SVGDrawable, CustomStringConvertible {
     public func draw() {
         onWillDraw?()
 		
-        CGContextSaveGState(GetCurrentGraphicsContext())
+        CGContextSaveGState(SVGGraphicsGetCurrentContext())
 		
         if let clippingPath = clippingPath {
             clippingPath.addClip()
@@ -74,7 +73,7 @@ public class SVGGroup: SVGDrawable, CustomStringConvertible {
             drawable.draw()
         }
 		
-        CGContextRestoreGState(GetCurrentGraphicsContext())
+        CGContextRestoreGState(SVGGraphicsGetCurrentContext())
 		
         onDidDraw?()
     }
