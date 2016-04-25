@@ -48,8 +48,8 @@ public class SVGText: SVGDrawable {
     public func draw() {
         onWillDraw?()
 		
-        let color = fill?.asColor() ?? ColorType.whiteColor()
-        let attributes: [String: AnyObject] = [NSFontAttributeName: font ?? FontType.systemFontOfSize(24), NSForegroundColorAttributeName: color]
+        let color = fill?.asColor() ?? Color.whiteColor()
+        let attributes: [String: AnyObject] = [NSFontAttributeName: font ?? Font.systemFontOfSize(24), NSForegroundColorAttributeName: color]
         let line = CTLineCreateWithAttributedString(NSAttributedString(string: text!, attributes: attributes))
         var ascent = CGFloat(0)
 		

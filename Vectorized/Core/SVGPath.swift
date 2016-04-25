@@ -59,7 +59,7 @@ public class SVGPath: SVGDrawable, CustomStringConvertible {
     /// :returns: an SVGPath ready for drawing with draw()
     public init(bezierPath: BezierPathType, fill: SVGFillable?, opacity: CGFloat = 1.0, clippingPath: BezierPathType? = nil) {
         self.bezierPath = bezierPath
-        self.fill = fill ?? ColorType.blackColor()
+        self.fill = fill ?? Color.blackColor()
         self.opacity = opacity
         self.clippingPath = clippingPath
     }
