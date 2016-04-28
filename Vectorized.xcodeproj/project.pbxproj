@@ -17,8 +17,8 @@
 		47657E741CD280D200A4424A /* SVGPathCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E721CD280D200A4424A /* SVGPathCommand.swift */; };
 		47657E761CD2816400A4424A /* SVGBezierPath+CommandParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E751CD2816400A4424A /* SVGBezierPath+CommandParser.swift */; };
 		47657E771CD2816400A4424A /* SVGBezierPath+CommandParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E751CD2816400A4424A /* SVGBezierPath+CommandParser.swift */; };
-		47657E791CD281A900A4424A /* SVGBezierPath+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E781CD281A900A4424A /* SVGBezierPath+String.swift */; };
-		47657E7A1CD281A900A4424A /* SVGBezierPath+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E781CD281A900A4424A /* SVGBezierPath+String.swift */; };
+		47657E791CD281A900A4424A /* SVGBezierPath+SVGPathDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E781CD281A900A4424A /* SVGBezierPath+SVGPathDescription.swift */; };
+		47657E7A1CD281A900A4424A /* SVGBezierPath+SVGPathDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E781CD281A900A4424A /* SVGBezierPath+SVGPathDescription.swift */; };
 		476B01DB1CCC8EE2003510D3 /* SVGParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476B01DA1CCC8EE2003510D3 /* SVGParser.swift */; };
 		476BB45A1CCC9AEF000D49E2 /* SVGGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4551CCC9AEF000D49E2 /* SVGGroup.swift */; };
 		476BB45B1CCC9AEF000D49E2 /* SVGLinearGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4561CCC9AEF000D49E2 /* SVGLinearGradient.swift */; };
@@ -107,7 +107,7 @@
 		47657E6B1CD27BBF00A4424A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47657E721CD280D200A4424A /* SVGPathCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGPathCommand.swift; sourceTree = "<group>"; };
 		47657E751CD2816400A4424A /* SVGBezierPath+CommandParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SVGBezierPath+CommandParser.swift"; sourceTree = "<group>"; };
-		47657E781CD281A900A4424A /* SVGBezierPath+String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SVGBezierPath+String.swift"; sourceTree = "<group>"; };
+		47657E781CD281A900A4424A /* SVGBezierPath+SVGPathDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SVGBezierPath+SVGPathDescription.swift"; sourceTree = "<group>"; };
 		476B01C81CCC89F2003510D3 /* Vectorized.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Vectorized.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		476B01CD1CCC89F2003510D3 /* Vectorized-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Vectorized-Info.plist"; sourceTree = "<group>"; };
 		476B01DA1CCC8EE2003510D3 /* SVGParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGParser.swift; sourceTree = "<group>"; };
@@ -278,7 +278,7 @@
 				476BB4581CCC9AEF000D49E2 /* SVGRadialGradient.swift */,
 				476BB4591CCC9AEF000D49E2 /* SVGText.swift */,
 				476BB46B1CCCACAC000D49E2 /* SVGVectorImage.swift */,
-				47657E781CD281A900A4424A /* SVGBezierPath+String.swift */,
+				47657E781CD281A900A4424A /* SVGBezierPath+SVGPathDescription.swift */,
 				471318581CCDB27E005FEABB /* SVGColor+Hex.swift */,
 				476BB46A1CCCA9E3000D49E2 /* Protocols */,
 			);
@@ -451,7 +451,7 @@
 			files = (
 				47D6996C1CCE07C300553899 /* SVGGroup.swift in Sources */,
 				47D699701CCE07C300553899 /* SVGRadialGradient.swift in Sources */,
-				47657E7A1CD281A900A4424A /* SVGBezierPath+String.swift in Sources */,
+				47657E7A1CD281A900A4424A /* SVGBezierPath+SVGPathDescription.swift in Sources */,
 				47D699751CCE07C800553899 /* SVGDrawable.swift in Sources */,
 				47657E771CD2816400A4424A /* SVGBezierPath+CommandParser.swift in Sources */,
 				47D699761CCE07C800553899 /* SVGFillable.swift in Sources */,
@@ -482,7 +482,7 @@
 			files = (
 				476BB45A1CCC9AEF000D49E2 /* SVGGroup.swift in Sources */,
 				476BB45C1CCC9AEF000D49E2 /* SVGPath.swift in Sources */,
-				47657E791CD281A900A4424A /* SVGBezierPath+String.swift in Sources */,
+				47657E791CD281A900A4424A /* SVGBezierPath+SVGPathDescription.swift in Sources */,
 				476BB4671CCCA9DF000D49E2 /* SVGDrawable.swift in Sources */,
 				47657E761CD2816400A4424A /* SVGBezierPath+CommandParser.swift in Sources */,
 				471BB7621CCD889300871570 /* SVGView.swift in Sources */,
