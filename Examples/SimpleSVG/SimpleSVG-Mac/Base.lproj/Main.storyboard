@@ -642,7 +642,7 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="SimpleSVG" customModuleProvider="target"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="SimpleSVG_Mac" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
@@ -668,14 +668,28 @@
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="SimpleSVG" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl" customClass="SVGView" customModule="Vectorized">
+                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="SimpleSVG_Mac" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="959" height="650"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="string" keyPath="svgName" value="dragon_0"/>
-                        </userDefinedRuntimeAttributes>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="uGi-FE-N8J" customClass="SVGView" customModule="Vectorized">
+                                <rect key="frame" x="20" y="20" width="488" height="610"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="svgName" value="dragon_0"/>
+                                </userDefinedRuntimeAttributes>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="uGi-FE-N8J" secondAttribute="bottom" constant="20" symbolic="YES" id="CER-48-vRM"/>
+                            <constraint firstItem="uGi-FE-N8J" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" symbolic="YES" id="JS6-fi-W2M"/>
+                            <constraint firstAttribute="trailing" secondItem="uGi-FE-N8J" secondAttribute="trailing" constant="451" id="faV-NB-g4B"/>
+                            <constraint firstItem="uGi-FE-N8J" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" symbolic="YES" id="kWb-HV-sfX"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="svgView" destination="uGi-FE-N8J" id="iUY-Gn-VAR"/>
+                    </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
