@@ -29,9 +29,9 @@
 import Foundation
 import CoreGraphics
 
-/// A Parser which takes in a .svg file and spits out an SVGVectorImage for display
+/// A Parser which takes in a .svg file and spits out an SVGGraphic for display
 /// Begin your interaction with the parser by initializing it with a path and calling
-/// parse() to retrieve an SVGVectorImage.  Safe to call on a background thread.
+/// parse() to retrieve an SVGGraphic.  Safe to call on a background thread.
 public class SVGParser: NSObject, NSXMLParserDelegate {
     public let parserId: String = NSUUID().UUIDString
 	
@@ -66,18 +66,18 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
         parser = NSXMLParser(data: data)
     }
     
-    /// Parse the supplied SVG file and return an SVGVectorImage
+    /// Parse the supplied SVG file and return an SVGGraphic
     ///
     /// :returns: an SVGImageVector ready for display
-    public func parse() -> SVGVectorImage {
+    public func parse() -> SVGGraphic {
         let (drawables, size) = coreParse()
 		
-        return SVGVectorImage(drawables: drawables, size: size)
+        return SVGGraphic(drawables: drawables, size: size)
     }
     
-    /// Parse the supplied SVG file and return the components of an SVGVectorImage
+    /// Parse the supplied SVG file and return the components of an SVGGraphic
     ///
-    /// :returns: a tuple containing the SVGDrawable array and the size of the SVGVectorImage
+    /// :returns: a tuple containing the SVGDrawable array and the size of the SVGGraphic
     public func coreParse() -> ([SVGDrawable], CGSize) {
         parser?.delegate = self
         parser?.parse()

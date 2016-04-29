@@ -36,9 +36,9 @@
 	public typealias BaseView = UIView
 #endif
 
-/// An SVGView provides a way to display SVGVectorImages to the screen respecting the contentMode property.
+/// An SVGView provides a way to display SVGGraphics to the screen respecting the contentMode property.
 @IBDesignable public class SVGView: BaseView {
-	@IBInspectable var svgName: String? {
+	@IBInspectable var vectorGraphicName: String? {
 		didSet {
 			svgNameChanged()
 		}
@@ -52,22 +52,22 @@
 	}
 #endif
 	
-	public var vectorImage: SVGVectorImage? {
+	public var vectorGraphic: SVGGraphic? {
 		didSet {
 			setNeedsDisplay()
 		}
 	}
 	
-	public convenience init(vectorImage: SVGVectorImage?) {
-		self.init(frame: CGRect(x: 0, y: 0, width: vectorImage?.size.width ?? 0, height: vectorImage?.size.height ?? 0))
+	public convenience init(vectorGraphic: SVGGraphic?) {
+		self.init(frame: CGRect(x: 0, y: 0, width: vectorGraphic?.size.width ?? 0, height: vectorGraphic?.size.height ?? 0))
 		
-		self.vectorImage = vectorImage
+		self.vectorGraphic = vectorGraphic
 	}
 	
 	override public func awakeFromNib() {
 		super.awakeFromNib()
 		
-		if svgName != nil {
+		if vectorGraphicName != nil {
 			svgNameChanged()
 		}
 	}
@@ -80,10 +80,10 @@
 		let bundle = NSBundle(forClass: self.dynamicType)
 	#endif
 		
-		if let path = bundle.pathForResource(svgName, ofType: "svg") {
-			vectorImage = SVGParser(path: path).parse()
+		if let path = bundle.pathForResource(vectorGraphicName, ofType: "svg") {
+			vectorGraphic = SVGParser(path: path).parse()
 		} else {
-			vectorImage = nil
+			vectorGraphic = nil
 		}
 		
 	}
@@ -92,10 +92,10 @@
 	override public func drawRect(rect: CGRect) {
 		super.drawRect(rect)
 		
-		if let vectorImage = vectorImage {
+		if let vectorGraphic = vectorGraphic {
 			if let context = SVGGraphicsGetCurrentContext() {
-				let translation = vectorImage.translationWithTargetSize(rect.size, contentMode: contentMode)
-				let scale = vectorImage.scaleWithTargetSize(rect.size, contentMode: contentMode)
+				let translation = vectorGraphic.translationWithTargetSize(rect.size, contentMode: contentMode)
+				let scale = vectorGraphic.scaleWithTargetSize(rect.size, contentMode: contentMode)
 				
 				#if os(OSX)
 					let flipVertical = CGAffineTransform(a: 1.0, b: 0.0, c: 0.0, d: -1.0, tx: 0.0, ty: rect.size.height)
@@ -105,7 +105,7 @@
 				CGContextScaleCTM(context, scale.width, scale.height)
 				CGContextTranslateCTM(context, translation.x / scale.width, translation.y / scale.height)
 				
-				vectorImage.draw()
+				vectorGraphic.draw()
 			}
 		}
 	}

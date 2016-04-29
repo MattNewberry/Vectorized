@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="string" keyPath="svgName" value="dragon_0"/>
+                            <userDefinedRuntimeAttribute type="string" keyPath="vectorGraphicName" value="dragon_0"/>
                         </userDefinedRuntimeAttributes>
                     </view>
                 </viewController>

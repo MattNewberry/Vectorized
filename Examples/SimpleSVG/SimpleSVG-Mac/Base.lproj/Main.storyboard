@@ -676,7 +676,7 @@
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="uGi-FE-N8J" customClass="SVGView" customModule="Vectorized">
                                 <rect key="frame" x="20" y="20" width="488" height="610"/>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="svgName" value="dragon_0"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="vectorGraphicName" value="dragon_0"/>
                                 </userDefinedRuntimeAttributes>
                             </customView>
                         </subviews>
