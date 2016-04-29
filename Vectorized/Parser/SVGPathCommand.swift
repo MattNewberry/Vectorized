@@ -227,6 +227,10 @@ internal class SVGPathCommandFactory {
 	private var commands: [String: SVGPathCommand] = [:]
 	
 	class func factoryWithIdentifier(identifier: String) -> SVGPathCommandFactory {
+		if identifier == "" {
+			return defaultFactory
+		}
+		
 		if let factory = factories[identifier] {
 			return factory
 		}

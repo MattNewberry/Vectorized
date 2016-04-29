@@ -32,13 +32,13 @@
 import Foundation
 
 public extension SVGBezierPath {
-	public convenience init(SVGPathDescription: String, factoryIdentifier identifier: String) {
+	public convenience init(SVGPathDescription: String, factoryIdentifier identifier: String = "") {
 		self.init()
 		
 		addPathWithSVGPathDescription(SVGPathDescription, factoryIdentifier: identifier)
 	}
 	
-	public func addPathWithSVGPathDescription(description: String, factoryIdentifier identifier: String) {
+	public func addPathWithSVGPathDescription(description: String, factoryIdentifier identifier: String = "") {
 		SVGBezierPath.addPathWithSVGString(description, toPath: self, factoryIdentifier: identifier)
 	}
 }
