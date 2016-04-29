@@ -63,17 +63,14 @@
 		
 		self.vectorGraphic = vectorGraphic
 	}
-	
-	override public func awakeFromNib() {
-		super.awakeFromNib()
-		
-		if vectorGraphicName != nil {
-			svgNameChanged()
-		}
-	}
-	
+
 	/// When the SVG's name changes we'll reparse the new file
 	private func svgNameChanged() {
+		guard vectorGraphicName != nil else {
+			vectorGraphic = nil
+			return
+		}
+		
 	#if !TARGET_INTERFACE_BUILDER
 		let bundle = NSBundle.mainBundle()
 	#else
@@ -83,9 +80,10 @@
 		if let path = bundle.pathForResource(vectorGraphicName, ofType: "svg") {
 			vectorGraphic = SVGParser(path: path).parse()
 		} else {
+			Swift.print("\(self): SVG resource named '\(vectorGraphicName!)' was not found!")
+			
 			vectorGraphic = nil
 		}
-		
 	}
 	
 	/// Draw the SVGVectorImage to the screen - respecting the contentMode property
