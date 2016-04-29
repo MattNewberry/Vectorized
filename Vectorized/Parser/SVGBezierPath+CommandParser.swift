@@ -31,17 +31,12 @@
 
 import Foundation
 
-public enum SVGError: ErrorType {
-	case InvalidCommand(String)
-	case UnknownCommand(String)
-}
-
 internal extension SVGBezierPath {
 	private static let commandRegex = try! NSRegularExpression(pattern: "[A-Za-z]", options: [])
 	
 	private class func processCommandString(commandString: String, withPrevCommandString prevCommand: String, forPath path: SVGBezierPath, withFactoryIdentifier identifier: String) throws {
 		guard commandString.characters.count > 0 else {
-			throw SVGError.InvalidCommand(commandString)
+			throw SVGError.InvalidPathDescriptionCommand(commandString)
 		}
 		
 		let commandLetter = commandString.substringToIndex(commandString.startIndex.advancedBy(1))
@@ -49,7 +44,7 @@ internal extension SVGBezierPath {
 		if let command = SVGPathCommandFactory.factoryWithIdentifier(identifier).commandForCommandLetter(commandLetter) {
 			command.processCommandString(commandString, withPrevCommand: prevCommand, forPath: path, factoryIdentifier: identifier)
 		} else {
-			throw SVGError.UnknownCommand(commandLetter)
+			throw SVGError.UnknownPathDescriptionCommand(commandLetter)
 		}
 	}
 	
