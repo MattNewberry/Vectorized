@@ -56,7 +56,7 @@ public extension SVGColor {
 			return nil
 		}
 		
-		if hex.characters.count != 3 || hex.characters.count != 7 {
+		if hex.characters.count != 3 && hex.characters.count != 7 {
 			self.init()
 			return nil
 		}
