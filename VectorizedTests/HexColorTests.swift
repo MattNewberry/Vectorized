@@ -36,6 +36,7 @@ class HexColorTests: XCTestCase {
 	
 	func testEmptyHex() {
 		XCTAssertNil(SVGColor(hex: ""))
+		XCTAssertNil(SVGColor(hex: "            "))
 	}
 	
 	func testRandomStrings() {
@@ -60,7 +61,7 @@ class HexColorTests: XCTestCase {
 		}
 	}
 	
-	func compareHex(hex: String, toRed redCompare: CGFloat, green greenCompare: CGFloat, blue blueCompare: CGFloat) {
+	func compareHex(hex: String, toRed redCompare: CGFloat, green greenCompare: CGFloat, blue blueCompare: CGFloat, alpha alphaCompare: CGFloat = 1.0) {
 		if let color = SVGColor(hex: hex) {
 			var red: CGFloat = 0.0
 			var green: CGFloat = 0.0
@@ -72,6 +73,7 @@ class HexColorTests: XCTestCase {
 			XCTAssertEqualWithAccuracy(red, redCompare, accuracy: CGFloat(FLT_EPSILON))
 			XCTAssertEqualWithAccuracy(green, greenCompare, accuracy: CGFloat(FLT_EPSILON))
 			XCTAssertEqualWithAccuracy(blue, blueCompare, accuracy: CGFloat(FLT_EPSILON))
+			XCTAssertEqualWithAccuracy(alpha, alphaCompare, accuracy: CGFloat(FLT_EPSILON))
 		} else {
 			XCTFail("Color \(hex) should not be nil")
 		}
@@ -93,5 +95,22 @@ class HexColorTests: XCTestCase {
 		compareHex("#FF0000", toRed: 1.0, green: 0.0, blue: 0.0)
 		compareHex("ff0000", toRed: 1.0, green: 0.0, blue: 0.0)
 		compareHex("#f00", toRed: 1.0, green: 0.0, blue: 0.0)
+	}
+	
+	func testGreenHex() {
+		compareHex("00FF00", toRed: 0.0, green: 1.0, blue: 0.0)
+		compareHex("#00ff00", toRed: 0.0, green: 1.0, blue: 0.0)
+		compareHex("0f0", toRed: 0.0, green: 1.0, blue: 0.0)
+	}
+	
+	func testBlueHex() {
+		compareHex("#0000FF", toRed: 0.0, green: 0.0, blue: 1.0)
+		compareHex("0000ff", toRed: 0.0, green: 0.0, blue: 1.0)
+		compareHex("#00f", toRed: 0.0, green: 0.0, blue: 1.0)
+	}
+	
+	func testRGBAHex() {
+		compareHex("#FF000000", toRed: 1.0, green: 0.0, blue: 0.0, alpha: 0.0)
+		compareHex("00ff00FF", toRed: 0.0, green: 1.0, blue: 0.0, alpha: 1.0)
 	}
 }
