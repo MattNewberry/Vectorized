@@ -41,17 +41,38 @@ public extension SVGColor {
 	public convenience init?(hex: String) {
 		let hex = hex.uppercaseString
 		
-		if hex == "#FFFFFF" {
+		if hex == "#FFFFFF" || hex == "#FFF" {
 			self.init(white: 1.0, alpha: 1.0)
 			return
 		}
 		
-		if hex == "#000000" {
+		if hex == "#000000" || hex == "#000" {
 			self.init(white: 0.0, alpha: 1.0)
 			return
 		}
+
+		if hex.isEmpty {
+			self.init() // https://bugs.swift.org/browse/SR-704
+			return nil
+		}
 		
+		if hex.characters.count != 3 || hex.characters.count != 7 {
+			self.init()
+			return nil
+		}
+		
+		if hex.characters.first != "#" {
+			self.init()
+			return nil
+		}
+
 		let charset = NSCharacterSet(charactersInString: "#0123456789ABCDEF")
+		
+		if hex.rangeOfCharacterFromSet(charset.invertedSet, options: [], range: nil) != nil {
+			self.init()
+			return nil
+		}
+		
 		var rgbValue: UInt32 = 0
 		let scanner = NSScanner(string: hex)
 		
@@ -59,9 +80,5 @@ public extension SVGColor {
 		scanner.scanHexInt(&rgbValue)
 		
 		self.init(red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0, green: CGFloat((rgbValue & 0xFF00) >> 8) / 255.0, blue: CGFloat(rgbValue & 0xFF) / 255.0, alpha: 1.0)
-		
-		if hex.rangeOfCharacterFromSet(charset.invertedSet, options: [], range: nil) != nil {
-			return nil
-		}
 	}
 }
