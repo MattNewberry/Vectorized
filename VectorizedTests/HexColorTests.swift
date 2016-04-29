@@ -23,29 +23,52 @@
 //---------------------------------------------------------------------------------------
 
 import XCTest
+@testable import Vectorized
 
-class VectorizedTests: XCTestCase {
-    
+class HexColorTests: XCTestCase {
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
+	
+	func testEmptyHex() {
+		XCTAssertNil(SVGColor(hex: ""))
+	}
+	
+	func testRandomStrings() {
+		XCTAssertNil(SVGColor(hex: "this is not a hex string"))
+		XCTAssertNil(SVGColor(hex: "1"))
+		XCTAssertNil(SVGColor(hex: "#"))
+		XCTAssertNil(SVGColor(hex: "FFFFFF"))
+		XCTAssertNotNil(SVGColor(hex: "#FFF"))
+		XCTAssertNil(SVGColor(hex: "#QWERTY"))
+	}
+	
+	func compareHex(hex: String, toWhite whiteCompare: CGFloat) {
+		if let color = SVGColor(hex: hex) {
+			var white: CGFloat = 0.0
+			var alpha: CGFloat = 0.0
+			
+			color.getWhite(&white, alpha: &alpha)
+			
+			XCTAssertEqualWithAccuracy(white, whiteCompare, accuracy: CGFloat(FLT_EPSILON))
+		} else {
+			XCTFail("Color \(hex) should not be nil")
+		}
+	}
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+	func testWhiteHex() {
+		compareHex("#FFFFFF", toWhite: 1.0)
+		compareHex("#ffffff", toWhite: 1.0)
+		compareHex("#FFF", toWhite: 1.0)
+		compareHex("#fff", toWhite: 1.0)
     }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
+	
+	func testBlackHex() {
+		compareHex("#000000", toWhite: 0.0)
+		compareHex("#000", toWhite: 0.0)
+	}
 }
