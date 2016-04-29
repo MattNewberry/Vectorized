@@ -62,11 +62,6 @@ public extension SVGColor {
 			return nil
 		}
 		
-		if hex.characters.count != 3 && hex.characters.count != 6 {
-			self.init()
-			return nil
-		}
-		
 		let charset = NSCharacterSet(charactersInString: "#0123456789ABCDEF")
 		
 		if hex.rangeOfCharacterFromSet(charset.invertedSet, options: [], range: nil) != nil {
@@ -74,10 +69,24 @@ public extension SVGColor {
 			return nil
 		}
 		
-		var rgbValue: UInt32 = 0
+		var intValue: UInt32 = 0
 
-		NSScanner(string: hex).scanHexInt(&rgbValue)
+		NSScanner(string: hex).scanHexInt(&intValue)
 		
-		self.init(red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0, green: CGFloat((rgbValue & 0xFF00) >> 8) / 255.0, blue: CGFloat(rgbValue & 0xFF) / 255.0, alpha: 1.0)
+		let r, g, b, a: UInt32
+		
+		switch hex.characters.count {
+		case 3: // RGB "short hex"
+			(r, g, b, a) = ((intValue & 0xF00) >> 8 * 17, (intValue & 0xF0) >> 4 * 17, (intValue & 0xF) * 17, 255)
+		case 6: // RGB
+			(r, g, b, a) = ((intValue & 0xFF0000) >> 16, (intValue & 0xFF00) >> 8, (intValue & 0xFF), 255)
+		case 8: // RGBA
+			(r, g, b, a) = ((intValue & 0xFF000000) >> 24, (intValue & 0xFF0000) >> 16, (intValue & 0xFF00) >> 8, (intValue & 0xFF))
+		default:
+			self.init()
+			return nil
+		}
+		
+		self.init(red: CGFloat(r) / 255.0, green: CGFloat(g) / 255.0, blue: CGFloat(b) / 255.0, alpha: CGFloat(a) / 255.0)
 	}
 }
