@@ -48,6 +48,13 @@
 			remoteGlobalIDString = 471318761CCDE330005FEABB;
 			remoteInfo = "Vectorized-iOS";
 		};
+		47657E7F1CD30D4500A4424A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 471BB78C1CCD8D9A00871570 /* Vectorized.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 47657E671CD27BBE00A4424A;
+			remoteInfo = VectorizedTests;
+		};
 		47D2D9FA1CCD98E00051757B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 471BB78C1CCD8D9A00871570 /* Vectorized.xcodeproj */;
@@ -189,6 +196,7 @@
 			children = (
 				47D2D9FB1CCD98E00051757B /* Vectorized.framework */,
 				471318861CCDE7DF005FEABB /* Vectorized.framework */,
+				47657E801CD30D4500A4424A /* VectorizedTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -283,6 +291,13 @@
 			fileType = wrapper.framework;
 			path = Vectorized.framework;
 			remoteRef = 471318851CCDE7DF005FEABB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		47657E801CD30D4500A4424A /* VectorizedTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = VectorizedTests.xctest;
+			remoteRef = 47657E7F1CD30D4500A4424A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		47D2D9FB1CCD98E00051757B /* Vectorized.framework */ = {
@@ -387,6 +402,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "SimpleSVG-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -402,6 +418,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "SimpleSVG-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -503,6 +520,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "SimpleSVG-Mac/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -517,6 +535,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "SimpleSVG-Mac/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;

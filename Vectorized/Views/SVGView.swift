@@ -87,7 +87,7 @@
 		}
 		
 	}
-	 
+	
 	/// Draw the SVGVectorImage to the screen - respecting the contentMode property
 	override public func drawRect(rect: CGRect) {
 		super.drawRect(rect)
