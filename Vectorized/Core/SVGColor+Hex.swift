@@ -38,15 +38,21 @@ import Foundation
 /// :param: hexString the string to parse for a hex color
 /// :returns: the SVGColor or nil if parsing fails
 public extension SVGColor {
-	public convenience init?(hex: String) {
-		let hex = hex.uppercaseString
+	public convenience init?(hex rawHex: String) {
+		let hex: String
 		
-		if hex == "#FFFFFF" || hex == "#FFF" {
+		if rawHex.characters.first == "#" {
+			hex = rawHex.substringFromIndex(rawHex.startIndex.advancedBy(1)).uppercaseString
+		} else {
+			hex = rawHex.uppercaseString
+		}
+		
+		if hex == "FFFFFF" || hex == "FFF" {
 			self.init(white: 1.0, alpha: 1.0)
 			return
 		}
 		
-		if hex == "#000000" || hex == "#000" {
+		if hex == "000000" || hex == "000" {
 			self.init(white: 0.0, alpha: 1.0)
 			return
 		}
@@ -56,16 +62,11 @@ public extension SVGColor {
 			return nil
 		}
 		
-		if hex.characters.count != 3 && hex.characters.count != 7 {
+		if hex.characters.count != 3 && hex.characters.count != 6 {
 			self.init()
 			return nil
 		}
 		
-		if hex.characters.first != "#" {
-			self.init()
-			return nil
-		}
-
 		let charset = NSCharacterSet(charactersInString: "#0123456789ABCDEF")
 		
 		if hex.rangeOfCharacterFromSet(charset.invertedSet, options: [], range: nil) != nil {
@@ -74,10 +75,8 @@ public extension SVGColor {
 		}
 		
 		var rgbValue: UInt32 = 0
-		let scanner = NSScanner(string: hex)
-		
-		scanner.scanLocation = 1
-		scanner.scanHexInt(&rgbValue)
+
+		NSScanner(string: hex).scanHexInt(&rgbValue)
 		
 		self.init(red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0, green: CGFloat((rgbValue & 0xFF00) >> 8) / 255.0, blue: CGFloat(rgbValue & 0xFF) / 255.0, alpha: 1.0)
 	}

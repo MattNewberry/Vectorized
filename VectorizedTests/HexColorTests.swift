@@ -42,7 +42,7 @@ class HexColorTests: XCTestCase {
 		XCTAssertNil(SVGColor(hex: "this is not a hex string"))
 		XCTAssertNil(SVGColor(hex: "1"))
 		XCTAssertNil(SVGColor(hex: "#"))
-		XCTAssertNil(SVGColor(hex: "FFFFFF"))
+		XCTAssertNotNil(SVGColor(hex: "FFFFFF"))
 		XCTAssertNotNil(SVGColor(hex: "#FFF"))
 		XCTAssertNil(SVGColor(hex: "#QWERTY"))
 	}
@@ -79,8 +79,8 @@ class HexColorTests: XCTestCase {
     
 	func testWhiteHex() {
 		compareHex("#FFFFFF", toWhite: 1.0)
-		compareHex("#ffffff", toWhite: 1.0)
-		compareHex("#FFF", toWhite: 1.0)
+		compareHex("ffffff", toWhite: 1.0)
+		compareHex("FFF", toWhite: 1.0)
 		compareHex("#fff", toWhite: 1.0)
     }
 	
@@ -91,5 +91,7 @@ class HexColorTests: XCTestCase {
 	
 	func testRedHex() {
 		compareHex("#FF0000", toRed: 1.0, green: 0.0, blue: 0.0)
+		compareHex("ff0000", toRed: 1.0, green: 0.0, blue: 0.0)
+		compareHex("#f00", toRed: 1.0, green: 0.0, blue: 0.0)
 	}
 }
