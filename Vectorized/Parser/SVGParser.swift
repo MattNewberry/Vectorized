@@ -53,7 +53,7 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	
     internal let parserId: String = NSUUID().UUIDString
 	
-	private var parser: NSXMLParser?
+	private var parser: NSXMLParser
 	private var svgViewBox: CGRect = CGRectZero
 	private var drawables: [SVGDrawable] = []
 	private var colors: [String: SVGColor] = [:]
@@ -70,20 +70,28 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
     ///
     /// :param: path The path to the SVG file
     /// :returns: An SVGParser ready to parse()
-    internal init(path: String) {
+    internal convenience init(path: String) {
         let url = NSURL(fileURLWithPath: path)
 		
         if let parser = NSXMLParser(contentsOfURL: url) {
-            self.parser = parser
+			self.init(parser: parser)
         } else {
             fatalError("SVGParser could not find an SVG at the given path: \(path)")
         }
     }
     
-    internal init(data: NSData) {
-        parser = NSXMLParser(data: data)
+    internal convenience init(data: NSData) {
+		self.init(parser: NSXMLParser(data: data))
     }
-    
+	
+	private init(parser: NSXMLParser) {
+		self.parser = parser
+
+		super.init()
+		
+		self.parser.delegate = self
+	}
+	
     /// Parse the supplied SVG file and return an SVGGraphic
     ///
     /// :returns: an SVGImageVector ready for display
@@ -97,8 +105,7 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
     ///
     /// :returns: a tuple containing the SVGDrawable array and the size of the SVGGraphic
     internal func coreParse() -> ([SVGDrawable], CGSize) {
-        parser?.delegate = self
-        parser?.parse()
+        parser.parse()
 		
         return (drawables, svgViewBox.size)
     }
@@ -567,7 +574,5 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
     }
 	
     @objc internal func parserDidEndDocument(parser: NSXMLParser) {
-        parser.delegate = self
-        self.parser = nil
     }
 }
