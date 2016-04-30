@@ -24,6 +24,7 @@ The MIT License (MIT)
 
 Copyright (c) 2012 Arthur Evstifeev (UIBezierPath-SVG/SKUBezierPath+SVG)  
 Copyright (c) 2014 Michael Redig (UIBezierPath-SVG/SKUBezierPath+SVG)  
+Copyright (c) 2015 Austin Fitzpatrick (the "SwiftVG" project)  
 Copyright (c) 2015 Seedling (the "SwiftVG" project)  
 Copyright (c) 2016 Alien Orb Software LLC
 
