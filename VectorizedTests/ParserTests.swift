@@ -39,9 +39,38 @@ class ParserTests: XCTestCase {
 		print("\(parser.parserError!)")
 	}
 	
+	func transformFromStringNoFail(string: String?) -> CGAffineTransform {
+		do {
+			return try SVGParser.transformFromString(string)
+		} catch {
+			XCTFail("Should not throw: \(string!), \(error)")
+			return CGAffineTransformIdentity
+		}
+	}
+	
 	func testTransformFromStringEmpty() {
-		XCTAssertTrue(CGAffineTransformIsIdentity(try! SVGParser.transformFromString(nil)))
-		XCTAssertTrue(CGAffineTransformIsIdentity(try! SVGParser.transformFromString("")))
-		XCTAssertTrue(CGAffineTransformIsIdentity(try! SVGParser.transformFromString("            ")))
+		XCTAssertTrue(CGAffineTransformIsIdentity(transformFromStringNoFail(nil)))
+		XCTAssertTrue(CGAffineTransformIsIdentity(transformFromStringNoFail("")))
+		XCTAssertTrue(CGAffineTransformIsIdentity(transformFromStringNoFail("              ")))
+	}
+	
+	func testTransformFromStringMatrixSpaceSeparated() {
+		let comparison = CGAffineTransform(a: 1, b: 2, c: 3, d: 4, tx: 5, ty: 6)
+		
+		var transform = transformFromStringNoFail("matrix(1 2 3 4 5 6)")
+		XCTAssertTrue(CGAffineTransformEqualToTransform(comparison, transform), "\(transform)")
+		
+		transform = transformFromStringNoFail("matrix(1    2.0  3    4.0  5      6)")
+		XCTAssertTrue(CGAffineTransformEqualToTransform(comparison, transform), "\(transform)")
+		
+		transform = transformFromStringNoFail("matrix(        1.0000000    2.0  3.0000    4     5      6         )")
+		XCTAssertTrue(CGAffineTransformEqualToTransform(comparison, transform), "\(transform)")
+	}
+	
+	func testTransformFromStringMatrixCommaSeparated() {
+		let comparison = CGAffineTransform(a: 1, b: 2, c: 3, d: 4, tx: 5, ty: 6)
+
+		let transform = transformFromStringNoFail("matrix(1,2,3,4,5,6)")
+		XCTAssertTrue(CGAffineTransformEqualToTransform(comparison, transform), "\(transform)")
 	}
 }
