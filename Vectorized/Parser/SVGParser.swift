@@ -133,17 +133,54 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	/// :returns: A CGAffineTransform
 	internal class func transformFromString(transformString: String?) throws -> CGAffineTransform {
 		if let string = transformString {
-			let scanner = NSScanner(string: string)
+			var transforms: [(CGAffineTransform, Int)] = []
+
+			let charactersToSkip = NSMutableCharacterSet.whitespaceAndNewlineCharacterSet()
+			charactersToSkip.formUnionWithCharacterSet(NSCharacterSet(charactersInString: ","))
 			
-			if scanner.scanString("matrix", intoString: nil) {
-				return try parseTransformMatrixWithScanner(scanner)
+			let scanner = NSScanner(string: string)
+			scanner.charactersToBeSkipped = charactersToSkip
+
+			func parseType(type: String, parser: ((NSScanner) throws -> CGAffineTransform?)) throws -> Int {
+				if scanner.scanString(type, intoString: nil) {
+					if let transform = try parser(scanner) {
+						transforms.append((transform, scanner.scanLocation))
+					}
+					
+					return 1
+				}
+				
+				return 0
 			}
+			
+			while !scanner.atEnd {
+				var matches = 0
+				
+				matches += try parseType("matrix", parser: parseTransformMatrix)
+				matches += try parseType("translate", parser: parseTransformTranslate)
+				
+				if matches == 0 {
+					scanner.scanLocation += 1
+				}
+			}
+			
+			transforms.sortInPlace {
+				return $0.1 > $1.1		// apply from right to left
+			}
+			
+			var concattedTransform = CGAffineTransformIdentity
+			
+			for transform in transforms {
+				concattedTransform = CGAffineTransformConcat(concattedTransform, transform.0)
+			}
+			
+			return concattedTransform
 		}
 		
 		return CGAffineTransformIdentity
 	}
 	
-	private class func parseTransformMatrixWithScanner(scanner: NSScanner) throws -> CGAffineTransform {
+	private class func parseTransformMatrix(scanner: NSScanner) throws -> CGAffineTransform? {
 		if !scanner.scanString("(", intoString: nil) {
 			throw SVGError.MissingOpeningBrace("matrix")
 		}
@@ -154,31 +191,21 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <a>")
 		}
 		
-		scanner.scanString(",", intoString: nil)
-		
 		if !scanner.scanFloat(&b) {
 			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <b>")
 		}
-		
-		scanner.scanString(",", intoString: nil)
 		
 		if !scanner.scanFloat(&c) {
 			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <c>")
 		}
 		
-		scanner.scanString(",", intoString: nil)
-		
 		if !scanner.scanFloat(&d) {
 			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <d>")
 		}
 		
-		scanner.scanString(",", intoString: nil)
-		
 		if !scanner.scanFloat(&tx) {
 			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <e>")
 		}
-		
-		scanner.scanString(",", intoString: nil)
 		
 		if !scanner.scanFloat(&ty) {
 			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <f>")
@@ -187,8 +214,29 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 		if !scanner.scanString(")", intoString: nil) {
 			throw SVGError.MissingClosingBrace("matrix")
 		}
-
+		
 		return CGAffineTransform(a: CGFloat(a), b: CGFloat(b), c: CGFloat(c), d: CGFloat(d), tx: CGFloat(tx), ty: CGFloat(ty))
+	}
+	
+	private class func parseTransformTranslate(scanner: NSScanner) throws -> CGAffineTransform? {
+		if !scanner.scanString("(", intoString: nil) {
+			throw SVGError.MissingOpeningBrace("translate")
+		}
+		
+		var x: Float = 0, y: Float = 0
+		
+		if !scanner.scanFloat(&x) {
+			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "translate", message: "Missing <x>")
+		}
+		
+		// y is optional
+		scanner.scanFloat(&y)
+		
+		if !scanner.scanString(")", intoString: nil) {
+			throw SVGError.MissingClosingBrace("translate")
+		}
+
+		return CGAffineTransformMakeTranslation(CGFloat(x), CGFloat(y))
 	}
 	
 	/// Takes a string containing a hex value and converts it to a SVGColor.  Caches the SVGColor for later use.
