@@ -26,14 +26,6 @@ import XCTest
 @testable import Vectorized
 
 class BezierPathTests: XCTestCase {
-    override func setUp() {
-        super.setUp()
-    }
-    
-    override func tearDown() {
-        super.tearDown()
-    }
-	
 	func testEmptyPathDescriptions() {
 		XCTAssertTrue(SVGBezierPath(SVGPathDescription: "").empty)
 		XCTAssertTrue(SVGBezierPath(SVGPathDescription: "               ").empty)

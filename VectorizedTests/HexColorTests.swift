@@ -26,14 +26,6 @@ import XCTest
 @testable import Vectorized
 
 class HexColorTests: XCTestCase {
-    override func setUp() {
-        super.setUp()
-    }
-    
-    override func tearDown() {
-        super.tearDown()
-    }
-	
 	func testEmptyHex() {
 		XCTAssertNil(SVGColor(hex: ""))
 		XCTAssertNil(SVGColor(hex: "            "))
