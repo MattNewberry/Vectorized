@@ -22,6 +22,7 @@
 		47657E7C1CD2FC3100A4424A /* SVGError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E7B1CD2FC3100A4424A /* SVGError.swift */; };
 		47657E7D1CD2FC3100A4424A /* SVGError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E7B1CD2FC3100A4424A /* SVGError.swift */; };
 		47657E821CD3105C00A4424A /* BezierPathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E811CD3105C00A4424A /* BezierPathTests.swift */; };
+		47657E841CD45AF300A4424A /* ParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47657E831CD45AF300A4424A /* ParserTests.swift */; };
 		476B01DB1CCC8EE2003510D3 /* SVGParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476B01DA1CCC8EE2003510D3 /* SVGParser.swift */; };
 		476BB45A1CCC9AEF000D49E2 /* SVGGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4551CCC9AEF000D49E2 /* SVGGroup.swift */; };
 		476BB45B1CCC9AEF000D49E2 /* SVGLinearGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4561CCC9AEF000D49E2 /* SVGLinearGradient.swift */; };
@@ -113,6 +114,7 @@
 		47657E781CD281A900A4424A /* SVGBezierPath+SVGPathDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SVGBezierPath+SVGPathDescription.swift"; sourceTree = "<group>"; };
 		47657E7B1CD2FC3100A4424A /* SVGError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGError.swift; sourceTree = "<group>"; };
 		47657E811CD3105C00A4424A /* BezierPathTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BezierPathTests.swift; sourceTree = "<group>"; };
+		47657E831CD45AF300A4424A /* ParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParserTests.swift; sourceTree = "<group>"; };
 		476B01C81CCC89F2003510D3 /* Vectorized.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Vectorized.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		476B01CD1CCC89F2003510D3 /* Vectorized-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Vectorized-Info.plist"; sourceTree = "<group>"; };
 		476B01DA1CCC8EE2003510D3 /* SVGParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGParser.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 			children = (
 				47657E691CD27BBF00A4424A /* HexColorTests.swift */,
 				47657E811CD3105C00A4424A /* BezierPathTests.swift */,
+				47657E831CD45AF300A4424A /* ParserTests.swift */,
 				47657E6B1CD27BBF00A4424A /* Info.plist */,
 			);
 			path = VectorizedTests;
@@ -482,6 +485,7 @@
 			files = (
 				47657E6A1CD27BBF00A4424A /* HexColorTests.swift in Sources */,
 				47657E821CD3105C00A4424A /* BezierPathTests.swift in Sources */,
+				47657E841CD45AF300A4424A /* ParserTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
