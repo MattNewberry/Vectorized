@@ -228,8 +228,8 @@
 			isa = PBXGroup;
 			children = (
 				476B01DA1CCC8EE2003510D3 /* SVGParser.swift */,
-				47657E721CD280D200A4424A /* SVGPathCommand.swift */,
 				47657E751CD2816400A4424A /* SVGBezierPath+CommandParser.swift */,
+				47657E721CD280D200A4424A /* SVGPathCommand.swift */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -282,13 +282,13 @@
 			children = (
 				471318561CCDACD1005FEABB /* CrossPlatform.swift */,
 				47657E7B1CD2FC3100A4424A /* SVGError.swift */,
+				476BB46B1CCCACAC000D49E2 /* SVGGraphic.swift */,
 				476BB4551CCC9AEF000D49E2 /* SVGGroup.swift */,
-				476BB4561CCC9AEF000D49E2 /* SVGLinearGradient.swift */,
 				476BB4571CCC9AEF000D49E2 /* SVGPath.swift */,
+				47657E781CD281A900A4424A /* SVGBezierPath+SVGPathDescription.swift */,
+				476BB4561CCC9AEF000D49E2 /* SVGLinearGradient.swift */,
 				476BB4581CCC9AEF000D49E2 /* SVGRadialGradient.swift */,
 				476BB4591CCC9AEF000D49E2 /* SVGText.swift */,
-				476BB46B1CCCACAC000D49E2 /* SVGGraphic.swift */,
-				47657E781CD281A900A4424A /* SVGBezierPath+SVGPathDescription.swift */,
 				471318581CCDB27E005FEABB /* SVGColor+Hex.swift */,
 				476BB46A1CCCA9E3000D49E2 /* Protocols */,
 			);
@@ -699,6 +699,7 @@
 				47657E711CD27BBF00A4424A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		476B01C21CCC89F2003510D3 /* Build configuration list for PBXProject "Vectorized" */ = {
 			isa = XCConfigurationList;
