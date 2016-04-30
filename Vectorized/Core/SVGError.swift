@@ -25,6 +25,8 @@
 import Foundation
 
 public enum SVGError: ErrorType {
+	case NSXMLParserError(NSError)
+	
 	case InvalidPathDescriptionCommand(String)
 	case UnknownPathDescriptionCommand(String)
 }

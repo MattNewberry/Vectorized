@@ -51,7 +51,7 @@ public class SVGLinearGradient: SVGGradient {
 		self.endPoint = endPoint
 		
 		if let gradientTransformString = gradientTransform {
-			transform = SVGParser.transformFromString(gradientTransformString)//CGAffineTransformMake(CGFloat(a), CGFloat(b), CGFloat(c), CGFloat(d), CGFloat(tx), CGFloat(ty))
+			transform = try! SVGParser.transformFromString(gradientTransformString)//CGAffineTransformMake(CGFloat(a), CGFloat(b), CGFloat(c), CGFloat(d), CGFloat(tx), CGFloat(ty))
 		} else {
 			transform = CGAffineTransformIdentity
 		}

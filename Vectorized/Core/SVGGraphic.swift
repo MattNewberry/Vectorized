@@ -62,18 +62,38 @@ public class SVGGraphic: SVGGroup {
 	///
 	/// :param: path A file path to the SVG file
 	/// :returns: an SVGGraphic ready for display in an SVGView
-	public convenience init(path: String) {
-		let (drawables, size) = SVGParser(path: path)!.coreParse()!
-		self.init(drawables: drawables, size: size)
+	public convenience init?(path: String) {
+		do {
+			if let parser = SVGParser(path: path) {
+				if let (drawables, size) = try parser.coreParse() {
+					self.init(drawables: drawables, size: size)
+					return
+				}
+			}
+		} catch {
+			print("The SVG parser encountered an error: \(error)")
+			return nil
+		}
+		
+		return nil
 	}
 	
 	/// Initializes an SVGGraphic with the data provided (should be an XML String)
 	///
 	/// :param: path A file path to the SVG file
 	/// :returns: an SVGGraphic ready for display in an SVGView
-	public convenience init(data: NSData) {
-		let (drawables, size) = SVGParser(data: data).coreParse()!
-		self.init(drawables: drawables, size: size)
+	public convenience init?(data: NSData) {
+		do {
+			if let (drawables, size) = try SVGParser(data: data).coreParse() {
+				self.init(drawables: drawables, size: size)
+				return
+			}
+		} catch {
+			print("The SVG parser encountered an error: \(error)")
+			return nil
+		}
+		
+		return nil
 	}
 	
 	/// Optionally initialies an SVGGraphic with the given name in the main bundle
@@ -82,9 +102,16 @@ public class SVGGraphic: SVGGroup {
 	/// :returns: an SVGGraphic ready for display in an SVGView or nil if no svg exists
 	///			  at the given path
 	public convenience init?(named name: String) {
-		if let path = NSBundle.mainBundle().pathForResource(name, ofType: "svg"), parser = SVGParser(path: path), graphic = parser.parse() {
-			self.init(graphic: graphic)
-			return
+		if let path = NSBundle.mainBundle().pathForResource(name, ofType: "svg"), parser = SVGParser(path: path) {
+			do {
+				if let graphic = try parser.parse() {
+					self.init(graphic: graphic)
+					return
+				}
+			} catch {
+				print("The SVG parser encountered an error: \(error)")
+				return nil
+			}
 		}
 		
 		return nil

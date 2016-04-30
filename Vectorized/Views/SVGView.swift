@@ -78,7 +78,12 @@
 	#endif
 		
 		if let path = bundle.pathForResource(vectorGraphicName, ofType: "svg"), parser = SVGParser(path: path) {
-			vectorGraphic = parser.parse()
+			do {
+				vectorGraphic = try parser.parse()
+			} catch {
+				Swift.print("\(self): The SVG parser encountered an error: \(error)")
+				vectorGraphic = nil
+			}
 		} else {
 			Swift.print("\(self): SVG resource named '\(vectorGraphicName!)' was not found!")
 			vectorGraphic = nil

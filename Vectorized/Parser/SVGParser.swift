@@ -52,6 +52,7 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	}
 	
 	internal let parserId: String = NSUUID().UUIDString
+	internal var parserError: ErrorType?
 	
 	private var parser: NSXMLParser
 	private var svgViewBox: CGRect = CGRectZero
@@ -100,8 +101,8 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	/// Parse the supplied SVG file and return an SVGGraphic
 	///
 	/// :returns: an SVGImageVector ready for display
-	internal func parse() -> SVGGraphic? {
-		if let (drawables, size) = coreParse() {
+	internal func parse() throws -> SVGGraphic? {
+		if let (drawables, size) = try coreParse() {
 			return SVGGraphic(drawables: drawables, size: size)
 		}
 		
@@ -111,9 +112,18 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	/// Parse the supplied SVG file and return the components of an SVGGraphic
 	///
 	/// :returns: a tuple containing the SVGDrawable array and the size of the SVGGraphic
-	internal func coreParse() -> ([SVGDrawable], CGSize)? {
+	internal func coreParse() throws -> ([SVGDrawable], CGSize)? {
 		if parser.parse() {
+			if let error = parserError {
+				throw error
+			}
+			
 			return (drawables, svgViewBox.size)
+		}
+		
+		if let error = parser.parserError {
+			parserError = SVGError.NSXMLParserError(error)
+			throw parserError!
 		}
 		
 		return nil
@@ -123,7 +133,7 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	///
 	/// :param: string The transformation String
 	/// :returns: A CGAffineTransform
-	internal class func transformFromString(transformString: String?) -> CGAffineTransform {
+	internal class func transformFromString(transformString: String?) throws -> CGAffineTransform {
 		if let string = transformString {
 			let scanner = NSScanner(string: string)
 			
@@ -220,7 +230,7 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	/// for later use.	If we're not currently defining <defs> then we'll interpret it as a rectangular path.
 	///
 	/// :param: attributeDict The attributes from the XML element - currently "x", "y", "width", "height", "id", "opacity", "fill" are supported.
-	private func addRect(attributeDict: [String: String]) {
+	private func addRect(attributeDict: [String: String]) throws {
 		let id = attributeDict["id"]
 		let originX = CGFloat(Float(attributeDict["x"] ?? "") ?? 0.0)
 		let originY = CGFloat(Float(attributeDict["y"] ?? "") ?? 0.0)
@@ -237,7 +247,7 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 		} else {
 			let bezierPath = SVGBezierPath(rect: rect)
 			
-			bezierPath.applyTransform(SVGParser.transformFromString(attributeDict["transform"]))
+			bezierPath.applyTransform(try SVGParser.transformFromString(attributeDict["transform"]))
 			createSVGPath(bezierPath, attributeDict: attributeDict)
 		}
 	}
@@ -294,7 +304,7 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	/// Adds an ellipse defined by the attributes
 	///
 	/// :param: attributeDict the attributes defined by the XML
-	private func addEllipse(attributeDict: [String: String]){
+	private func addEllipse(attributeDict: [String: String]) throws {
 		let id = attributeDict["id"]
 		let centerX = CGFloat(Float(attributeDict["cx"] ?? "") ?? 0.0)
 		let centerY = CGFloat(Float(attributeDict["cy"] ?? "") ?? 0.0)
@@ -311,7 +321,7 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 				print("Defining defs, but didn't find id for rect")
 			}
 		} else {
-			bezierPath.applyTransform(SVGParser.transformFromString(attributeDict["transform"]))
+			bezierPath.applyTransform(try SVGParser.transformFromString(attributeDict["transform"]))
 			bezierPath.applyTransform(CGAffineTransformMakeTranslation(-svgViewBox.origin.x, -svgViewBox.origin.y))
 			createSVGPath(bezierPath, attributeDict: attributeDict)
 		}
@@ -376,14 +386,14 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 		}
 	}
 	
-	private func beginText(attributeDict: [String: String]){
+	private func beginText(attributeDict: [String: String]) throws {
 		var fill: SVGFillable? = nil
 		
 		if let attr = itemIDOrHexFromAttribute(attributeDict["fill"]){
 			fill = gradients[attr] ?? addColor(attr)
 		}
 		
-		let transform = SVGParser.transformFromString(attributeDict["transform"])
+		let transform = try SVGParser.transformFromString(attributeDict["transform"])
 		let text = SVGText()
 		
 		text.identifier = attributeDict["id"]
@@ -490,54 +500,63 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 		}
 	}
 	
+	private func abortParsingWithError(error: ErrorType) {
+		parserError = error
+		parser.abortParsing()
+	}
+	
 	//MARK: NSXMLParserDelegate
 	
 	@objc internal func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String: String]) {
 		if let elementNameEnum = ElementName(rawValue: elementName) {
-			switch elementNameEnum {
-			case .SVG:
-				setViewBox(attributeDict)
-				
-			case .RadialGradient:
-				lastGradient = SVGRadialGradient(attributeDict: attributeDict, viewBox:svgViewBox)
-				
-			case .LinearGradient:
-				lastGradient = SVGLinearGradient(attributeDict: attributeDict, viewBox:svgViewBox)
-				
-			case .Stop:
-				addStop(attributeDict)
-				
-			case .Defs:
-				definingDefs = true
-				
-			case .Rect:
-				addRect(attributeDict)
-				
-			case .Path:
-				addPath(attributeDict)
-				
-			case .G:
-				beginGroup(attributeDict)
-				
-			case .Polygon:
-				addPolygon(attributeDict)
-				
-			case .ClipPath:
-				beginClippingPath(attributeDict)
-				
-			case .Use:
-				addUse(attributeDict)
-				
-			case .Text:
-				beginText(attributeDict)
-				
-			case .Polyline:
-				addPolyline(attributeDict)
-				
-			case .Ellipse:
-				addEllipse(attributeDict)
-				
-			//default: break
+			do {
+				switch elementNameEnum {
+				case .SVG:
+					setViewBox(attributeDict)
+					
+				case .RadialGradient:
+					lastGradient = SVGRadialGradient(attributeDict: attributeDict, viewBox: svgViewBox)
+					
+				case .LinearGradient:
+					lastGradient = SVGLinearGradient(attributeDict: attributeDict, viewBox: svgViewBox)
+					
+				case .Stop:
+					addStop(attributeDict)
+					
+				case .Defs:
+					definingDefs = true
+					
+				case .Rect:
+					try addRect(attributeDict)
+					
+				case .Path:
+					addPath(attributeDict)
+					
+				case .G:
+					beginGroup(attributeDict)
+					
+				case .Polygon:
+					addPolygon(attributeDict)
+					
+				case .ClipPath:
+					beginClippingPath(attributeDict)
+					
+				case .Use:
+					addUse(attributeDict)
+					
+				case .Text:
+					try beginText(attributeDict)
+					
+				case .Polyline:
+					addPolyline(attributeDict)
+					
+				case .Ellipse:
+					try addEllipse(attributeDict)
+					
+				//default: break
+				}
+			} catch {
+				abortParsingWithError(error)
 			}
 		}
 	}

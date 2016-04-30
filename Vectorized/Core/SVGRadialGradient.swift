@@ -52,7 +52,7 @@ public class SVGRadialGradient: SVGGradient {
 		self.radius = radius
 		
 		if let gradientTransform = gradientTransform {
-			transform = SVGParser.transformFromString(gradientTransform)
+			transform = try! SVGParser.transformFromString(gradientTransform)
 		} else {
 			transform = CGAffineTransformIdentity
 		}
