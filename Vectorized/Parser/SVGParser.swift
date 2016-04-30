@@ -135,52 +135,60 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 		if let string = transformString {
 			let scanner = NSScanner(string: string)
 			
-			if scanner.scanString("matrix(", intoString: nil) {
-				var a: Float = 0, b: Float = 0, c: Float = 0, d: Float = 0, tx: Float = 0, ty: Float = 0
-				
-				if !scanner.scanFloat(&a) {
-					throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <a>")
-				}
-				
-				scanner.scanString(",", intoString: nil)
-				
-				if !scanner.scanFloat(&b) {
-					throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <b>")
-				}
-				
-				scanner.scanString(",", intoString: nil)
-				
-				if !scanner.scanFloat(&c) {
-					throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <c>")
-				}
-				
-				scanner.scanString(",", intoString: nil)
-				
-				if !scanner.scanFloat(&d) {
-					throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <d>")
-				}
-				
-				scanner.scanString(",", intoString: nil)
-				
-				if !scanner.scanFloat(&tx) {
-					throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <e>")
-				}
-				
-				scanner.scanString(",", intoString: nil)
-				
-				if !scanner.scanFloat(&ty) {
-					throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <f>")
-				}
-				
-				if !scanner.scanString(")", intoString:nil) {
-					throw SVGError.MissingClosingBrace("matrix(")
-				}
-				
-				return CGAffineTransform(a: CGFloat(a), b: CGFloat(b), c: CGFloat(c), d: CGFloat(d), tx: CGFloat(tx), ty: CGFloat(ty))
+			if scanner.scanString("matrix", intoString: nil) {
+				return try parseTransformMatrixWithScanner(scanner)
 			}
 		}
 		
 		return CGAffineTransformIdentity
+	}
+	
+	private class func parseTransformMatrixWithScanner(scanner: NSScanner) throws -> CGAffineTransform {
+		if !scanner.scanString("(", intoString: nil) {
+			throw SVGError.MissingOpeningBrace("matrix")
+		}
+		
+		var a: Float = 0, b: Float = 0, c: Float = 0, d: Float = 0, tx: Float = 0, ty: Float = 0
+		
+		if !scanner.scanFloat(&a) {
+			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <a>")
+		}
+		
+		scanner.scanString(",", intoString: nil)
+		
+		if !scanner.scanFloat(&b) {
+			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <b>")
+		}
+		
+		scanner.scanString(",", intoString: nil)
+		
+		if !scanner.scanFloat(&c) {
+			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <c>")
+		}
+		
+		scanner.scanString(",", intoString: nil)
+		
+		if !scanner.scanFloat(&d) {
+			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <d>")
+		}
+		
+		scanner.scanString(",", intoString: nil)
+		
+		if !scanner.scanFloat(&tx) {
+			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <e>")
+		}
+		
+		scanner.scanString(",", intoString: nil)
+		
+		if !scanner.scanFloat(&ty) {
+			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <f>")
+		}
+		
+		if !scanner.scanString(")", intoString: nil) {
+			throw SVGError.MissingClosingBrace("matrix")
+		}
+
+		return CGAffineTransform(a: CGFloat(a), b: CGFloat(b), c: CGFloat(c), d: CGFloat(d), tx: CGFloat(tx), ty: CGFloat(ty))
 	}
 	
 	/// Takes a string containing a hex value and converts it to a SVGColor.  Caches the SVGColor for later use.

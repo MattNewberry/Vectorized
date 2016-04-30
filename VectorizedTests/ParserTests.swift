@@ -65,12 +65,26 @@ class ParserTests: XCTestCase {
 		
 		transform = transformFromStringNoFail("matrix(        1.0000000    2.0  3.0000    4     5      6         )")
 		XCTAssertTrue(CGAffineTransformEqualToTransform(comparison, transform), "\(transform)")
+		
+		transform = transformFromStringNoFail("matrix       (1 2 3 4 5 6)")
+		XCTAssertTrue(CGAffineTransformEqualToTransform(comparison, transform), "\(transform)")
 	}
 	
 	func testTransformFromStringMatrixCommaSeparated() {
 		let comparison = CGAffineTransform(a: 1, b: 2, c: 3, d: 4, tx: 5, ty: 6)
 
-		let transform = transformFromStringNoFail("matrix(1,2,3,4,5,6)")
+		var transform = transformFromStringNoFail("matrix(1,2,3,4,5,6)")
 		XCTAssertTrue(CGAffineTransformEqualToTransform(comparison, transform), "\(transform)")
+		
+		transform = transformFromStringNoFail("matrix(     1,2.0000,    3.0     ,   4    , 5,6      )")
+		XCTAssertTrue(CGAffineTransformEqualToTransform(comparison, transform), "\(transform)")
+	}
+	
+	func testTransformFromStringMatrixMalformed() {
+		XCTAssertThrowsError(try SVGParser.transformFromString("matrix"))
+		XCTAssertThrowsError(try SVGParser.transformFromString("matrix(0)"))
+		XCTAssertThrowsError(try SVGParser.transformFromString("matrix ( 1 2 3 4 5 )"))
+		XCTAssertThrowsError(try SVGParser.transformFromString("matrix(1,2,3,4,5,6"))
+		XCTAssertThrowsError(try SVGParser.transformFromString("matrix(this is a garbage value)"))
 	}
 }

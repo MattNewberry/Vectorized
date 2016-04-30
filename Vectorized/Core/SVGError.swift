@@ -26,6 +26,7 @@ import Foundation
 
 public enum SVGError: ErrorType {
 	case InvalidAttributeValue(attribute: String, value: String, message: String)
+	case MissingOpeningBrace(String)
 	case MissingClosingBrace(String)
 	
 	case InvalidPathDescriptionCommand(String)
