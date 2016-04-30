@@ -32,8 +32,26 @@ import CoreGraphics
 /// A Parser which takes in a .svg file and spits out an SVGGraphic for display
 /// Begin your interaction with the parser by initializing it with a path and calling
 /// parse() to retrieve an SVGGraphic.  Safe to call on a background thread.
-public class SVGParser: NSObject, NSXMLParserDelegate {
-    public let parserId: String = NSUUID().UUIDString
+internal class SVGParser: NSObject, NSXMLParserDelegate {
+	// Enumeration defining the possible XML tags in an SVG file
+	enum ElementName: String {
+		case SVG = "svg"
+		case G = "g"
+		case Defs = "defs"
+		case Rect = "rect"
+		case Use = "use"
+		case RadialGradient = "radialGradient"
+		case LinearGradient = "linearGradient"
+		case Stop = "stop"
+		case Path = "path"
+		case Polygon = "polygon"
+		case ClipPath = "clipPath"
+		case Text = "text"
+		case Polyline = "polyline"
+		case Ellipse = "ellipse"
+	}
+	
+    internal let parserId: String = NSUUID().UUIDString
 	
 	private var parser: NSXMLParser?
 	private var svgViewBox: CGRect = CGRectZero
@@ -52,7 +70,7 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
     ///
     /// :param: path The path to the SVG file
     /// :returns: An SVGParser ready to parse()
-    public init(path: String) {
+    internal init(path: String) {
         let url = NSURL(fileURLWithPath: path)
 		
         if let parser = NSXMLParser(contentsOfURL: url) {
@@ -62,14 +80,14 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
         }
     }
     
-    public init(data: NSData) {
+    internal init(data: NSData) {
         parser = NSXMLParser(data: data)
     }
     
     /// Parse the supplied SVG file and return an SVGGraphic
     ///
     /// :returns: an SVGImageVector ready for display
-    public func parse() -> SVGGraphic {
+    internal func parse() -> SVGGraphic {
         let (drawables, size) = coreParse()
 		
         return SVGGraphic(drawables: drawables, size: size)
@@ -78,7 +96,7 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
     /// Parse the supplied SVG file and return the components of an SVGGraphic
     ///
     /// :returns: a tuple containing the SVGDrawable array and the size of the SVGGraphic
-    public func coreParse() -> ([SVGDrawable], CGSize) {
+    internal func coreParse() -> ([SVGDrawable], CGSize) {
         parser?.delegate = self
         parser?.parse()
 		
@@ -89,7 +107,7 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
     ///
     /// :param: string The transformation String
     /// :returns: A CGAffineTransform
-    public class func transformFromString(transformString: String?) -> CGAffineTransform {
+    internal class func transformFromString(transformString: String?) -> CGAffineTransform {
         if let string = transformString {
             let scanner = NSScanner(string: string)
 			
@@ -110,13 +128,11 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
         }
     }
 	
-
-
     /// Takes a string containing a hex value and converts it to a SVGColor.  Caches the SVGColor for later use.
     ///
     /// :param: potentialHexString the string potentially containing a hex value to parse into a SVGColor
     /// :returns: SVGColor representation of the hex string - or nil if no hex string is found
-    public func addColor(potentialHexString: String?) -> SVGColor? {
+    private func addColor(potentialHexString: String?) -> SVGColor? {
 		guard potentialHexString != "none" else { return SVGColor.clearColor() }
 		
         if let potentialHexString = potentialHexString {
@@ -135,7 +151,7 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
     /// Parses a viewBox string and sets the view box of the SVG
     ///
     /// :param: attributeDict the attribute dictionary from the SVG element form which to extract a view box
-    public func setViewBox(attributeDict: [String: String]) {
+    private func setViewBox(attributeDict: [String: String]) {
         if let viewBox = attributeDict["viewBox"] {
             let floats: [CGFloat] = viewBox.componentsSeparatedByString(" ").map {
 				CGFloat(Float($0) ?? 0.0)
@@ -188,7 +204,7 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
     /// for later use.  If we're not currently defining <defs> then we'll interpret it as a rectangular path.
     ///
     /// :param: attributeDict The attributes from the XML element - currently "x", "y", "width", "height", "id", "opacity", "fill" are supported.
-    public func addRect(attributeDict: [String: String]) {
+    private func addRect(attributeDict: [String: String]) {
         let id = attributeDict["id"]
 		let originX = CGFloat(Float(attributeDict["x"] ?? "") ?? 0.0)
         let originY = CGFloat(Float(attributeDict["y"] ?? "") ?? 0.0)
@@ -460,7 +476,7 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
     
     //MARK: NSXMLParserDelegate
     
-    @objc public func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String: String]) {
+    @objc internal func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String: String]) {
         if let elementNameEnum = ElementName(rawValue: elementName) {
             switch elementNameEnum {
             case .SVG:
@@ -510,7 +526,7 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
         }
     }
     
-    @objc public func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+    @objc internal func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if let elementNameEnum = ElementName(rawValue: elementName) {
             switch elementNameEnum {
             case .RadialGradient:
@@ -546,33 +562,12 @@ public class SVGParser: NSObject, NSXMLParserDelegate {
         }
     }
     
-    @objc public func parser(parser: NSXMLParser, foundCharacters string: String) {
+    @objc internal func parser(parser: NSXMLParser, foundCharacters string: String) {
         lastText?.text = string
     }
 	
-    @objc public func parserDidEndDocument(parser: NSXMLParser) {
+    @objc internal func parserDidEndDocument(parser: NSXMLParser) {
         parser.delegate = self
         self.parser = nil
     }
-    
-    
-    //MARK: Constants
-    // Enumeration defining the possible XML tags in an SVG file
-    enum ElementName: String {
-        case SVG = "svg"
-        case G = "g"
-        case Defs = "defs"
-        case Rect = "rect"
-        case Use = "use"
-        case RadialGradient = "radialGradient"
-        case LinearGradient = "linearGradient"
-        case Stop = "stop"
-        case Path = "path"
-        case Polygon = "polygon"
-        case ClipPath = "clipPath"
-        case Text = "text"
-        case Polyline = "polyline"
-        case Ellipse = "ellipse"
-    }
-    
 }

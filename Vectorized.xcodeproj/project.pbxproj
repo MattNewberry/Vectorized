@@ -112,7 +112,7 @@
 		47657E751CD2816400A4424A /* SVGBezierPath+CommandParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SVGBezierPath+CommandParser.swift"; sourceTree = "<group>"; };
 		47657E781CD281A900A4424A /* SVGBezierPath+SVGPathDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SVGBezierPath+SVGPathDescription.swift"; sourceTree = "<group>"; };
 		47657E7B1CD2FC3100A4424A /* SVGError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGError.swift; sourceTree = "<group>"; };
-		47657E811CD3105C00A4424A /* BezierPathTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BezierPathTests.swift; path = VectorizedTests/BezierPathTests.swift; sourceTree = "<group>"; };
+		47657E811CD3105C00A4424A /* BezierPathTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BezierPathTests.swift; sourceTree = "<group>"; };
 		476B01C81CCC89F2003510D3 /* Vectorized.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Vectorized.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		476B01CD1CCC89F2003510D3 /* Vectorized-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Vectorized-Info.plist"; sourceTree = "<group>"; };
 		476B01DA1CCC8EE2003510D3 /* SVGParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGParser.swift; sourceTree = "<group>"; };
@@ -236,6 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				47657E691CD27BBF00A4424A /* HexColorTests.swift */,
+				47657E811CD3105C00A4424A /* BezierPathTests.swift */,
 				47657E6B1CD27BBF00A4424A /* Info.plist */,
 			);
 			path = VectorizedTests;
@@ -244,7 +245,6 @@
 		476B01BE1CCC89F2003510D3 = {
 			isa = PBXGroup;
 			children = (
-				47657E811CD3105C00A4424A /* BezierPathTests.swift */,
 				476B01CA1CCC89F2003510D3 /* Vectorized */,
 				47657E681CD27BBF00A4424A /* VectorizedTests */,
 				471318411CCDA8D8005FEABB /* Configurations */,
