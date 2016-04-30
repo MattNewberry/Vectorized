@@ -113,7 +113,7 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 			
             scanner.scanString("matrix(", intoString: nil)
 			
-            var a:Float = 0, b:Float = 0, c:Float = 0, d:Float = 0, tx:Float = 0, ty:Float = 0
+            var a: Float = 0, b: Float = 0, c: Float = 0, d: Float = 0, tx: Float = 0, ty: Float = 0
 			
             scanner.scanFloat(&a)
             scanner.scanFloat(&b)
@@ -123,9 +123,9 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
             scanner.scanFloat(&ty)
 			
             return CGAffineTransform(a: CGFloat(a), b: CGFloat(b), c: CGFloat(c), d: CGFloat(d), tx: CGFloat(tx), ty: CGFloat(ty))
-        } else {
-            return CGAffineTransformIdentity
         }
+		
+		return CGAffineTransformIdentity
     }
 	
     /// Takes a string containing a hex value and converts it to a SVGColor.  Caches the SVGColor for later use.
