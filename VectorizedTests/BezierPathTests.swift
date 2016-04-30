@@ -38,4 +38,9 @@ class BezierPathTests: XCTestCase {
 		XCTAssertTrue(SVGBezierPath(SVGPathDescription: "").empty)
 		XCTAssertTrue(SVGBezierPath(SVGPathDescription: "               ").empty)
 	}
+	
+	func testGarbagePathDescriptions() {
+		XCTAssertNil(SVGBezierPath(SVGPathDescription: "1230975892yqasdAM;v:DSLAmkp920u523"))
+		XCTAssertNil(SVGBezierPath(SVGPathDescription: "this is not a real path description!!!"))
+	}
 }
