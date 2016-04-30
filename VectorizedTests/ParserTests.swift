@@ -33,14 +33,15 @@ class ParserTests: XCTestCase {
 	
 	func testNonexistentParse() {
 		let parser = SVGParser(path: "non_existent.xml")!
-		
-		XCTAssertNil(parser.parse())
+
+		XCTAssertThrowsError(try parser.parse())
 		XCTAssertNotNil(parser.parserError)
+		print("\(parser.parserError!)")
 	}
 	
 	func testTransformFromStringEmpty() {
-		XCTAssertTrue(CGAffineTransformIsIdentity(SVGParser.transformFromString(nil)))
-		XCTAssertTrue(CGAffineTransformIsIdentity(SVGParser.transformFromString("")))
-		XCTAssertTrue(CGAffineTransformIsIdentity(SVGParser.transformFromString("            ")))
+		XCTAssertTrue(CGAffineTransformIsIdentity(try! SVGParser.transformFromString(nil)))
+		XCTAssertTrue(CGAffineTransformIsIdentity(try! SVGParser.transformFromString("")))
+		XCTAssertTrue(CGAffineTransformIsIdentity(try! SVGParser.transformFromString("            ")))
 	}
 }
