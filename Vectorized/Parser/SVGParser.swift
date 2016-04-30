@@ -70,14 +70,19 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
     ///
     /// :param: path The path to the SVG file
     /// :returns: An SVGParser ready to parse()
-    internal convenience init(path: String) {
+    internal convenience init?(path: String) {
+		if path.isEmpty {
+			return nil
+		}
+		
         let url = NSURL(fileURLWithPath: path)
 		
         if let parser = NSXMLParser(contentsOfURL: url) {
 			self.init(parser: parser)
-        } else {
-            fatalError("SVGParser could not find an SVG at the given path: \(path)")
+			return
         }
+		
+		return nil
     }
     
     internal convenience init(data: NSData) {
@@ -95,19 +100,23 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
     /// Parse the supplied SVG file and return an SVGGraphic
     ///
     /// :returns: an SVGImageVector ready for display
-    internal func parse() -> SVGGraphic {
-        let (drawables, size) = coreParse()
+    internal func parse() -> SVGGraphic? {
+		if let (drawables, size) = coreParse() {
+			return SVGGraphic(drawables: drawables, size: size)
+		}
 		
-        return SVGGraphic(drawables: drawables, size: size)
+		return nil
     }
     
     /// Parse the supplied SVG file and return the components of an SVGGraphic
     ///
     /// :returns: a tuple containing the SVGDrawable array and the size of the SVGGraphic
-    internal func coreParse() -> ([SVGDrawable], CGSize) {
-        parser.parse()
+    internal func coreParse() -> ([SVGDrawable], CGSize)? {
+		if parser.parse() {
+			return (drawables, svgViewBox.size)
+		}
 		
-        return (drawables, svgViewBox.size)
+		return nil
     }
     
     /// Parse a transform matrix string "matrix(a,b,c,d,tx,ty)" and return a CGAffineTransform

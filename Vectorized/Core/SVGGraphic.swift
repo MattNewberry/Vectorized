@@ -45,14 +45,14 @@ public class SVGGraphic: SVGGroup {
     /// :returns: An SVGGraphic ready for display in an SVGView
     public init(drawables: [SVGDrawable], size: CGSize) {
         self.size = size
-        super.init(drawables:drawables)
+        super.init(drawables: drawables)
     }
     
     /// initializes an SVGGraphic with the contents of another SVGGraphic
     ///
     /// :param: graphic another vector image to take the contents of
     /// :returns: an SVGGraphic ready for display in an SVGView
-    public init(graphic: SVGGraphic){
+    public init(graphic: SVGGraphic) {
         self.size = graphic.size
         super.init(drawables: graphic.drawables)
     }
@@ -63,7 +63,7 @@ public class SVGGraphic: SVGGroup {
     /// :param: path A file path to the SVG file
     /// :returns: an SVGGraphic ready for display in an SVGView
     public convenience init(path: String) {
-        let (drawables, size) = SVGParser(path: path).coreParse()
+        let (drawables, size) = SVGParser(path: path)!.coreParse()!
         self.init(drawables: drawables, size: size)
     }
     
@@ -72,7 +72,7 @@ public class SVGGraphic: SVGGroup {
     /// :param: path A file path to the SVG file
     /// :returns: an SVGGraphic ready for display in an SVGView
     public convenience init(data: NSData) {
-        let (drawables, size) = SVGParser(data: data).coreParse()
+        let (drawables, size) = SVGParser(data: data).coreParse()!
         self.init(drawables: drawables, size: size)
     }
     
@@ -82,13 +82,12 @@ public class SVGGraphic: SVGGroup {
     /// :returns: an SVGGraphic ready for display in an SVGView or nil if no svg exists
     ///           at the given path
     public convenience init?(named name: String) {
-        if let path = NSBundle.mainBundle().pathForResource(name, ofType: "svg") {
-            let vector = SVGParser(path: path).parse()
-            self.init(graphic: vector)
-        } else {
-            self.init(drawables: [], size: CGSizeZero)
-            return nil
+		if let path = NSBundle.mainBundle().pathForResource(name, ofType: "svg"), parser = SVGParser(path: path), graphic = parser.parse() {
+            self.init(graphic: graphic)
+			return
         }
+		
+		return nil
     }
 	
     /// Renders the vector image to a raster UIImage

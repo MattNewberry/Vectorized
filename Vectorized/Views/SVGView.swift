@@ -77,11 +77,10 @@
 		let bundle = NSBundle(forClass: self.dynamicType)
 	#endif
 		
-		if let path = bundle.pathForResource(vectorGraphicName, ofType: "svg") {
-			vectorGraphic = SVGParser(path: path).parse()
+		if let path = bundle.pathForResource(vectorGraphicName, ofType: "svg"), vectorGraphic = SVGParser(path: path) {
+			vectorGraphic.parse()
 		} else {
 			Swift.print("\(self): SVG resource named '\(vectorGraphicName!)' was not found!")
-			
 			vectorGraphic = nil
 		}
 	}
