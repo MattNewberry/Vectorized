@@ -158,7 +158,8 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 				
 				matches += try parseType("matrix", parser: parseTransformMatrix)
 				matches += try parseType("translate", parser: parseTransformTranslate)
-				
+				matches += try parseType("scale", parser: parseTransformScale)
+
 				if matches == 0 {
 					scanner.scanLocation += 1
 				}
@@ -237,6 +238,27 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 		}
 
 		return CGAffineTransformMakeTranslation(CGFloat(x), CGFloat(y))
+	}
+	
+	private class func parseTransformScale(scanner: NSScanner) throws -> CGAffineTransform? {
+		if !scanner.scanString("(", intoString: nil) {
+			throw SVGError.MissingOpeningBrace("translate")
+		}
+		
+		var x: Float = 0, y: Float = 0
+		
+		if !scanner.scanFloat(&x) {
+			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "scale", message: "Missing <x>")
+		}
+		
+		// y is optional
+		scanner.scanFloat(&y)
+		
+		if !scanner.scanString(")", intoString: nil) {
+			throw SVGError.MissingClosingBrace("scale")
+		}
+		
+		return CGAffineTransformMakeScale(CGFloat(x), CGFloat(y))
 	}
 	
 	/// Takes a string containing a hex value and converts it to a SVGColor.  Caches the SVGColor for later use.

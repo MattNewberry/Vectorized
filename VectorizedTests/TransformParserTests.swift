@@ -90,6 +90,13 @@ class TransformParserTests: XCTestCase {
 		XCTAssertTrue(CGAffineTransformEqualToTransform(comparison, transform), "\(transform)")
 	}
 	
+	func testScale() {
+		let comparison = CGAffineTransform(a: 15, b: 0, c: 0, d: 30, tx: 0, ty: 0)
+		let transform = transformFromStringNoFail("scale(15, 30)")
+		
+		XCTAssertTrue(CGAffineTransformEqualToTransform(comparison, transform), "\(transform)")
+	}
+	
 	func testCombinedCommands() {
 		var comparison = CGAffineTransformConcat(CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 5, ty: 6), CGAffineTransform(a: 1, b: 2, c: 3, d: 4, tx: 5, ty: 6))
 		var transform = transformFromStringNoFail("matrix(1 2 3 4 5 6) translate(5,6)")
