@@ -25,10 +25,12 @@
 import Foundation
 
 public enum SVGError: ErrorType {
-	case NSXMLParserError(NSError)
+	case InvalidAttributeValue(attribute: String, value: String, message: String)
+	case MissingClosingBrace(String)
 	
 	case InvalidPathDescriptionCommand(String)
 	case UnknownPathDescriptionCommand(String)
 	
+	case NSXMLParserError(NSError)
 	case UnknownParserFailure
 }
