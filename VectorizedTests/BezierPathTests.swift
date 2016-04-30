@@ -28,7 +28,7 @@ import XCTest
 class BezierPathTests: XCTestCase {
 	func testEmptyPathDescriptions() {
 		XCTAssertTrue(SVGBezierPath(SVGPathDescription: "").empty)
-		XCTAssertTrue(SVGBezierPath(SVGPathDescription: "				").empty)
+		XCTAssertTrue(SVGBezierPath(SVGPathDescription: "                   ").empty)
 	}
 	
 	func testGarbagePathDescriptions() {

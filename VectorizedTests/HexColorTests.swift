@@ -28,7 +28,7 @@ import XCTest
 class HexColorTests: XCTestCase {
 	func testEmptyHex() {
 		XCTAssertNil(SVGColor(hex: ""))
-		XCTAssertNil(SVGColor(hex: "			"))
+		XCTAssertNil(SVGColor(hex: "          "))
 	}
 	
 	func testRandomStrings() {
