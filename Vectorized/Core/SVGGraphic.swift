@@ -96,7 +96,7 @@ public class SVGGraphic: SVGGroup {
     /// :param: size the size of the UIImage to be returned
     /// :param: contentMode the contentMode to use for rendering, some values may effect the output size
     /// :returns: a UIImage containing a raster representation of the SVGGraphic
-    public func renderToImage(size size: CGSize, contentMode: SVGViewContentMode = .ScaleToFill) -> SVGImage {
+    public func renderToImage(size size: CGSize, contentMode: SVGContentMode = .ScaleToFill) -> SVGImage {
         let targetSize = sizeWithTargetSize(size, contentMode: contentMode)
         let scale = scaleWithTargetSize(size, contentMode: contentMode)
 		let image: SVGImage
@@ -134,7 +134,7 @@ public class SVGGraphic: SVGGroup {
     /// :param: size The size to render at
     /// :param: contentMode the contentMode to use for rendering
     /// :returns: the size to render at
-    internal func sizeWithTargetSize(size: CGSize, contentMode: SVGViewContentMode) -> CGSize {
+    internal func sizeWithTargetSize(size: CGSize, contentMode: SVGContentMode) -> CGSize {
         let targetSize = self.size
         let bounds = size
 		
@@ -167,7 +167,7 @@ public class SVGGraphic: SVGGroup {
     /// :param: size The size to render at
     /// :param: contentMode the contentMode to use for rendering
     /// :returns: the translation to apply when rendering
-    internal func translationWithTargetSize(size: CGSize, contentMode: SVGViewContentMode) -> CGPoint {
+    internal func translationWithTargetSize(size: CGSize, contentMode: SVGContentMode) -> CGPoint {
         let targetSize = self.size
         let bounds = size
         var newSize: CGSize
@@ -221,7 +221,7 @@ public class SVGGraphic: SVGGroup {
     /// :param: size The size to render at
     /// :param: contentMode the contentMode to use for rendering
     /// :returns: the scale to apply to the context when rendering
-    internal func scaleWithTargetSize(size: CGSize, contentMode: SVGViewContentMode) -> CGSize {
+    internal func scaleWithTargetSize(size: CGSize, contentMode: SVGContentMode) -> CGSize {
         let targetSize = self.size
         let bounds = size
 		

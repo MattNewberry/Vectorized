@@ -45,7 +45,7 @@
 	}
 	
 #if os(OSX)
-	public var contentMode: SVGViewContentMode = .Center {
+	public var contentMode: SVGContentMode = .Center {
 		didSet {
 			setNeedsDisplay()
 		}

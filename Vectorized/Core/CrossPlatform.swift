@@ -31,7 +31,7 @@
 	public typealias SVGFont = NSFont
 	public typealias SVGImage = NSImage
 	
-	public enum SVGViewContentMode: Int {
+	public enum SVGContentMode: Int {
 		case ScaleToFill
 		case ScaleAspectFit
 		case ScaleAspectFill
@@ -107,7 +107,7 @@
 	public typealias SVGFont = UIFont
 	public typealias SVGImage = UIImage
 	
-	public typealias SVGViewContentMode = UIViewContentMode
+	public typealias SVGContentMode = UIViewContentMode
 	
 	public func SVGGraphicsGetCurrentContext() -> CGContextRef? {
 		return UIGraphicsGetCurrentContext()
