@@ -159,7 +159,8 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 				matches += try parseType("matrix", parser: parseTransformMatrix)
 				matches += try parseType("translate", parser: parseTransformTranslate)
 				matches += try parseType("scale", parser: parseTransformScale)
-
+				matches += try parseType("rotate", parser: parseTransformRotate)
+				
 				if matches == 0 {
 					scanner.scanLocation += 1
 				}
@@ -259,6 +260,37 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 		}
 		
 		return CGAffineTransformMakeScale(CGFloat(x), CGFloat(y))
+	}
+	
+	private class func parseTransformRotate(scanner: NSScanner) throws -> CGAffineTransform? {
+		var transform: CGAffineTransform
+		
+		if !scanner.scanString("(", intoString: nil) {
+			throw SVGError.MissingOpeningBrace("translate")
+		}
+		
+		var angle: Float = 0, x: Float = 0, y: Float = 0
+		
+		if !scanner.scanFloat(&angle) {
+			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "rotate", message: "Missing <a>")
+		}
+		
+		// [x, y] pair is optional
+		if scanner.scanFloat(&x) {
+			if !scanner.scanFloat(&y) {
+				throw SVGError.InvalidAttributeValue(attribute: "transform", value: "rotate", message: "Missing <y> to go with <x>")
+			}
+		}
+		
+		if !scanner.scanString(")", intoString: nil) {
+			throw SVGError.MissingClosingBrace("scale")
+		}
+		
+		transform = CGAffineTransformMakeTranslation(CGFloat(x), CGFloat(y))
+		transform = CGAffineTransformRotate(transform, CGFloat(angle))
+		transform = CGAffineTransformTranslate(transform, CGFloat(-x), CGFloat(-y))
+		
+		return transform
 	}
 	
 	/// Takes a string containing a hex value and converts it to a SVGColor.  Caches the SVGColor for later use.

@@ -91,10 +91,35 @@ class TransformParserTests: XCTestCase {
 	}
 	
 	func testScale() {
-		let comparison = CGAffineTransform(a: 15, b: 0, c: 0, d: 30, tx: 0, ty: 0)
-		let transform = transformFromStringNoFail("scale(15, 30)")
+		var comparison = CGAffineTransform(a: 15, b: 0, c: 0, d: 30, tx: 0, ty: 0)
+		var transform = transformFromStringNoFail("scale(15, 30)")
 		
 		XCTAssertTrue(CGAffineTransformEqualToTransform(comparison, transform), "\(transform)")
+		
+		comparison = CGAffineTransform(a: 35, b: 0, c: 0, d: 0, tx: 0, ty: 0)
+		transform = transformFromStringNoFail("scale(35)")
+		
+		XCTAssertTrue(CGAffineTransformEqualToTransform(comparison, transform), "\(transform)")
+	}
+	
+	func testRotate() {
+		var comparison = CGAffineTransformMakeRotation(90)
+		var transform = transformFromStringNoFail("rotate(90)")
+		
+		XCTAssertTrue(CGAffineTransformEqualToTransform(comparison, transform), "\(transform)")
+		
+		comparison = CGAffineTransformMakeTranslation(15, 20)
+		comparison = CGAffineTransformRotate(comparison, 90)
+		comparison = CGAffineTransformTranslate(comparison, -15, -20)
+		
+		transform = transformFromStringNoFail("rotate(90 15 20)")
+		
+		XCTAssertTrue(CGAffineTransformEqualToTransform(comparison, transform), "\(transform)")
+	}
+	
+	func testRotateMalformed() {
+		XCTAssertThrowsError(try SVGParser.transformFromString("rotate"))
+		XCTAssertThrowsError(try SVGParser.transformFromString("rotate(45,15"))
 	}
 	
 	func testCombinedCommands() {
