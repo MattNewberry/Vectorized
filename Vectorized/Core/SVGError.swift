@@ -29,4 +29,6 @@ public enum SVGError: ErrorType {
 	
 	case InvalidPathDescriptionCommand(String)
 	case UnknownPathDescriptionCommand(String)
+	
+	case UnknownParserFailure
 }

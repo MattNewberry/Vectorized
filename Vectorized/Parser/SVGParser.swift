@@ -101,18 +101,15 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	/// Parse the supplied SVG file and return an SVGGraphic
 	///
 	/// :returns: an SVGImageVector ready for display
-	internal func parse() throws -> SVGGraphic? {
-		if let (drawables, size) = try coreParse() {
-			return SVGGraphic(drawables: drawables, size: size)
-		}
-		
-		return nil
+	internal func parse() throws -> SVGGraphic {
+		let (drawables, size) = try coreParse()
+		return SVGGraphic(drawables: drawables, size: size)
 	}
 	
 	/// Parse the supplied SVG file and return the components of an SVGGraphic
 	///
 	/// :returns: a tuple containing the SVGDrawable array and the size of the SVGGraphic
-	internal func coreParse() throws -> ([SVGDrawable], CGSize)? {
+	internal func coreParse() throws -> ([SVGDrawable], CGSize) {
 		if parser.parse() {
 			if let error = parserError {
 				throw error
@@ -126,7 +123,8 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 			throw parserError!
 		}
 		
-		return nil
+		parserError = SVGError.UnknownParserFailure
+		throw parserError!
 	}
 	
 	/// Parse a transform matrix string "matrix(a,b,c,d,tx,ty)" and return a CGAffineTransform
@@ -137,18 +135,18 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 		if let string = transformString {
 			let scanner = NSScanner(string: string)
 			
-			scanner.scanString("matrix(", intoString: nil)
-			
-			var a: Float = 0, b: Float = 0, c: Float = 0, d: Float = 0, tx: Float = 0, ty: Float = 0
-			
-			scanner.scanFloat(&a)
-			scanner.scanFloat(&b)
-			scanner.scanFloat(&c)
-			scanner.scanFloat(&d)
-			scanner.scanFloat(&tx)
-			scanner.scanFloat(&ty)
-			
-			return CGAffineTransform(a: CGFloat(a), b: CGFloat(b), c: CGFloat(c), d: CGFloat(d), tx: CGFloat(tx), ty: CGFloat(ty))
+			if scanner.scanString("matrix(", intoString: nil) {
+				var a: Float = 0, b: Float = 0, c: Float = 0, d: Float = 0, tx: Float = 0, ty: Float = 0
+				
+				scanner.scanFloat(&a)
+				scanner.scanFloat(&b)
+				scanner.scanFloat(&c)
+				scanner.scanFloat(&d)
+				scanner.scanFloat(&tx)
+				scanner.scanFloat(&ty)
+				
+				return CGAffineTransform(a: CGFloat(a), b: CGFloat(b), c: CGFloat(c), d: CGFloat(d), tx: CGFloat(tx), ty: CGFloat(ty))
+			}
 		}
 		
 		return CGAffineTransformIdentity
