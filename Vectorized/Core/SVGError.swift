@@ -25,7 +25,7 @@
 import Foundation
 
 public enum SVGError: ErrorType {
-	case InvalidAttributeValue(attribute: String, value: String, message: String)
+	case InvalidTransformDefinition(String, error: String)
 	case MissingOpeningBrace(String)
 	case MissingClosingBrace(String)
 	

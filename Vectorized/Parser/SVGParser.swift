@@ -190,27 +190,27 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 		var a: Float = 0, b: Float = 0, c: Float = 0, d: Float = 0, tx: Float = 0, ty: Float = 0
 		
 		if !scanner.scanFloat(&a) {
-			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <a>")
+			throw SVGError.InvalidTransformDefinition("matrix", error: "Missing <a>")
 		}
 		
 		if !scanner.scanFloat(&b) {
-			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <b>")
+			throw SVGError.InvalidTransformDefinition("matrix", error: "Missing <b>")
 		}
 		
 		if !scanner.scanFloat(&c) {
-			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <c>")
+			throw SVGError.InvalidTransformDefinition("matrix", error: "Missing <c>")
 		}
 		
 		if !scanner.scanFloat(&d) {
-			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <d>")
+			throw SVGError.InvalidTransformDefinition("matrix", error: "Missing <d>")
 		}
 		
 		if !scanner.scanFloat(&tx) {
-			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <e>")
+			throw SVGError.InvalidTransformDefinition("matrix", error: "Missing <e>")
 		}
 		
 		if !scanner.scanFloat(&ty) {
-			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "matrix", message: "Missing <f>")
+			throw SVGError.InvalidTransformDefinition("matrix", error: "Missing <f>")
 		}
 		
 		if !scanner.scanString(")", intoString: nil) {
@@ -228,7 +228,7 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 		var x: Float = 0, y: Float = 0
 		
 		if !scanner.scanFloat(&x) {
-			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "translate", message: "Missing <x>")
+			throw SVGError.InvalidTransformDefinition("translate", error: "Missing <x>")
 		}
 		
 		// y is optional
@@ -249,7 +249,7 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 		var x: Float = 0, y: Float = 0
 		
 		if !scanner.scanFloat(&x) {
-			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "scale", message: "Missing <x>")
+			throw SVGError.InvalidTransformDefinition("scale", error: "Missing <x>")
 		}
 		
 		// y is optional
@@ -272,13 +272,13 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 		var angle: Float = 0, x: Float = 0, y: Float = 0
 		
 		if !scanner.scanFloat(&angle) {
-			throw SVGError.InvalidAttributeValue(attribute: "transform", value: "rotate", message: "Missing <a>")
+			throw SVGError.InvalidTransformDefinition("rotate", error: "Missing <a>")
 		}
 		
 		// [x, y] pair is optional
 		if scanner.scanFloat(&x) {
 			if !scanner.scanFloat(&y) {
-				throw SVGError.InvalidAttributeValue(attribute: "transform", value: "rotate", message: "Missing <y> to go with <x>")
+				throw SVGError.InvalidTransformDefinition("rotate", error: "Missing <y> to go with <x>")
 			}
 		}
 		
