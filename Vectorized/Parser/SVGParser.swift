@@ -33,24 +33,6 @@ import CoreGraphics
 /// Begin your interaction with the parser by initializing it with a path and calling
 /// parse() to retrieve an SVGGraphic.	Safe to call on a background thread.
 internal class SVGParser: NSObject, NSXMLParserDelegate {
-	// Enumeration defining the possible XML tags in an SVG file
-	private enum ElementName: String {
-		case SVG = "svg"
-		case G = "g"
-		case Defs = "defs"
-		case Rect = "rect"
-		case Use = "use"
-		case RadialGradient = "radialGradient"
-		case LinearGradient = "linearGradient"
-		case Stop = "stop"
-		case Path = "path"
-		case Polygon = "polygon"
-		case ClipPath = "clipPath"
-		case Text = "text"
-		case Polyline = "polyline"
-		case Ellipse = "ellipse"
-	}
-	
 	internal let parserId: String = NSUUID().UUIDString
 	internal var parserError: ErrorType?
 	
@@ -645,6 +627,24 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	}
 	
 	//MARK: NSXMLParserDelegate
+	
+	// Enumeration defining the possible XML tags in an SVG file
+	private enum ElementName: String {
+		case SVG = "svg"
+		case G = "g"
+		case Defs = "defs"
+		case Rect = "rect"
+		case Use = "use"
+		case RadialGradient = "radialGradient"
+		case LinearGradient = "linearGradient"
+		case Stop = "stop"
+		case Path = "path"
+		case Polygon = "polygon"
+		case ClipPath = "clipPath"
+		case Text = "text"
+		case Polyline = "polyline"
+		case Ellipse = "ellipse"
+	}
 	
 	@objc internal func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String: String]) {
 		if let elementNameEnum = ElementName(rawValue: elementName) {
