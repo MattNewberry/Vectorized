@@ -34,7 +34,7 @@ import CoreGraphics
 /// parse() to retrieve an SVGGraphic.	Safe to call on a background thread.
 internal class SVGParser: NSObject, NSXMLParserDelegate {
 	// Enumeration defining the possible XML tags in an SVG file
-	enum ElementName: String {
+	private enum ElementName: String {
 		case SVG = "svg"
 		case G = "g"
 		case Defs = "defs"
