@@ -679,6 +679,12 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="vectorGraphicName" value="dragon_0"/>
                                 </userDefinedRuntimeAttributes>
                             </customView>
+                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vF8-XH-GK9" customClass="SVGView" customModule="Vectorized">
+                                <rect key="frame" x="516" y="20" width="423" height="610"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="vectorGraphicName" value="knight_0"/>
+                                </userDefinedRuntimeAttributes>
+                            </customView>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="uGi-FE-N8J" secondAttribute="bottom" constant="20" symbolic="YES" id="CER-48-vRM"/>
