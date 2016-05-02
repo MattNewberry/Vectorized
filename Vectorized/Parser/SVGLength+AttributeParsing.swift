@@ -48,7 +48,7 @@ extension SVGLength: SVGAttributeParsing {
 		}
 
 		if let unit = SVGUnit(rawValue: rest) {
-			self.init(length, unit: unit)
+			self.init(length, unit)
 			return
 		} else {
 			throw SVGError.InvalidMeasurementUnit(parseValue!, location: location, message: "Expected unit or nothing")
