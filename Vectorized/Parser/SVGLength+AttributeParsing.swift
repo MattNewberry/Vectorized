@@ -25,7 +25,33 @@
 import Foundation
 
 extension SVGLength: SVGAttributeParsing {
-	init(value: String) throws {
-		self.init(value: 0)
+	init?(parseValue: String?, location: (Int, Int)? = nil) throws {
+		guard let value = NuParser.sanitizedValue(parseValue) else { return nil }
+		
+		let scanner = NSScanner(string: value, skipCommas: true)
+		var length: Float = 0
+		
+		if !scanner.scanFloat(&length) {
+			throw SVGError.InvalidAttributeValue(parseValue!, location: location, message: "Expected length value")
+		}
+		
+		if scanner.atEnd {
+			self.init(value: CGFloat(length))
+			return
+		}
+
+		let rest = value.substringFromIndex(value.startIndex.advancedBy(scanner.scanLocation)).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+		
+		if rest.isEmpty {
+			self.init(value: CGFloat(length))
+			return
+		}
+
+		if let unit = SVGUnit(rawValue: rest) {
+			self.init(value: CGFloat(length), unit: unit)
+			return
+		} else {
+			throw SVGError.InvalidMeasurementUnit(parseValue!, location: location, message: "Expected unit or nothing")
+		}
 	}
 }

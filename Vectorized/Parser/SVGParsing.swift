@@ -25,10 +25,10 @@
 import Foundation
 
 internal protocol SVGElementParsing {
-	init(attributes: [String : String]) throws
+	init(attributes: [String : String], location: (Int, Int)?) throws
 	func endElement() throws
 }
 
 internal protocol SVGAttributeParsing {
-	init(value: String) throws
+	init?(parseValue: String?, location: (Int, Int)?) throws
 }

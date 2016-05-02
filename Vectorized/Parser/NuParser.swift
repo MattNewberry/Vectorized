@@ -34,10 +34,30 @@ private enum ElementName: String {
 
 internal class NuParser: NSObject, NSXMLParserDelegate {
 	internal var parserError: ErrorType?
+	
+	internal var line: Int {
+		return xmlParser.lineNumber
+	}
+	
+	internal var column: Int {
+		return xmlParser.columnNumber
+	}
 
 	private var xmlParser: NSXMLParser
 	private var elementStack: [SVGElement] = []
 	private var documents: [SVGDocument] = []
+	
+	internal class func sanitizedValue(parseValue: String?) -> String? {
+		guard let parseValue = parseValue else { return nil }
+		
+		let value = parseValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+		
+		if value.isEmpty {
+			return nil
+		}
+		
+		return value
+	}
 
 	/// Initializes an SVGParser for the file at the given path
 	///
@@ -95,7 +115,7 @@ internal class NuParser: NSObject, NSXMLParserDelegate {
 		if let name = ElementName(rawValue: name.lowercaseString) {
 			switch name {
 			case .SVG:
-				let document = try SVGDocument(attributes: attributes)
+				let document = try SVGDocument(attributes: attributes, location: (line, column))
 				elementStack.append(document)
 				documents.append(document)
 			}

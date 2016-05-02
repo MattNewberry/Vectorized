@@ -22,31 +22,45 @@
 //	THE SOFTWARE.
 //---------------------------------------------------------------------------------------
 
-import Foundation
+import XCTest
+@testable import Vectorized
 
-extension SVGDocument: SVGElementParsing {
-	init(attributes: [String : String], location: (Int, Int)?) throws {
-		self.init()
-
-		version = attributes["version"]
-		
-		if let x = CGFloat(attributes["x"]) {
-			coordinates.x = x
+class RectParsingTests: XCTestCase {
+	func rectNoFail(parseValue: String?) -> CGRect? {
+		do {
+			return try CGRect(parseValue: parseValue)
+		} catch {
+			XCTFail("Should not throw: \(parseValue!), \(error)")
+			return nil
 		}
-		
-		if let y = CGFloat(attributes["y"]) {
-			coordinates.y = y
-		}
-		
-		let width = try SVGLength(parseValue: attributes["width"], location: location)
-		let height = try SVGLength(parseValue: attributes["height"], location: location)
-		
-		if width != nil || height != nil {
-			size = SVGSize(width: width ?? SVGLength(value: 0), height: height ?? SVGLength(value: 0))
-		}
-		
-		viewBox = try CGRect(parseValue: attributes["viewBox"], location: location)
 	}
 	
-	func endElement() throws {}
+	func testEmptyValues() {
+		XCTAssertNil(rectNoFail(""))
+		XCTAssertNil(rectNoFail("           "))
+	}
+	
+	func testRectValues() {
+		if let rect = rectNoFail("0 0 3 2") {
+			XCTAssertTrue(CGRectEqualToRect(CGRect(x: 0, y: 0, width: 3, height: 2), rect))
+		} else {
+			XCTFail("Should not be nil")
+		}
+		
+		if let rect = rectNoFail("    25,   30    41,     22         ") {
+			XCTAssertTrue(CGRectEqualToRect(CGRect(x: 25, y: 30, width: 41, height: 22), rect))
+		} else {
+			XCTFail("Should not be nil")
+		}
+	}
+	
+	func testGarbageValues() {
+		XCTAssertThrowsError(try CGRect(parseValue: "garbage"))
+		XCTAssertThrowsError(try CGRect(parseValue: "this is not a proper rect string"))
+	}
+	
+	func testMalformedValues() {
+		XCTAssertThrowsError(try CGRect(parseValue: "0 0 3"))
+		XCTAssertThrowsError(try CGRect(parseValue: "0 0 3 2 5 2 1"))
+	}
 }

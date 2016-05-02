@@ -24,29 +24,25 @@
 
 import Foundation
 
-extension SVGDocument: SVGElementParsing {
-	init(attributes: [String : String], location: (Int, Int)?) throws {
-		self.init()
-
-		version = attributes["version"]
+extension CGRect: SVGAttributeParsing {
+	init?(parseValue: String?, location: (Int, Int)? = nil) throws {
+		guard let value = NuParser.sanitizedValue(parseValue) else { return nil }
 		
-		if let x = CGFloat(attributes["x"]) {
-			coordinates.x = x
+		let scanner = NSScanner(string: value, skipCommas: true)
+		var x: Float = 0, y: Float = 0, width: Float = 0, height: Float = 0
+		
+		if !scanner.scanFloat(&x) || !scanner.scanFloat(&y) || !scanner.scanFloat(&width) || !scanner.scanFloat(&height) {
+			throw SVGError.InvalidAttributeValue(parseValue!, location: location, message: "Expected x, y, width, height")
 		}
 		
-		if let y = CGFloat(attributes["y"]) {
-			coordinates.y = y
+		if width < 0 || height < 0 {
+			throw SVGError.InvalidAttributeValue(parseValue!, location: location, message: "Expected non-negative width and height")
 		}
 		
-		let width = try SVGLength(parseValue: attributes["width"], location: location)
-		let height = try SVGLength(parseValue: attributes["height"], location: location)
-		
-		if width != nil || height != nil {
-			size = SVGSize(width: width ?? SVGLength(value: 0), height: height ?? SVGLength(value: 0))
+		if !scanner.atEnd {
+			throw SVGError.InvalidAttributeValue(parseValue!, location: location, message: "Expected end of value")
 		}
 		
-		viewBox = try CGRect(parseValue: attributes["viewBox"], location: location)
+		self.init(x: CGFloat(x), y: CGFloat(y), width: CGFloat(width), height: CGFloat(height))
 	}
-	
-	func endElement() throws {}
 }

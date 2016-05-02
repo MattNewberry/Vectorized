@@ -32,6 +32,9 @@ public enum SVGError: ErrorType {
 	case InvalidPathDescriptionCommand(String)
 	case UnknownPathDescriptionCommand(String)
 	
+	case InvalidAttributeValue(String, location: (Int, Int)?, message: String?)
+	case InvalidMeasurementUnit(String, location: (Int, Int)?, message: String?)
+	
 	case NSXMLParserError(NSError)
 	case UnknownParserFailure
 }

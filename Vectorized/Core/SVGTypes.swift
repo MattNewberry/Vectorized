@@ -42,10 +42,16 @@ public struct SVGLength {
 	
 	public init(value: CGFloat, unit: SVGUnit? = nil) {
 		self.value = value
+		self.unit = unit
 	}
 }
 
 public struct SVGSize {
 	public var width: SVGLength
 	public var height: SVGLength
+	
+	public init(width: SVGLength, height: SVGLength) {
+		self.width = width
+		self.height = height
+	}
 }

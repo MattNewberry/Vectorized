@@ -31,7 +31,6 @@ public struct SVGDocument: SVGContainer {
 	public var version: String?
 	public var coordinates: CGPoint = CGPoint(x: 0, y: 0)
 	public var size: SVGSize?
-	public var preserveAspectRatio: Bool?
 	public var viewBox: CGRect?
 	
 	public var description: String {

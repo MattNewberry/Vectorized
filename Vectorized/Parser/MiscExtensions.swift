@@ -24,7 +24,7 @@
 
 import Foundation
 
-extension CGFloat {
+internal extension CGFloat {
 	init?(_ str: String) {
 		if let floatValue = Float(str) {
 			self.init(floatValue)
@@ -44,7 +44,7 @@ extension CGFloat {
 	}
 }
 
-extension Double {
+internal extension Double {
 	init?(_ str: String?) {
 		if let str = str {
 			self.init(str)

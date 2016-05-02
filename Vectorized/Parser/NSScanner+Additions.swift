@@ -24,29 +24,17 @@
 
 import Foundation
 
-extension SVGDocument: SVGElementParsing {
-	init(attributes: [String : String], location: (Int, Int)?) throws {
-		self.init()
-
-		version = attributes["version"]
+internal extension NSScanner {
+	convenience init(string: String, skipCommas: Bool) {
+		self.init(string: string)
 		
-		if let x = CGFloat(attributes["x"]) {
-			coordinates.x = x
+		if !skipCommas {
+			return
 		}
 		
-		if let y = CGFloat(attributes["y"]) {
-			coordinates.y = y
-		}
+		let additionalSet = NSMutableCharacterSet.whitespaceAndNewlineCharacterSet()
+		additionalSet.formUnionWithCharacterSet(NSCharacterSet(charactersInString: ","))
 		
-		let width = try SVGLength(parseValue: attributes["width"], location: location)
-		let height = try SVGLength(parseValue: attributes["height"], location: location)
-		
-		if width != nil || height != nil {
-			size = SVGSize(width: width ?? SVGLength(value: 0), height: height ?? SVGLength(value: 0))
-		}
-		
-		viewBox = try CGRect(parseValue: attributes["viewBox"], location: location)
+		self.charactersToBeSkipped = additionalSet
 	}
-	
-	func endElement() throws {}
 }

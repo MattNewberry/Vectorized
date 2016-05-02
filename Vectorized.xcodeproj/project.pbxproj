@@ -51,6 +51,12 @@
 		476BB4681CCCA9DF000D49E2 /* SVGFillable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4651CCCA9DF000D49E2 /* SVGFillable.swift */; };
 		476BB4691CCCA9DF000D49E2 /* SVGGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4661CCCA9DF000D49E2 /* SVGGradient.swift */; };
 		476BB46C1CCCACAC000D49E2 /* SVGGraphic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB46B1CCCACAC000D49E2 /* SVGGraphic.swift */; };
+		479DE13B1CD6E34A008C7439 /* LengthParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DE13A1CD6E34A008C7439 /* LengthParsingTests.swift */; };
+		479DE13E1CD6F485008C7439 /* CGRect+SVGAttributeParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DE13D1CD6F485008C7439 /* CGRect+SVGAttributeParsing.swift */; };
+		479DE13F1CD6F485008C7439 /* CGRect+SVGAttributeParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DE13D1CD6F485008C7439 /* CGRect+SVGAttributeParsing.swift */; };
+		479DE1411CD6F89A008C7439 /* RectParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DE1401CD6F89A008C7439 /* RectParsingTests.swift */; };
+		479DE1431CD6FB8D008C7439 /* NSScanner+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DE1421CD6FB8D008C7439 /* NSScanner+Additions.swift */; };
+		479DE1441CD6FB8D008C7439 /* NSScanner+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DE1421CD6FB8D008C7439 /* NSScanner+Additions.swift */; };
 		47D6996B1CCE07C300553899 /* CrossPlatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471318561CCDACD1005FEABB /* CrossPlatform.swift */; };
 		47D6996C1CCE07C300553899 /* SVGGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4551CCC9AEF000D49E2 /* SVGGroup.swift */; };
 		47D6996D1CCE07C300553899 /* SVGLinearGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476BB4561CCC9AEF000D49E2 /* SVGLinearGradient.swift */; };
@@ -155,6 +161,10 @@
 		476BB4651CCCA9DF000D49E2 /* SVGFillable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGFillable.swift; sourceTree = "<group>"; };
 		476BB4661CCCA9DF000D49E2 /* SVGGradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGGradient.swift; sourceTree = "<group>"; };
 		476BB46B1CCCACAC000D49E2 /* SVGGraphic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGGraphic.swift; sourceTree = "<group>"; };
+		479DE13A1CD6E34A008C7439 /* LengthParsingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LengthParsingTests.swift; sourceTree = "<group>"; };
+		479DE13D1CD6F485008C7439 /* CGRect+SVGAttributeParsing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGRect+SVGAttributeParsing.swift"; sourceTree = "<group>"; };
+		479DE1401CD6F89A008C7439 /* RectParsingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectParsingTests.swift; sourceTree = "<group>"; };
+		479DE1421CD6FB8D008C7439 /* NSScanner+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScanner+Additions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -262,7 +272,9 @@
 				474870E11CD6C92800512DE0 /* SVGParsing.swift */,
 				474870EB1CD6D93F00512DE0 /* SVGDocument+ElementParsing.swift */,
 				474870F11CD6E00D00512DE0 /* SVGLength+AttributeParsing.swift */,
+				479DE13D1CD6F485008C7439 /* CGRect+SVGAttributeParsing.swift */,
 				474870E81CD6D90B00512DE0 /* MiscExtensions.swift */,
+				479DE1421CD6FB8D008C7439 /* NSScanner+Additions.swift */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -274,7 +286,9 @@
 				47657E811CD3105C00A4424A /* BezierPathTests.swift */,
 				47657E831CD45AF300A4424A /* ParserTests.swift */,
 				474870D31CD5593600512DE0 /* TransformParserTests.swift */,
-				474870E61CD6D1E300512DE0 /* shapes-rect-01-t.svg */,
+				479DE13A1CD6E34A008C7439 /* LengthParsingTests.swift */,
+				479DE1401CD6F89A008C7439 /* RectParsingTests.swift */,
+				479DE13C1CD6E4F9008C7439 /* Graphics */,
 				47657E6B1CD27BBF00A4424A /* Info.plist */,
 			);
 			path = VectorizedTests;
@@ -348,6 +362,14 @@
 				476BB4661CCCA9DF000D49E2 /* SVGGradient.swift */,
 			);
 			name = Protocols;
+			sourceTree = "<group>";
+		};
+		479DE13C1CD6E4F9008C7439 /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				474870E61CD6D1E300512DE0 /* shapes-rect-01-t.svg */,
+			);
+			name = Graphics;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -502,7 +524,9 @@
 				47D699701CCE07C300553899 /* SVGRadialGradient.swift in Sources */,
 				47657E7A1CD281A900A4424A /* SVGBezierPath+SVGPathDescription.swift in Sources */,
 				47D699751CCE07C800553899 /* SVGDrawable.swift in Sources */,
+				479DE13F1CD6F485008C7439 /* CGRect+SVGAttributeParsing.swift in Sources */,
 				47657E771CD2816400A4424A /* SVGBezierPath+CommandParser.swift in Sources */,
+				479DE1441CD6FB8D008C7439 /* NSScanner+Additions.swift in Sources */,
 				47D699761CCE07C800553899 /* SVGFillable.swift in Sources */,
 				47D6996F1CCE07C300553899 /* SVGPath.swift in Sources */,
 				474870D71CD6674400512DE0 /* NuParser.swift in Sources */,
@@ -533,6 +557,8 @@
 				47657E6A1CD27BBF00A4424A /* HexColorTests.swift in Sources */,
 				474870D41CD5593600512DE0 /* TransformParserTests.swift in Sources */,
 				47657E821CD3105C00A4424A /* BezierPathTests.swift in Sources */,
+				479DE13B1CD6E34A008C7439 /* LengthParsingTests.swift in Sources */,
+				479DE1411CD6F89A008C7439 /* RectParsingTests.swift in Sources */,
 				47657E841CD45AF300A4424A /* ParserTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -545,7 +571,9 @@
 				476BB45C1CCC9AEF000D49E2 /* SVGPath.swift in Sources */,
 				47657E791CD281A900A4424A /* SVGBezierPath+SVGPathDescription.swift in Sources */,
 				476BB4671CCCA9DF000D49E2 /* SVGDrawable.swift in Sources */,
+				479DE13E1CD6F485008C7439 /* CGRect+SVGAttributeParsing.swift in Sources */,
 				47657E761CD2816400A4424A /* SVGBezierPath+CommandParser.swift in Sources */,
+				479DE1431CD6FB8D008C7439 /* NSScanner+Additions.swift in Sources */,
 				471BB7621CCD889300871570 /* SVGView.swift in Sources */,
 				471318571CCDACD1005FEABB /* CrossPlatform.swift in Sources */,
 				474870D61CD6674400512DE0 /* NuParser.swift in Sources */,

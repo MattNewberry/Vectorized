@@ -22,31 +22,48 @@
 //	THE SOFTWARE.
 //---------------------------------------------------------------------------------------
 
-import Foundation
+import XCTest
+@testable import Vectorized
 
-extension SVGDocument: SVGElementParsing {
-	init(attributes: [String : String], location: (Int, Int)?) throws {
-		self.init()
-
-		version = attributes["version"]
-		
-		if let x = CGFloat(attributes["x"]) {
-			coordinates.x = x
+class LengthParsingTests: XCTestCase {
+	func lengthNoFail(parseValue: String?) -> SVGLength? {
+		do {
+			return try SVGLength(parseValue: parseValue)
+		} catch {
+			XCTFail("Should not throw: \(parseValue!), \(error)")
+			return nil
 		}
-		
-		if let y = CGFloat(attributes["y"]) {
-			coordinates.y = y
-		}
-		
-		let width = try SVGLength(parseValue: attributes["width"], location: location)
-		let height = try SVGLength(parseValue: attributes["height"], location: location)
-		
-		if width != nil || height != nil {
-			size = SVGSize(width: width ?? SVGLength(value: 0), height: height ?? SVGLength(value: 0))
-		}
-		
-		viewBox = try CGRect(parseValue: attributes["viewBox"], location: location)
 	}
 	
-	func endElement() throws {}
+	func testEmptyValue() {
+		XCTAssertNil(lengthNoFail(""))
+		XCTAssertNil(lengthNoFail("           "))
+	}
+	
+	func testWithoutUnits() {
+		let length = lengthNoFail("265.03")
+
+		XCTAssertNotNil(length)
+		XCTAssertEqualWithAccuracy(length!.value, 265.03, accuracy: 0.01)
+	}
+	
+	func testWithUnits() {
+		var length = lengthNoFail("50em")
+		
+		XCTAssertNotNil(length)
+		XCTAssertEqualWithAccuracy(length!.value, 50, accuracy: 0.01)
+		XCTAssertEqual(length!.unit, SVGUnit.Emphemeral)
+		
+		length = lengthNoFail("   5      px     ")
+		
+		XCTAssertNotNil(length)
+		XCTAssertEqualWithAccuracy(length!.value, 5, accuracy: 0.01)
+		XCTAssertEqual(length!.unit, SVGUnit.Pixel)
+	}
+	
+	func testGarbage() {
+		XCTAssertThrowsError(try SVGLength(parseValue: "invalid"))
+		XCTAssertThrowsError(try SVGLength(parseValue: "5x"))
+		XCTAssertThrowsError(try SVGLength(parseValue: "25px 30px"))
+	}
 }
