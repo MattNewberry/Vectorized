@@ -26,5 +26,20 @@ import Foundation
 import CoreGraphics
 
 public struct SVGTransform: SVGAttribute {
-
+	var transforms: [CGAffineTransform]
+	var concattedTransform: CGAffineTransform {
+		get {
+			var concattedTransform = CGAffineTransformIdentity
+			
+			for transform in transforms {
+				concattedTransform = CGAffineTransformConcat(concattedTransform, transform)
+			}
+			
+			return concattedTransform
+		}
+	}
+	
+	public init(transforms: [CGAffineTransform] = []) {
+		self.transforms = transforms
+	}
 }

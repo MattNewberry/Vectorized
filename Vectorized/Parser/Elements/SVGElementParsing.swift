@@ -79,7 +79,7 @@ internal extension SVGElementParsing {
 				attribute = try CGRect(parseValue: value, location: location)
 				
 			case .Transform:
-				break
+				attribute = try SVGTransform(parseValue: value, location: location)
 			}
 		}
 		
