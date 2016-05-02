@@ -29,8 +29,8 @@ public final class SVGDocument: SVGContainerElement, SVGStructuralElement {
 	public var children: [SVGElement]?
 	
 	public var version: String?
-	public var coordinates: SVGPoint = SVGPoint(x: 0, y: 0)
-	public var size: SVGSize?
+	public var position: SVGPoint = SVGPoint(x: 0, y: 0)
+	public var size: SVGSize = SVGSize(width: SVGLength(100, .Percent), height: SVGLength(100, .Percent))
 	public var viewBox: CGRect?
 	
 	public var description: String {

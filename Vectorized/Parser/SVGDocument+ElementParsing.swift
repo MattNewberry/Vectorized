@@ -31,11 +31,11 @@ extension SVGDocument: SVGElementParsing {
 		version = attributes["version"]
 		
 		if let x = try SVGLength(parseValue: attributes["x"], location: location) {
-			coordinates.x = x
+			position.x = x
 		}
 		
 		if let y = try SVGLength(parseValue: attributes["y"], location: location) {
-			coordinates.y = y
+			position.y = y
 		}
 		
 		let width = try SVGLength(parseValue: attributes["width"], location: location)
