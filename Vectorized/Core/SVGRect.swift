@@ -24,9 +24,13 @@
 
 import Foundation
 
-public struct SVGRect: SVGBasicShapeElement, SVGShapeElement, SVGGraphicsElement {
+public final class SVGRect: SVGBasicShapeElement, SVGShapeElement, SVGGraphicsElement {
 	public var parent: SVGElement?
 	public var children: [SVGElement]?
+	
+	public var position: SVGPoint = SVGPointZero
+	public var size: SVGSize = SVGSizeZero
+	public var cornerRadius: SVGPoint = SVGPointZero
 	
 	public func isPermittedContentElement(element: SVGElement) -> Bool {
 		switch element {

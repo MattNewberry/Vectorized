@@ -53,6 +53,8 @@
 		479DE1501CD7094B008C7439 /* SVGBezierPath+SVGPathDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DE14E1CD7094B008C7439 /* SVGBezierPath+SVGPathDescription.swift */; };
 		479DE1521CD72974008C7439 /* SVGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DE1511CD72974008C7439 /* SVGRect.swift */; };
 		479DE1531CD72974008C7439 /* SVGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DE1511CD72974008C7439 /* SVGRect.swift */; };
+		479DE1551CD7A0E1008C7439 /* SVGRect+ElementParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DE1541CD7A0E1008C7439 /* SVGRect+ElementParsing.swift */; };
+		479DE1561CD7A0E1008C7439 /* SVGRect+ElementParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DE1541CD7A0E1008C7439 /* SVGRect+ElementParsing.swift */; };
 		47D6996B1CCE07C300553899 /* CrossPlatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471318561CCDACD1005FEABB /* CrossPlatform.swift */; };
 		47D699741CCE07C300553899 /* SVGColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471318581CCDB27E005FEABB /* SVGColor+Hex.swift */; };
 		47D699781CCE07CC00553899 /* SVGView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471BB7611CCD889300871570 /* SVGView.swift */; };
@@ -144,6 +146,7 @@
 		479DE14B1CD704D9008C7439 /* SVGGroup+ElementParsing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SVGGroup+ElementParsing.swift"; sourceTree = "<group>"; };
 		479DE14E1CD7094B008C7439 /* SVGBezierPath+SVGPathDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SVGBezierPath+SVGPathDescription.swift"; sourceTree = "<group>"; };
 		479DE1511CD72974008C7439 /* SVGRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGRect.swift; sourceTree = "<group>"; };
+		479DE1541CD7A0E1008C7439 /* SVGRect+ElementParsing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SVGRect+ElementParsing.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,6 +252,7 @@
 				47657E721CD280D200A4424A /* SVGPathCommand.swift */,
 				474870E11CD6C92800512DE0 /* SVGParsing.swift */,
 				474870EB1CD6D93F00512DE0 /* SVGDocument+ElementParsing.swift */,
+				479DE1541CD7A0E1008C7439 /* SVGRect+ElementParsing.swift */,
 				474870F11CD6E00D00512DE0 /* SVGLength+AttributeParsing.swift */,
 				479DE13D1CD6F485008C7439 /* CGRect+SVGAttributeParsing.swift */,
 				474870E81CD6D90B00512DE0 /* MiscExtensions.swift */,
@@ -501,6 +505,7 @@
 				479DE1531CD72974008C7439 /* SVGRect.swift in Sources */,
 				47D6996B1CCE07C300553899 /* CrossPlatform.swift in Sources */,
 				47657E741CD280D200A4424A /* SVGPathCommand.swift in Sources */,
+				479DE1561CD7A0E1008C7439 /* SVGRect+ElementParsing.swift in Sources */,
 				474870E31CD6C92800512DE0 /* SVGParsing.swift in Sources */,
 				474870F31CD6E00D00512DE0 /* SVGLength+AttributeParsing.swift in Sources */,
 				474870DD1CD6B70400512DE0 /* SVGDocument.swift in Sources */,
@@ -541,6 +546,7 @@
 				479DE1521CD72974008C7439 /* SVGRect.swift in Sources */,
 				474870D61CD6674400512DE0 /* SVGParser.swift in Sources */,
 				474870EC1CD6D93F00512DE0 /* SVGDocument+ElementParsing.swift in Sources */,
+				479DE1551CD7A0E1008C7439 /* SVGRect+ElementParsing.swift in Sources */,
 				47657E731CD280D200A4424A /* SVGPathCommand.swift in Sources */,
 				474870E21CD6C92800512DE0 /* SVGParsing.swift in Sources */,
 				474870F21CD6E00D00512DE0 /* SVGLength+AttributeParsing.swift in Sources */,
