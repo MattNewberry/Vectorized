@@ -25,26 +25,60 @@
 import Foundation
 
 public protocol SVGElement: CustomStringConvertible {
-	var parent: SVGContainer? { get set }
-	//var permittedContent: [SVGElement.Type]?
+	var parent: SVGElement? { get set }
+	var children: [SVGElement]? { get set }
+	
+	func isPermittedContentElement(element: SVGElement) -> Bool
 }
 
-public protocol SVGContainer: SVGElement {
-	var children: [SVGElement] { get set }
+public protocol SVGContainerElement: SVGElement {
 }
+
+public protocol SVGAnimationElement: SVGElement {}
+
+public protocol SVGShapeElement: SVGElement {
+	
+}
+
+public protocol SVGBasicShapeElement: SVGElement {}
+public protocol SVGDescriptiveElement: SVGElement {}
+public protocol SVGFilterElement: SVGElement {}
+public protocol SVGFontElement: SVGElement {}
+public protocol SVGGradientElement: SVGElement {}
+public protocol SVGGraphicElement: SVGElement {}
+public protocol SVGLightSourceElement: SVGElement {}
+public protocol SVGStructuralElement: SVGElement {}
+public protocol SVGTextContentElement: SVGElement {}
+public protocol SVGTextContentChildElement: SVGElement {}
+public protocol SVGUncategorizedElement: SVGElement {}
 
 public extension SVGElement {
 	public var description: String {
 		return "{SVGElement}"
 	}
-}
-
-extension SVGContainer {
-	mutating func appendChild(child: SVGElement) {
+	
+	public func isPermittedContentElement(element: SVGElement) -> Bool {
+		return true
+	}
+	
+	mutating func appendChild(child: SVGElement) -> Bool {
+		if !isPermittedContentElement(child) {
+			return false
+		}
+		
+		if children == nil {
+			children = []
+		}
+		
 		var child = child
 		
 		child.parent = self
+		children!.append(child)
 		
-		children.append(child)
+		return true
 	}
+}
+
+extension SVGContainerElement {
+
 }

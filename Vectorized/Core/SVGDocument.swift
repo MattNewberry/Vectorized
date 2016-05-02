@@ -24,9 +24,9 @@
 
 import Foundation
 
-public final class SVGDocument: SVGContainer {
-	public var parent: SVGContainer?
-	public var children: [SVGElement] = []
+public final class SVGDocument: SVGContainerElement, SVGStructuralElement {
+	public var parent: SVGElement?
+	public var children: [SVGElement]?
 	
 	public var version: String?
 	public var coordinates: SVGPoint = SVGPoint(x: 0, y: 0)
@@ -34,6 +34,21 @@ public final class SVGDocument: SVGContainer {
 	public var viewBox: CGRect?
 	
 	public var description: String {
-		return "{SVGDocument<\(children.count)>: \(children)"
+		return "{SVGDocument: \(children)}"
+	}
+	
+	public func isPermittedContentElement(element: SVGElement) -> Bool {
+		switch element {
+		case _ as SVGAnimationElement: fallthrough
+		case _ as SVGDescriptiveElement: fallthrough
+		case _ as SVGShapeElement: fallthrough
+		case _ as SVGStructuralElement: fallthrough
+		case _ as SVGGradientElement:
+			return true
+			
+		default:
+			return false
+		}
+		//<a>, <altGlyphDef>, <clipPath>, <color-profile>, <cursor>, <filter>, <font>, <font-face>, <foreignObject>, <image>, <marker>, <mask>, <pattern>, <script>, <style>, <switch>, <text>, <view>
 	}
 }

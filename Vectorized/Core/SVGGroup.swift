@@ -28,7 +28,7 @@
 
 import Foundation
 
-public final class SVGGroup: SVGContainer {
-	public var parent: SVGContainer?
-	public var children: [SVGElement] = []
+public final class SVGGroup: SVGContainerElement, SVGStructuralElement {
+	public var parent: SVGElement?
+	public var children: [SVGElement]?
 }

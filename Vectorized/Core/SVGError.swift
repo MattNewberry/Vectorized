@@ -34,6 +34,7 @@ public enum SVGError: ErrorType {
 	
 	case InvalidAttributeValue(String, location: (Int, Int)?, message: String?)
 	case InvalidMeasurementUnit(String, location: (Int, Int)?, message: String?)
+	case UnpermittedContentElement(String, location: (Int, Int)?, message: String?)
 	
 	case NSXMLParserError(NSError)
 	case UnknownParserFailure

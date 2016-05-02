@@ -125,9 +125,9 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 				element = try SVGGroup(parseAttributes: attributes, location: (line, column))
 			}
 			
-			if let top = elementStack.last {
-				if var top = top as? SVGContainer {
-					top.appendChild(element)
+			if var top = elementStack.last {
+				if !top.appendChild(element) {
+					throw SVGError.UnpermittedContentElement(name.rawValue, location: (line, column), message: nil)
 				}
 			}
 			
