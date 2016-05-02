@@ -42,6 +42,7 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	private enum ElementName: String {
 		case Document = "svg"
 		case Group = "g"
+		case Rect = "rect"
 	}
 
 	private var xmlParser: NSXMLParser
@@ -115,19 +116,23 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	private func beginElement(name: String, withAttributes attributes: [String : String]) throws {
 		if let name = ElementName(rawValue: name.lowercaseString) {
 			var element: SVGElement
+			let location = (line, column)
 			
 			switch name {
 			case .Document:
-				element = try SVGDocument(parseAttributes: attributes, location: (line, column))
+				element = try SVGDocument(parseAttributes: attributes, location: location)
 				documents.append(element as! SVGDocument)
 				
 			case .Group:
-				element = try SVGGroup(parseAttributes: attributes, location: (line, column))
+				element = try SVGGroup(parseAttributes: attributes, location: location)
+				
+			case .Rect:
+				element = try SVGRect(parseAttributes: attributes, location: location)
 			}
 			
 			if var top = elementStack.last {
 				if !top.appendChild(element) {
-					throw SVGError.UnpermittedContentElement(name.rawValue, location: (line, column), message: nil)
+					throw SVGError.UnpermittedContentElement(name.rawValue, location: location, message: nil)
 				}
 			}
 			
@@ -137,6 +142,10 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	
 	private func endElement(name: String) throws {
 		if let _ = ElementName(rawValue: name.lowercaseString) {
+			if let top = elementStack.last as? SVGElementParsing {
+				try top.endElement()
+			}
+			
 			elementStack.removeLast()
 		}
 	}
