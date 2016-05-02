@@ -35,15 +35,10 @@ public protocol SVGElement: CustomStringConvertible {
 	func isPermittedContentElement(element: SVGElement) -> Bool
 }
 
-public protocol SVGContainerElement: SVGElement {
-}
-
+// Element categories
+public protocol SVGContainerElement: SVGElement {}
 public protocol SVGAnimationElement: SVGElement {}
-
-public protocol SVGShapeElement: SVGElement {
-	
-}
-
+public protocol SVGShapeElement: SVGElement {}
 public protocol SVGBasicShapeElement: SVGElement {}
 public protocol SVGDescriptiveElement: SVGElement {}
 public protocol SVGFilterElement: SVGElement {}
@@ -81,8 +76,4 @@ public extension SVGElement {
 		
 		return true
 	}
-}
-
-extension SVGContainerElement {
-
 }

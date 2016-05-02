@@ -34,6 +34,7 @@ public extension SVGAttribute {
 	}
 }
 
+// Attribute categories
 public protocol SVGPresentationAttribute: SVGAttribute {}
 
 public struct SVGStroke: SVGPresentationAttribute {
