@@ -36,17 +36,21 @@ public enum SVGUnit: String {
 	case Percent = "%"
 }
 
-public struct SVGLength {
+public struct SVGLength: CustomStringConvertible {
 	public var value: Float
 	public var unit: SVGUnit?
 	
-	public init(_ value: Float, unit: SVGUnit? = nil) {
+	public init(_ value: Float, _ unit: SVGUnit? = nil) {
 		self.value = value
 		self.unit = unit
 	}
+	
+	public var description: String {
+		return "{SVGLength: \(value)\(unit != nil ? unit!.rawValue : "")}"
+	}
 }
 
-public struct SVGSize {
+public struct SVGSize: CustomStringConvertible {
 	public var width: SVGLength
 	public var height: SVGLength
 	
@@ -54,9 +58,13 @@ public struct SVGSize {
 		self.width = width
 		self.height = height
 	}
+	
+	public var description: String {
+		return "{SVGSize: width<\(width)> height<\(height)>}"
+	}
 }
 
-public struct SVGPoint {
+public struct SVGPoint: CustomStringConvertible {
 	public var x: SVGLength
 	public var y: SVGLength
 	
@@ -68,4 +76,20 @@ public struct SVGPoint {
 	public init(x: Float, y: Float) {
 		self.init(x: SVGLength(x), y: SVGLength(y))
 	}
+	
+	public var description: String {
+		return "{SVGPoint: x<\(x)> y<\(y)>}"
+	}
+}
+
+public var SVGLengthZero: SVGLength {
+get { return SVGLength(0) }
+}
+
+public var SVGSizeZero: SVGSize {
+get { return SVGSize(width: SVGLength(0), height: SVGLength(0)) }
+}
+
+public var SVGPointZero: SVGPoint {
+get { return SVGPoint(x: 0, y: 0) }
 }
