@@ -89,27 +89,23 @@ internal extension SVGElementParsing {
 	private func attributesByProcessingCommon(attributes: [String : SVGAttribute]) -> [String : SVGAttribute] {
 		var processedAttributes: [String : SVGAttribute] = attributes
 		
-		var position: SVGPoint?
-		
 		let x = processedAttributes["x"] as? SVGLength
 		let y = processedAttributes["y"] as? SVGLength
 		
 		if x != nil || y != nil {
-			position = SVGPoint(x: x ?? SVGLengthZero, y: y ?? SVGLengthZero)
+			processedAttributes["position"] = SVGPoint(x: x ?? SVGLengthZero, y: y ?? SVGLengthZero)
+			processedAttributes["x"] = nil
+			processedAttributes["y"] = nil
 		}
-		
-		processedAttributes["position"] = position
-		
-		var size: SVGSize?
 		
 		let width = processedAttributes["width"] as? SVGLength
 		let height = processedAttributes["height"] as? SVGLength
 		
 		if width != nil || height != nil {
-			size = SVGSize(width: width ?? SVGLengthZero, height: height ?? SVGLengthZero)
+			processedAttributes["size"] = SVGSize(width: width ?? SVGLengthZero, height: height ?? SVGLengthZero)
+			processedAttributes["width"] = nil
+			processedAttributes["height"] = nil
 		}
-		
-		processedAttributes["size"] = size
 		
 		let rx = processedAttributes["rx"] as? SVGLength
 		let ry = processedAttributes["ry"] as? SVGLength
