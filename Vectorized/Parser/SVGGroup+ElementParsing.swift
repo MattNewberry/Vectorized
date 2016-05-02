@@ -1,10 +1,6 @@
 //---------------------------------------------------------------------------------------
 //	The MIT License (MIT)
 //
-//	Created by Austin Fitzpatrick on 3/19/15 (the "SwiftVG" project)
-//	Modified by Brian Christensen <brian@alienorb.com>
-//
-//	Copyright (c) 2015 Seedling
 //	Copyright (c) 2016 Alien Orb Software LLC
 //
 //	Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,14 +22,14 @@
 //	THE SOFTWARE.
 //---------------------------------------------------------------------------------------
 
-// An SVGDrawable can be drawn to the screen.  To conform a type must implement one method, draw()
-public protocol SVGDrawable {
-	var identifier: String? { get set }
-	var group: SVGGroup? { get set }
-	var clippingPath: SVGBezierPath? { get set }
+import Foundation
+
+extension SVGGroup: SVGElementParsing {
+	convenience init(parseAttributes attributes: [String : String], location: (Int, Int)?) throws {
+		self.init()
+		
+		
+	}
 	
-	var onWillDraw: (()->())? { get set }
-	var onDidDraw: (()->())? { get set }
-	
-	func draw()
+	func endElement() throws {}
 }

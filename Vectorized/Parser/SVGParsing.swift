@@ -25,7 +25,7 @@
 import Foundation
 
 internal protocol SVGElementParsing {
-	init(attributes: [String : String], location: (Int, Int)?) throws
+	init(parseAttributes: [String : String], location: (Int, Int)?) throws
 	func endElement() throws
 }
 

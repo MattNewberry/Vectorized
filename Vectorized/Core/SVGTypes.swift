@@ -37,10 +37,10 @@ public enum SVGUnit: String {
 }
 
 public struct SVGLength {
-	public var value: CGFloat
+	public var value: Float
 	public var unit: SVGUnit?
 	
-	public init(value: CGFloat, unit: SVGUnit? = nil) {
+	public init(_ value: Float, unit: SVGUnit? = nil) {
 		self.value = value
 		self.unit = unit
 	}
@@ -53,5 +53,19 @@ public struct SVGSize {
 	public init(width: SVGLength, height: SVGLength) {
 		self.width = width
 		self.height = height
+	}
+}
+
+public struct SVGPoint {
+	public var x: SVGLength
+	public var y: SVGLength
+	
+	public init(x: SVGLength, y: SVGLength) {
+		self.x = x
+		self.y = y
+	}
+	
+	public init(x: Float, y: Float) {
+		self.init(x: SVGLength(x), y: SVGLength(y))
 	}
 }

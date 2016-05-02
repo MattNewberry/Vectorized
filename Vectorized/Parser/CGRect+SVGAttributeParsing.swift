@@ -26,7 +26,7 @@ import Foundation
 
 extension CGRect: SVGAttributeParsing {
 	init?(parseValue: String?, location: (Int, Int)? = nil) throws {
-		guard let value = NuParser.sanitizedValue(parseValue) else { return nil }
+		guard let value = SVGParser.sanitizedValue(parseValue) else { return nil }
 		
 		let scanner = NSScanner(string: value, skipCommas: true)
 		var x: Float = 0, y: Float = 0, width: Float = 0, height: Float = 0

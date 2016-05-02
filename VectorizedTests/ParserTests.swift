@@ -28,12 +28,12 @@ import Foundation
 
 class ParserTests: XCTestCase {
 	func testEmptyPath() {
-		XCTAssertNil(NuParser(path: ""))
-		XCTAssertNotNil(NuParser(path: "non/existent/but/not/empty.xml"))
+		XCTAssertNil(SVGParser(path: ""))
+		XCTAssertNotNil(SVGParser(path: "non/existent/but/not/empty.xml"))
 	}
 	
 	func testNonexistentParse() {
-		let parser = NuParser(path: "non_existent.xml")!
+		let parser = SVGParser(path: "non_existent.xml")!
 
 		XCTAssertThrowsError(try parser.parse())
 		XCTAssertNotNil(parser.parserError)
@@ -41,7 +41,7 @@ class ParserTests: XCTestCase {
 	}
 	
 	func testBasicShapesRect() {
-		if let parser = NuParser(path: NSBundle(forClass: self.dynamicType).pathForResource("shapes-rect-01-t", ofType: "svg")!) {
+		if let parser = SVGParser(path: NSBundle(forClass: self.dynamicType).pathForResource("shapes-rect-01-t", ofType: "svg")!) {
 			XCTAssertNil(parser.parserError)
 			
 			do {

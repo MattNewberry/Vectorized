@@ -24,16 +24,16 @@
 
 import Foundation
 
-public struct SVGDocument: SVGContainer {
+public final class SVGDocument: SVGContainer {
 	public var parent: SVGContainer?
-	public var children: [SVGElement]?
+	public var children: [SVGElement] = []
 	
 	public var version: String?
-	public var coordinates: CGPoint = CGPoint(x: 0, y: 0)
+	public var coordinates: SVGPoint = SVGPoint(x: 0, y: 0)
 	public var size: SVGSize?
 	public var viewBox: CGRect?
 	
 	public var description: String {
-		return "{SVGDocument<\(children != nil) ? children!.count)>: \(children)"
+		return "{SVGDocument<\(children.count)>: \(children)"
 	}
 }

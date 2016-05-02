@@ -30,11 +30,21 @@ public protocol SVGElement: CustomStringConvertible {
 }
 
 public protocol SVGContainer: SVGElement {
-	var children: [SVGElement]? { get set }
+	var children: [SVGElement] { get set }
 }
 
 public extension SVGElement {
 	public var description: String {
 		return "{SVGElement}"
+	}
+}
+
+extension SVGContainer {
+	mutating func appendChild(child: SVGElement) {
+		var child = child
+		
+		child.parent = self
+		
+		children.append(child)
 	}
 }

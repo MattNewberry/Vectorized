@@ -1,8 +1,7 @@
 //---------------------------------------------------------------------------------------
 //	The MIT License (MIT)
 //
-//	Created by Austin Fitzpatrick on 3/18/15 (the "SwiftVG" project)
-//	Modified by Brian Christensen <brian@alienorb.com>
+//	Based on parser code by Austin Fitzpatrick (the "SwiftVG" project)
 //
 //	Copyright (c) 2015 Seedling
 //	Copyright (c) 2016 Alien Orb Software LLC
@@ -27,28 +26,40 @@
 //---------------------------------------------------------------------------------------
 
 import Foundation
-import CoreGraphics
 
-/// A Parser which takes in a .svg file and spits out an SVGGraphic for display
-/// Begin your interaction with the parser by initializing it with a path and calling
-/// parse() to retrieve an SVGGraphic.	Safe to call on a background thread.
 internal class SVGParser: NSObject, NSXMLParserDelegate {
-	internal let parserId: String = NSUUID().UUIDString
 	internal var parserError: ErrorType?
 	
-	private var parser: NSXMLParser
-	private var svgViewBox: CGRect = CGRectZero
-	private var drawables: [SVGDrawable] = []
-	private var colors: [String: SVGColor] = [:]
-	private var gradients: [String: SVGGradient] = [:]
-	private var namedPaths: [String: SVGBezierPath] = [:]
-	private var clippingPaths: [String: SVGBezierPath] = [:]
-	private var lastGradient: SVGGradient?
-	private var lastGroup: SVGGroup?
-	private var lastClippingPath: String?
-	private var definingDefs: Bool = false
-	private var lastText: SVGText?
+	internal var line: Int {
+		return xmlParser.lineNumber
+	}
 	
+	internal var column: Int {
+		return xmlParser.columnNumber
+	}
+	
+	// Enumeration defining the possible XML tags in an SVG file
+	private enum ElementName: String {
+		case Document = "svg"
+		case Group = "g"
+	}
+
+	private var xmlParser: NSXMLParser
+	private var elementStack: [SVGElement] = []
+	private var documents: [SVGDocument] = []
+	
+	internal class func sanitizedValue(parseValue: String?) -> String? {
+		guard let parseValue = parseValue else { return nil }
+		
+		let value = parseValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+		
+		if value.isEmpty {
+			return nil
+		}
+		
+		return value
+	}
+
 	/// Initializes an SVGParser for the file at the given path
 	///
 	/// :param: path The path to the SVG file
@@ -73,34 +84,26 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	}
 	
 	private init(parser: NSXMLParser) {
-		self.parser = parser
-
+		xmlParser = parser
 		super.init()
-		
-		self.parser.delegate = self
+		xmlParser.delegate = self
 	}
 	
-	/// Parse the supplied SVG file and return an SVGGraphic
-	///
-	/// :returns: an SVGImageVector ready for display
-	internal func parse() throws -> SVGGraphic {
-		let (drawables, size) = try coreParse()
-		return SVGGraphic(drawables: drawables, size: size)
+	private func abortParsingWithError(error: ErrorType) {
+		parserError = error
+		xmlParser.abortParsing()
 	}
 	
-	/// Parse the supplied SVG file and return the components of an SVGGraphic
-	///
-	/// :returns: a tuple containing the SVGDrawable array and the size of the SVGGraphic
-	internal func coreParse() throws -> ([SVGDrawable], CGSize) {
-		if parser.parse() {
+	internal func parse() throws -> [SVGDocument] {
+		if xmlParser.parse() {
 			if let error = parserError {
 				throw error
 			}
 			
-			return (drawables, svgViewBox.size)
+			return documents
 		}
 		
-		if let error = parser.parserError {
+		if let error = xmlParser.parserError {
 			parserError = SVGError.NSXMLParserError(error)
 			throw parserError!
 		}
@@ -109,637 +112,67 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 		throw parserError!
 	}
 	
-	/// Parse a transform matrix string "matrix(a,b,c,d,tx,ty)" and return a CGAffineTransform
-	///
-	/// :param: string The transformation String
-	/// :returns: A CGAffineTransform
-	internal class func transformFromString(transformString: String?) throws -> CGAffineTransform {
-		if let string = transformString {
-			var transforms: [(CGAffineTransform, Int)] = []
+	private func beginElement(name: String, withAttributes attributes: [String : String]) throws {
+		if let name = ElementName(rawValue: name.lowercaseString) {
+			var element: SVGElement
+			
+			switch name {
+			case .Document:
+				element = try SVGDocument(parseAttributes: attributes, location: (line, column))
+				documents.append(element as! SVGDocument)
+				
+			case .Group:
+				element = try SVGGroup(parseAttributes: attributes, location: (line, column))
+			}
+			
+			if let top = elementStack.last {
+				if var top = top as? SVGContainer {
+					top.appendChild(element)
+				}
+			}
+			
+			elementStack.append(element)
+		}
+	}
+	
+	private func endElement(name: String) throws {
+		if let _ = ElementName(rawValue: name.lowercaseString) {
+			elementStack.removeLast()
+		}
+	}
 
-			let charactersToSkip = NSMutableCharacterSet.whitespaceAndNewlineCharacterSet()
-			charactersToSkip.formUnionWithCharacterSet(NSCharacterSet(charactersInString: ","))
-			
-			let scanner = NSScanner(string: string)
-			scanner.charactersToBeSkipped = charactersToSkip
-
-			func parseType(type: String, parser: ((NSScanner) throws -> CGAffineTransform?)) throws -> Int {
-				if scanner.scanString(type, intoString: nil) {
-					if let transform = try parser(scanner) {
-						transforms.append((transform, scanner.scanLocation))
-					}
-					
-					return 1
-				}
-				
-				return 0
-			}
-			
-			while !scanner.atEnd {
-				var matches = 0
-				
-				matches += try parseType("matrix", parser: parseTransformMatrix)
-				matches += try parseType("translate", parser: parseTransformTranslate)
-				matches += try parseType("scale", parser: parseTransformScale)
-				matches += try parseType("rotate", parser: parseTransformRotate)
-				
-				if matches == 0 {
-					scanner.scanLocation += 1
-				}
-			}
-			
-			transforms.sortInPlace {
-				return $0.1 > $1.1		// apply from right to left
-			}
-			
-			var concattedTransform = CGAffineTransformIdentity
-			
-			for transform in transforms {
-				concattedTransform = CGAffineTransformConcat(concattedTransform, transform.0)
-			}
-			
-			return concattedTransform
-		}
+	// MARK: -
+	// MARK: NSXMLParserDelegate
+	
+	@objc internal func parserDidStartDocument(parser: NSXMLParser) {
 		
-		return CGAffineTransformIdentity
 	}
 	
-	private class func parseTransformMatrix(scanner: NSScanner) throws -> CGAffineTransform? {
-		if !scanner.scanString("(", intoString: nil) {
-			throw SVGError.MissingOpeningBrace("matrix")
-		}
+	@objc internal func parserDidEndDocument(parser: NSXMLParser) {
 		
-		var a: Float = 0, b: Float = 0, c: Float = 0, d: Float = 0, tx: Float = 0, ty: Float = 0
-		
-		if !scanner.scanFloat(&a) {
-			throw SVGError.InvalidTransformDefinition("matrix", error: "Missing <a>")
-		}
-		
-		if !scanner.scanFloat(&b) {
-			throw SVGError.InvalidTransformDefinition("matrix", error: "Missing <b>")
-		}
-		
-		if !scanner.scanFloat(&c) {
-			throw SVGError.InvalidTransformDefinition("matrix", error: "Missing <c>")
-		}
-		
-		if !scanner.scanFloat(&d) {
-			throw SVGError.InvalidTransformDefinition("matrix", error: "Missing <d>")
-		}
-		
-		if !scanner.scanFloat(&tx) {
-			throw SVGError.InvalidTransformDefinition("matrix", error: "Missing <e>")
-		}
-		
-		if !scanner.scanFloat(&ty) {
-			throw SVGError.InvalidTransformDefinition("matrix", error: "Missing <f>")
-		}
-		
-		if !scanner.scanString(")", intoString: nil) {
-			throw SVGError.MissingClosingBrace("matrix")
-		}
-		
-		return CGAffineTransform(a: CGFloat(a), b: CGFloat(b), c: CGFloat(c), d: CGFloat(d), tx: CGFloat(tx), ty: CGFloat(ty))
 	}
 	
-	private class func parseTransformTranslate(scanner: NSScanner) throws -> CGAffineTransform? {
-		if !scanner.scanString("(", intoString: nil) {
-			throw SVGError.MissingOpeningBrace("translate")
-		}
-		
-		var x: Float = 0, y: Float = 0
-		
-		if !scanner.scanFloat(&x) {
-			throw SVGError.InvalidTransformDefinition("translate", error: "Missing <x>")
-		}
-		
-		// y is optional
-		scanner.scanFloat(&y)
-		
-		if !scanner.scanString(")", intoString: nil) {
-			throw SVGError.MissingClosingBrace("translate")
-		}
-
-		return CGAffineTransformMakeTranslation(CGFloat(x), CGFloat(y))
-	}
-	
-	private class func parseTransformScale(scanner: NSScanner) throws -> CGAffineTransform? {
-		if !scanner.scanString("(", intoString: nil) {
-			throw SVGError.MissingOpeningBrace("translate")
-		}
-		
-		var x: Float = 0, y: Float = 0
-		
-		if !scanner.scanFloat(&x) {
-			throw SVGError.InvalidTransformDefinition("scale", error: "Missing <x>")
-		}
-		
-		// y is optional
-		scanner.scanFloat(&y)
-		
-		if !scanner.scanString(")", intoString: nil) {
-			throw SVGError.MissingClosingBrace("scale")
-		}
-		
-		return CGAffineTransformMakeScale(CGFloat(x), CGFloat(y))
-	}
-	
-	private class func parseTransformRotate(scanner: NSScanner) throws -> CGAffineTransform? {
-		var transform: CGAffineTransform
-		
-		if !scanner.scanString("(", intoString: nil) {
-			throw SVGError.MissingOpeningBrace("translate")
-		}
-		
-		var angle: Float = 0, x: Float = 0, y: Float = 0
-		
-		if !scanner.scanFloat(&angle) {
-			throw SVGError.InvalidTransformDefinition("rotate", error: "Missing <a>")
-		}
-		
-		// [x, y] pair is optional
-		if scanner.scanFloat(&x) {
-			if !scanner.scanFloat(&y) {
-				throw SVGError.InvalidTransformDefinition("rotate", error: "Missing <y> to go with <x>")
-			}
-		}
-		
-		if !scanner.scanString(")", intoString: nil) {
-			throw SVGError.MissingClosingBrace("scale")
-		}
-		
-		transform = CGAffineTransformMakeTranslation(CGFloat(x), CGFloat(y))
-		transform = CGAffineTransformRotate(transform, CGFloat(angle))
-		transform = CGAffineTransformTranslate(transform, CGFloat(-x), CGFloat(-y))
-		
-		return transform
-	}
-	
-	/// Takes a string containing a hex value and converts it to a SVGColor.  Caches the SVGColor for later use.
-	///
-	/// :param: potentialHexString the string potentially containing a hex value to parse into a SVGColor
-	/// :returns: SVGColor representation of the hex string - or nil if no hex string is found
-	private func addColor(potentialHexString: String?) -> SVGColor? {
-		guard potentialHexString != "none" else { return SVGColor.clearColor() }
-		
-		if let potentialHexString = potentialHexString {
-			if let hexRange = potentialHexString.rangeOfString("#", options: [], range: nil, locale: nil) {
-				let hexString = potentialHexString.stringByReplacingCharactersInRange(potentialHexString.startIndex..<hexRange.startIndex, withString: "")
-				
-				colors[hexString] = colors[hexString] ?? SVGColor(hex: hexString)
-				
-				return colors[hexString]
-			}
-		}
-		
-		return nil
-	}
-	
-	/// Parses a viewBox string and sets the view box of the SVG
-	///
-	/// :param: attributeDict the attribute dictionary from the SVG element form which to extract a view box
-	private func setViewBox(attributeDict: [String: String]) {
-		if let viewBox = attributeDict["viewBox"] {
-			let floats: [CGFloat] = viewBox.componentsSeparatedByString(" ").map {
-				CGFloat(Float($0) ?? 0.0)
-			}
-			
-			if floats.count < 4 {
-				svgViewBox = CGRectZero; print("An error has occured - the view box is zero")
-			}
-			
-			svgViewBox = CGRect(x: floats[0], y: floats[1], width: floats[2], height: floats[3])
-		} else {
-			let width = Float(attributeDict["width"] ?? "") ?? 0.0
-			let height = Float(attributeDict["height"] ?? "") ?? 0.0
-			
-			svgViewBox = CGRect(x: 0, y: 0, width: CGFloat(width), height: CGFloat(height))
-		}
-	}
-	
-	/// Returns either a gradient ID or hex string for a color from a string (strips "url(" from gradient references)
-	///
-	/// :param: string The string to parse for #hexcolors or url(#gradientId)
-	/// :returns: A string fit for using as a key to lookup gradients and colors - or nil of the param was nil
-	private func itemIDOrHexFromAttribute(string: String?) -> String? {
-		let newString = string?.stringByReplacingOccurrencesOfString("url(#", withString: "", options: [], range: nil)
-		
-		return newString?.stringByReplacingOccurrencesOfString(")", withString: "", options: [], range: nil)
-	}
-	
-	/// Returns an array of points parsed out of a string in the format "x1,y1 x2,y2 x3,y3"
-	///
-	/// :params: string the string to parse points out of
-	/// :returns: an array of CGPoint structs representing the points in the string
-	private func pointsFromPointString(string: String?) -> [CGPoint] {
-		guard string != nil else { return [] }
-		
-		let pairs = string!.componentsSeparatedByString(" ") as [String]
-		
-		return pairs.filter {
-			($0.utf16.count > 0)
-		}.map {
-			let numbers = $0.componentsSeparatedByString(",")
-			let x = Float(numbers[0] ?? "") ?? 0.0
-			let y = Float(numbers[1] ?? "") ?? 0.0
-			
-			return CGPoint(x: CGFloat(x) - self.svgViewBox.origin.x, y: CGFloat(y) - self.svgViewBox.origin.y)
-		}
-	}
-	
-	/// Processes a rectangle found during parsing.	 If we're defining the <defs> for the document we'll just save the rect
-	/// for later use.	If we're not currently defining <defs> then we'll interpret it as a rectangular path.
-	///
-	/// :param: attributeDict The attributes from the XML element - currently "x", "y", "width", "height", "id", "opacity", "fill" are supported.
-	private func addRect(attributeDict: [String: String]) throws {
-		let id = attributeDict["id"]
-		let originX = CGFloat(Float(attributeDict["x"] ?? "") ?? 0.0)
-		let originY = CGFloat(Float(attributeDict["y"] ?? "") ?? 0.0)
-		let width = CGFloat(Float(attributeDict["width"] ?? "") ?? 0.0)
-		let height = CGFloat(Float(attributeDict["height"] ?? "") ?? 0.0)
-		let rect = CGRectOffset(CGRect(x: originX, y: originY, width: width, height: height), -svgViewBox.origin.x, -svgViewBox.origin.y)
-		
-		if definingDefs {
-			if let id = id {
-				namedPaths[id] = SVGBezierPath(rect: rect)
-			} else {
-				print("Defining defs, but didn't find id for rect")
-			}
-		} else {
-			let bezierPath = SVGBezierPath(rect: rect)
-			
-			bezierPath.applyTransform(try SVGParser.transformFromString(attributeDict["transform"]))
-			createSVGPath(bezierPath, attributeDict: attributeDict)
-		}
-	}
-	
-	/// Adds a path defined by attributeDict to either the last group or the root element, if no group exists
-	///
-	/// :param: attributeDict The attributes from the XML element - currently "fill", "opacity" and "d" are supported.
-	private func addPath(attributeDict: [String: String]) {
-		let id = attributeDict["id"]
-		let d = attributeDict["d"]!
-		let bezierPath = SVGBezierPath(SVGPathDescription: d, factoryIdentifier: parserId)
-		
-		bezierPath.applyTransform(CGAffineTransformMakeTranslation(-svgViewBox.origin.x, -svgViewBox.origin.y))
-		bezierPath.miterLimit = 4
-		
-		if definingDefs {
-			if let id = id {
-				namedPaths[id] = bezierPath
-			} else {
-				print("Defining defs, but didn't find id for rect")
-			}
-		} else {
-			createSVGPath(bezierPath, attributeDict: attributeDict)
-		}
-	}
-	
-	/// Adds a path in the shape of the polygon defined by attributeDict
-	///
-	/// :param: attributeDict the attributes from the XML - currently "points", "fill", and "opacity"
-	private func addPolygon(attributeDict: [String: String]) {
-		let id = attributeDict["id"]
-		let points = pointsFromPointString(attributeDict["points"])
-		let bezierPath = SVGBezierPath()
-		
-		bezierPath.moveToPoint(points[0])
-		
-		for i in 1..<points.count {
-			bezierPath.addLineToPoint(points[i])
-		}
-		
-		bezierPath.closePath()
-		
-		if definingDefs {
-			if let id = id {
-				namedPaths[id] = bezierPath
-			} else{
-				print("Defining defs, but didn't find id for rect")
-			}
-		} else {
-			createSVGPath(bezierPath, attributeDict: attributeDict)
-		}
-	}
-	
-	/// Adds an ellipse defined by the attributes
-	///
-	/// :param: attributeDict the attributes defined by the XML
-	private func addEllipse(attributeDict: [String: String]) throws {
-		let id = attributeDict["id"]
-		let centerX = CGFloat(Float(attributeDict["cx"] ?? "") ?? 0.0)
-		let centerY = CGFloat(Float(attributeDict["cy"] ?? "") ?? 0.0)
-		let radiusX = CGFloat(Float(attributeDict["rx"] ?? "") ?? 0.0)
-		let radiusY = CGFloat(Float(attributeDict["ry"] ?? "") ?? 0.0)
-//		  let rect = CGRectOffset(CGRect(x: centerX - radiusX, y: centerY - radiusY, width: radiusX * 2.0, height: radiusY * 2.0), -svgViewBox.origin.x, -svgViewBox.origin.y)
-		let rect = CGRect(x: centerX - radiusX, y: centerY - radiusY, width: radiusX * 2.0, height: radiusY * 2.0)
-		let bezierPath = SVGBezierPath(ovalInRect: rect)
-		
-		if definingDefs {
-			if let id = id {
-				namedPaths[id] = bezierPath
-			} else{
-				print("Defining defs, but didn't find id for rect")
-			}
-		} else {
-			bezierPath.applyTransform(try SVGParser.transformFromString(attributeDict["transform"]))
-			bezierPath.applyTransform(CGAffineTransformMakeTranslation(-svgViewBox.origin.x, -svgViewBox.origin.y))
-			createSVGPath(bezierPath, attributeDict: attributeDict)
-		}
-	}
-	
-	/// Adds a polyline defined by the attributes
-	///
-	/// :param: attributeDict the attributes from the XML - currently "points", "fill", and "opacity"
-	private func addPolyline(attributeDict: [String: String]){
-		let id = attributeDict["id"]
-		let points = pointsFromPointString(attributeDict["points"])
-		let bezierPath = SVGBezierPath()
-		
-		bezierPath.moveToPoint(points[0])
-		
-		for i in 1..<points.count {
-			bezierPath.addLineToPoint(points[i])
-		}
-		
-		//bezierPath.closePath()
-		
-		if definingDefs {
-			if let id = id {
-				namedPaths[id] = bezierPath
-			} else{
-				print("Defining defs, but didn't find id for rect")
-			}
-		} else {
-			createSVGPath(bezierPath, attributeDict: attributeDict)
-		}
-	}
-	
-	/// Takes a bezierPath and an attributeDict and inserts the path into the last group
-	private func createSVGPath(bezierPath: SVGBezierPath, attributeDict: [String: String]){
-		var fill: SVGFillable? = nil
-		
-		if let attr = itemIDOrHexFromAttribute(attributeDict["fill"]) {
-			fill = gradients[attr] ?? addColor(attr)
-		}
-		
-		let opacity = CGFloat(Float(attributeDict["opacity"] ?? "") ?? 1.0)
-		let fillRule = attributeDict["fill-rule"] ?? ""
-		
-		if fillRule == "evenodd" {
-			bezierPath.usesEvenOddFillRule = true
-		}
-		
-		var clippingPath: SVGBezierPath?
-		
-		if let clippingPathName = itemIDOrHexFromAttribute(attributeDict["clip-path"]) {
-			clippingPath = clippingPaths[clippingPathName]
-		}
-		
-		let path = SVGPath(bezierPath: bezierPath, fill: fill, opacity: opacity, clippingPath: clippingPath)
-		
-		path.identifier = attributeDict["id"]
-		
-		if lastGroup != nil {
-			lastGroup?.addToGroup(path)
-		} else {
-			drawables.append(path)
-		}
-	}
-	
-	private func beginText(attributeDict: [String: String]) throws {
-		var fill: SVGFillable? = nil
-		
-		if let attr = itemIDOrHexFromAttribute(attributeDict["fill"]){
-			fill = gradients[attr] ?? addColor(attr)
-		}
-		
-		let transform = try SVGParser.transformFromString(attributeDict["transform"])
-		let text = SVGText()
-		
-		text.identifier = attributeDict["id"]
-		text.transform = transform
-		text.fill = fill
-		text.viewBox = svgViewBox
-		
-		if let fontName = attributeDict["font-family"] {
-			if let size = Float(attributeDict["font-size"] ?? "") {
-				let name = fontName.stringByReplacingOccurrencesOfString("'", withString: "", options: [], range: nil)
-				let font = SVGFont(name: name, size: CGFloat(size))
-				text.font = font
-			}
-		}
-		
-		lastText = text
-	}
-	
-	private func endText(){
-		if let lastText = lastText{
-			if lastGroup != nil {
-				lastGroup?.addToGroup(lastText)
-			} else {
-				drawables.append(lastText)
-			}
-		}
-		
-		lastText = nil
-	}
-	
-	/// Begins a new group, setting "lastGroup" to the newly created group
-	private func beginGroup(attributeDict: [String: String]) {
-		let newGroup = SVGGroup()
-		
-		newGroup.identifier = attributeDict["id"]
-		
-		var clippingPath: SVGBezierPath?
-		
-		if let clippingPathName = itemIDOrHexFromAttribute(attributeDict["clip-path"]) {
-			clippingPath = clippingPaths[clippingPathName]
-		}
-		
-		newGroup.clippingPath = clippingPath
-		
-		if let lastGroup = lastGroup {
-			lastGroup.addToGroup(newGroup)
-		}
-		
-		lastGroup = newGroup
-	}
-	
-	/// Ends the current group and moves "lastGroup" up one level
-	private func endGroup() {
-		if let last = lastGroup {
-			if last.group == nil {
-				drawables.append(last)
-			}
-			
-			lastGroup = last.group
-		}
-	}
-	
-	/// Begins a new clipping path (we're waiting on "use" at this point)
-	private func beginClippingPath(attributeDict: [String: String]) {
-		lastClippingPath = attributeDict["id"]
-	}
-	
-	/// Ends the current clipping path
-	private func endClippingPath() {
-		lastClippingPath = nil
-	}
-	
-	// Adds a use, probably for a clipping path
-	private func addUse(attributeDict: [String: String]) {
-		if let clippingPath = lastClippingPath {
-			if let pathId = ((attributeDict["xlink:href"] ?? attributeDict["href"]))?.stringByReplacingOccurrencesOfString("#", withString: "", options: [], range: nil) {
-				clippingPaths[clippingPath] = namedPaths[pathId]
-			}
-		}
-	}
-	
-	private func addStop(attributeDict: [String: String]) {
-		let offset = CGFloat(Float(attributeDict["offset"] ?? "") ?? 0.0)
-		
-		if let styleAttributes = (attributeDict["style"])?.componentsSeparatedByString(";") {
-			var color = SVGColor.blackColor()
-			var opacity = CGFloat(1.0)
-			
-			for styleAttribute in styleAttributes {
-				if let colorRange = styleAttribute.rangeOfString("stop-color:", options: .CaseInsensitiveSearch, range: nil, locale: nil){
-					//SET STOP COLOR
-					let range = colorRange.endIndex ..< styleAttribute.endIndex
-					
-					color = addColor(styleAttribute.substringWithRange(range)) ?? SVGColor.blackColor()
-				} else if let opacityRange = styleAttribute.rangeOfString("stop-opacity:", options: .CaseInsensitiveSearch, range: nil, locale: nil) {
-					//SET STOP OPACITY
-					let range = opacityRange.endIndex ..< styleAttribute.endIndex
-					
-					opacity = CGFloat(Float(styleAttribute.substringWithRange(range)) ?? 1.0)
-				}
-			}
-			
-			lastGradient?.addStop(offset, color: color, opacity: opacity)
-		}
-	}
-	
-	private func abortParsingWithError(error: ErrorType) {
-		parserError = error
-		parser.abortParsing()
-	}
-	
-	//MARK: NSXMLParserDelegate
-	
-	// Enumeration defining the possible XML tags in an SVG file
-	private enum ElementName: String {
-		case SVG = "svg"
-		case G = "g"
-		case Defs = "defs"
-		case Rect = "rect"
-		case Use = "use"
-		case RadialGradient = "radialGradient"
-		case LinearGradient = "linearGradient"
-		case Stop = "stop"
-		case Path = "path"
-		case Polygon = "polygon"
-		case ClipPath = "clipPath"
-		case Text = "text"
-		case Polyline = "polyline"
-		case Ellipse = "ellipse"
-	}
-	
-	@objc internal func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String: String]) {
-		if let elementNameEnum = ElementName(rawValue: elementName) {
-			do {
-				switch elementNameEnum {
-				case .SVG:
-					setViewBox(attributeDict)
-					
-				case .RadialGradient:
-					lastGradient = SVGRadialGradient(attributeDict: attributeDict, viewBox: svgViewBox)
-					
-				case .LinearGradient:
-					lastGradient = SVGLinearGradient(attributeDict: attributeDict, viewBox: svgViewBox)
-					
-				case .Stop:
-					addStop(attributeDict)
-					
-				case .Defs:
-					definingDefs = true
-					
-				case .Rect:
-					try addRect(attributeDict)
-					
-				case .Path:
-					addPath(attributeDict)
-					
-				case .G:
-					beginGroup(attributeDict)
-					
-				case .Polygon:
-					addPolygon(attributeDict)
-					
-				case .ClipPath:
-					beginClippingPath(attributeDict)
-					
-				case .Use:
-					addUse(attributeDict)
-					
-				case .Text:
-					try beginText(attributeDict)
-					
-				case .Polyline:
-					addPolyline(attributeDict)
-					
-				case .Ellipse:
-					try addEllipse(attributeDict)
-					
-				//default: break
-				}
-			} catch {
-				abortParsingWithError(error)
-			}
+	@objc internal func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
+		do {
+			try beginElement(elementName, withAttributes: attributeDict)
+		} catch {
+			abortParsingWithError(error)
 		}
 	}
 	
 	@objc internal func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-		if let elementNameEnum = ElementName(rawValue: elementName) {
-			switch elementNameEnum {
-			case .RadialGradient:
-				if let gradient = lastGradient {
-					gradients[gradient.id] = gradient
-					lastGradient = nil
-				} else {
-					print("We exited a gradient without having a last gradient - something went wrong.")
-				}
-				
-			case .LinearGradient:
-				if let gradient = lastGradient {
-					gradients[gradient.id] = gradient
-					lastGradient = nil
-				} else {
-					print("We exited a gradient without having a last gradient - something went wrong.")
-				}
-				
-			case .Defs:
-				definingDefs = false
-				
-			case .G:
-				endGroup()
-				
-			case .ClipPath:
-				endClippingPath()
-				
-			case .Text:
-				endText()
-				
-			default: break
-			}
+		do {
+			try endElement(elementName)
+		} catch {
+			abortParsingWithError(error)
 		}
 	}
 	
 	@objc internal func parser(parser: NSXMLParser, foundCharacters string: String) {
-		lastText?.text = string
+		
 	}
 	
-	@objc internal func parserDidEndDocument(parser: NSXMLParser) {
+	@objc internal func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
+		abortParsingWithError(parseError)
 	}
 }

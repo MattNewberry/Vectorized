@@ -25,16 +25,16 @@
 import Foundation
 
 extension SVGDocument: SVGElementParsing {
-	init(attributes: [String : String], location: (Int, Int)?) throws {
+	convenience init(parseAttributes attributes: [String : String], location: (Int, Int)?) throws {
 		self.init()
 
 		version = attributes["version"]
 		
-		if let x = CGFloat(attributes["x"]) {
+		if let x = try SVGLength(parseValue: attributes["x"], location: location) {
 			coordinates.x = x
 		}
 		
-		if let y = CGFloat(attributes["y"]) {
+		if let y = try SVGLength(parseValue: attributes["y"], location: location) {
 			coordinates.y = y
 		}
 		
@@ -42,7 +42,7 @@ extension SVGDocument: SVGElementParsing {
 		let height = try SVGLength(parseValue: attributes["height"], location: location)
 		
 		if width != nil || height != nil {
-			size = SVGSize(width: width ?? SVGLength(value: 0), height: height ?? SVGLength(value: 0))
+			size = SVGSize(width: width ?? SVGLength(0), height: height ?? SVGLength(0))
 		}
 		
 		viewBox = try CGRect(parseValue: attributes["viewBox"], location: location)
