@@ -22,35 +22,24 @@
 //	THE SOFTWARE.
 //---------------------------------------------------------------------------------------
 
-import XCTest
 import Foundation
-@testable import Vectorized
 
-class ParserTests: XCTestCase {
-	func testEmptyPath() {
-		XCTAssertNil(NuParser(path: ""))
-		XCTAssertNotNil(NuParser(path: "non/existent/but/not/empty.xml"))
-	}
-	
-	func testNonexistentParse() {
-		let parser = NuParser(path: "non_existent.xml")!
+extension SVGDocument: SVGElementParsing {
+	init(attributes: [String : String]) throws {
+		self.init()
 
-		XCTAssertThrowsError(try parser.parse())
-		XCTAssertNotNil(parser.parserError)
-		print("\(parser.parserError!)")
-	}
-	
-	func testBasicShapesRect() {
-		if let parser = NuParser(path: NSBundle(forClass: self.dynamicType).pathForResource("shapes-rect-01-t", ofType: "svg")!) {
-			XCTAssertNil(parser.parserError)
-			
-			do {
-				try parser.parse()
-			} catch {
-				XCTFail("Shouldn't throw any error: \(error)")
-			}
-		} else {
-			XCTFail("Shouldn't be a nil parser!")
+		self.version = attributes["version"]
+		
+		if let x = CGFloat(attributes["x"]) {
+			coordinates.x = x
 		}
+		
+		if let y = CGFloat(attributes["y"]) {
+			coordinates.y = y
+		}
+	}
+	
+	func endElement() throws {
+		
 	}
 }

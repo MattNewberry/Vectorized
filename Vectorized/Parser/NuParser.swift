@@ -27,10 +27,17 @@
 
 import Foundation
 
+// Enumeration defining the possible XML tags in an SVG file
+private enum ElementName: String {
+	case SVG = "svg"
+}
+
 internal class NuParser: NSObject, NSXMLParserDelegate {
 	internal var parserError: ErrorType?
 
 	private var xmlParser: NSXMLParser
+	private var elementStack: [SVGElement] = []
+	private var documents: [SVGDocument] = []
 
 	/// Initializes an SVGParser for the file at the given path
 	///
@@ -66,6 +73,41 @@ internal class NuParser: NSObject, NSXMLParserDelegate {
 		xmlParser.abortParsing()
 	}
 	
+	internal func parse() throws -> [SVGDocument] {
+		if xmlParser.parse() {
+			if let error = parserError {
+				throw error
+			}
+			
+			return documents
+		}
+		
+		if let error = xmlParser.parserError {
+			parserError = SVGError.NSXMLParserError(error)
+			throw parserError!
+		}
+		
+		parserError = SVGError.UnknownParserFailure
+		throw parserError!
+	}
+	
+	private func beginElement(name: String, withAttributes attributes: [String : String]) throws {
+		if let name = ElementName(rawValue: name.lowercaseString) {
+			switch name {
+			case .SVG:
+				let document = try SVGDocument(attributes: attributes)
+				elementStack.append(document)
+				documents.append(document)
+			}
+		}
+	}
+	
+	private func endElement(name: String) throws {
+		if let _ = ElementName(rawValue: name.lowercaseString) {
+			elementStack.removeLast()
+		}
+	}
+
 	// MARK: -
 	// MARK: NSXMLParserDelegate
 	
@@ -78,11 +120,19 @@ internal class NuParser: NSObject, NSXMLParserDelegate {
 	}
 	
 	@objc internal func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
-		
+		do {
+			try beginElement(elementName, withAttributes: attributeDict)
+		} catch {
+			abortParsingWithError(error)
+		}
 	}
 	
 	@objc internal func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-		
+		do {
+			try endElement(elementName)
+		} catch {
+			abortParsingWithError(error)
+		}
 	}
 	
 	@objc internal func parser(parser: NSXMLParser, foundCharacters string: String) {
@@ -90,6 +140,6 @@ internal class NuParser: NSObject, NSXMLParserDelegate {
 	}
 	
 	@objc internal func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
-		
+		abortParsingWithError(parseError)
 	}
 }

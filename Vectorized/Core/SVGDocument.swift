@@ -22,35 +22,19 @@
 //	THE SOFTWARE.
 //---------------------------------------------------------------------------------------
 
-import XCTest
 import Foundation
-@testable import Vectorized
 
-class ParserTests: XCTestCase {
-	func testEmptyPath() {
-		XCTAssertNil(NuParser(path: ""))
-		XCTAssertNotNil(NuParser(path: "non/existent/but/not/empty.xml"))
-	}
+public struct SVGDocument: SVGContainer {
+	public var parent: SVGContainer?
+	public var children: [SVGElement]?
 	
-	func testNonexistentParse() {
-		let parser = NuParser(path: "non_existent.xml")!
-
-		XCTAssertThrowsError(try parser.parse())
-		XCTAssertNotNil(parser.parserError)
-		print("\(parser.parserError!)")
-	}
+	public var version: String?
+	public var coordinates: CGPoint = CGPoint(x: 0, y: 0)
+	public var size: SVGSize?
+	public var preserveAspectRatio: Bool?
+	public var viewBox: CGRect?
 	
-	func testBasicShapesRect() {
-		if let parser = NuParser(path: NSBundle(forClass: self.dynamicType).pathForResource("shapes-rect-01-t", ofType: "svg")!) {
-			XCTAssertNil(parser.parserError)
-			
-			do {
-				try parser.parse()
-			} catch {
-				XCTFail("Shouldn't throw any error: \(error)")
-			}
-		} else {
-			XCTFail("Shouldn't be a nil parser!")
-		}
+	public var description: String {
+		return "{SVGDocument<\(children != nil) ? children!.count)>: \(children)"
 	}
 }
