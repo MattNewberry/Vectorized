@@ -24,4 +24,6 @@
 
 import Foundation
 
-extension SVGDocument: SVGElementParsing {}
+internal protocol SVGAttributeParsing {
+	init?(parseValue: String?, location: (Int, Int)?) throws
+}

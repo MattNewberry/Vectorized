@@ -1,6 +1,10 @@
 //---------------------------------------------------------------------------------------
 //	The MIT License (MIT)
 //
+//	Created by Austin Fitzpatrick on 3/19/15 (the "SwiftVG" project)
+//	Modified by Brian Christensen <brian@alienorb.com>
+//
+//	Copyright (c) 2015 Seedling
 //	Copyright (c) 2016 Alien Orb Software LLC
 //
 //	Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,13 +26,10 @@
 //	THE SOFTWARE.
 //---------------------------------------------------------------------------------------
 
-import Foundation
-
-internal protocol SVGElementParsing {
-	init(parseAttributes: [String : String], location: (Int, Int)?) throws
-	func endElement() throws
-}
-
-internal protocol SVGAttributeParsing {
-	init?(parseValue: String?, location: (Int, Int)?) throws
+// An SVGDrawable can be drawn to the screen.  To conform a type must implement one method, draw()
+public protocol SVGDrawable {
+	var onWillDraw: (()->())? { get set }
+	var onDidDraw: (()->())? { get set }
+	
+	func draw()
 }

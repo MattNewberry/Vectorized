@@ -25,13 +25,31 @@
 import Foundation
 
 public final class SVGRect: SVGBasicShapeElement, SVGShapeElement, SVGGraphicsElement {
+	public var attributes: [String : SVGAttribute] = [:]
+	
 	public var parent: SVGElement?
 	public var children: [SVGElement]?
 	
-	public var position: SVGPoint = SVGPointZero
-	public var size: SVGSize = SVGSizeZero
-	public var cornerRadius: SVGPoint = SVGPointZero
+	public var position: SVGPoint {
+		get { return attributes["position"] as? SVGPoint ?? SVGPointZero }
+	}
 	
+	public var size: SVGSize {
+		get { return attributes["size"] as? SVGSize ?? SVGSizeZero }
+	}
+	
+	public var cornerRadius: SVGPoint {
+		get {
+			if let rx = attributes["rx"] as? SVGLength, ry = attributes["ry"] as? SVGLength {
+				return SVGPoint(x: rx, y: ry)
+			}
+			
+			return SVGPointZero
+		}
+	}
+	
+	public init() {}
+
 	public func isPermittedContentElement(element: SVGElement) -> Bool {
 		switch element {
 		case _ as SVGAnimationElement: fallthrough

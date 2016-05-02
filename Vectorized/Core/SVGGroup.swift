@@ -29,6 +29,25 @@
 import Foundation
 
 public final class SVGGroup: SVGContainerElement, SVGStructuralElement {
+	public var attributes: [String : SVGAttribute] = [:]
+	
 	public var parent: SVGElement?
 	public var children: [SVGElement]?
+	
+	public init() {}
+	
+	public func isPermittedContentElement(element: SVGElement) -> Bool {
+		switch element {
+		case _ as SVGAnimationElement: fallthrough
+		case _ as SVGDescriptiveElement: fallthrough
+		case _ as SVGShapeElement: fallthrough
+		case _ as SVGStructuralElement: fallthrough
+		case _ as SVGGradientElement:
+			return true
+			
+		default:
+			return false
+		}
+		//<a>, <altGlyphDef>, <clipPath>, <color-profile>, <cursor>, <filter>, <font>, <font-face>, <foreignObject>, <image>, <marker>, <mask>, <pattern>, <script>, <style>, <switch>, <text>, <view>
+	}
 }

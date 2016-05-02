@@ -25,8 +25,12 @@
 import Foundation
 
 public protocol SVGElement: CustomStringConvertible {
+	var attributes: [String : SVGAttribute] { get set }
+	
 	var parent: SVGElement? { get set }
 	var children: [SVGElement]? { get set }
+
+	init()
 	
 	func isPermittedContentElement(element: SVGElement) -> Bool
 }
@@ -52,7 +56,7 @@ public protocol SVGTextContentElement: SVGElement {}
 public protocol SVGTextContentChildElement: SVGElement {}
 public protocol SVGUncategorizedElement: SVGElement {}
 
-public extension SVGElement {
+public extension SVGElement {	
 	public var description: String {
 		return "{SVGElement}"
 	}

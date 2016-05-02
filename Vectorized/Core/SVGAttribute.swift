@@ -24,25 +24,18 @@
 
 import Foundation
 
-extension CGRect: SVGAttributeParsing {
-	init?(parseValue: String?, location: (Int, Int)? = nil) throws {
-		guard let value = SVGParser.sanitizedValue(parseValue) else { return nil }
-		
-		let scanner = NSScanner(string: value, skipCommas: true)
-		var x: Float = 0, y: Float = 0, width: Float = 0, height: Float = 0
-		
-		if !scanner.scanFloat(&x) || !scanner.scanFloat(&y) || !scanner.scanFloat(&width) || !scanner.scanFloat(&height) {
-			throw SVGError.InvalidAttributeValue(parseValue!, location: location, message: "Expected x, y, width, height")
-		}
-		
-		if width < 0 || height < 0 {
-			throw SVGError.InvalidAttributeValue(parseValue!, location: location, message: "Expected non-negative width and height")
-		}
-		
-		if !scanner.atEnd {
-			throw SVGError.InvalidAttributeValue(parseValue!, location: location, message: "Expected end of value")
-		}
-		
-		self.init(x: CGFloat(x), y: CGFloat(y), width: CGFloat(width), height: CGFloat(height))
+public protocol SVGAttribute: CustomStringConvertible {
+	//var value: AnyObject? { get set }
+}
+
+public extension SVGAttribute {
+	public var description: String {
+		return "{SVGAttribute}"
 	}
+}
+
+public protocol SVGPresentationAttribute: SVGAttribute {}
+
+public struct SVGStroke: SVGPresentationAttribute {
+	public var color: SVGColor?
 }

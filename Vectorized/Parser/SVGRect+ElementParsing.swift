@@ -25,36 +25,13 @@
 import Foundation
 
 extension SVGRect: SVGElementParsing {
-	convenience init(parseAttributes attributes: [String : String], location: (Int, Int)?) throws {
-		self.init()
-		
-		if let x = try SVGLength(parseValue: attributes["x"], location: location) {
-			position.x = x
+	func processParsedAttributes(attributes: [String : SVGAttribute], location: (Int, Int)?) throws -> [String : SVGAttribute] {
+		if let size = attributes["size"] as? SVGSize {
+			if size.width.value < 0 || size.height.value < 0 {
+				throw SVGError.InvalidAttributeValue("\(size)", location: location, message: "Expected non-negative width and height")
+			}
 		}
 		
-		if let y = try SVGLength(parseValue: attributes["y"], location: location) {
-			position.y = y
-		}
-		
-		let width = try SVGLength(parseValue: attributes["width"], location: location)
-		let height = try SVGLength(parseValue: attributes["height"], location: location)
-		
-		if width != nil || height != nil {
-			size = SVGSize(width: width ?? SVGLength(0), height: height ?? SVGLength(0))
-		}
-		
-		if size.width.value < 0 || size.height.value < 0 {
-			throw SVGError.InvalidAttributeValue("\(size)", location: location, message: "Expected non-negative width and height")
-		}
-		
-		if let rx = try SVGLength(parseValue: attributes["rx"], location: location) {
-			cornerRadius.x = rx
-		}
-		
-		if let ry = try SVGLength(parseValue: attributes["ry"], location: location) {
-			cornerRadius.y = ry
-		}
+		return attributes
 	}
-	
-	func endElement() throws {}
 }

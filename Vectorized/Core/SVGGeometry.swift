@@ -36,7 +36,7 @@ public enum SVGUnit: String {
 	case Percent = "%"
 }
 
-public struct SVGLength: CustomStringConvertible {
+public struct SVGLength: SVGAttribute, CustomStringConvertible {
 	public var value: Float
 	public var unit: SVGUnit?
 	
@@ -50,7 +50,7 @@ public struct SVGLength: CustomStringConvertible {
 	}
 }
 
-public struct SVGSize: CustomStringConvertible {
+public struct SVGSize: SVGAttribute, CustomStringConvertible {
 	public var width: SVGLength
 	public var height: SVGLength
 	
@@ -64,7 +64,7 @@ public struct SVGSize: CustomStringConvertible {
 	}
 }
 
-public struct SVGPoint: CustomStringConvertible {
+public struct SVGPoint: SVGAttribute, CustomStringConvertible {
 	public var x: SVGLength
 	public var y: SVGLength
 	

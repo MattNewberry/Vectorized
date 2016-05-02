@@ -25,17 +25,32 @@
 import Foundation
 
 public final class SVGDocument: SVGContainerElement, SVGStructuralElement {
+	public var attributes: [String : SVGAttribute] = [:]
+	
 	public var parent: SVGElement?
 	public var children: [SVGElement]?
 	
-	public var version: String?
-	public var position: SVGPoint = SVGPoint(x: 0, y: 0)
-	public var size: SVGSize = SVGSize(width: SVGLength(100, .Percent), height: SVGLength(100, .Percent))
-	public var viewBox: CGRect?
+	public var version: String? {
+		get { return attributes["version"] as? String ?? nil }
+	}
+	
+	public var position: SVGPoint {
+		get { return attributes["position"] as? SVGPoint ?? SVGPointZero }
+	}
+	
+	public var size: SVGSize {
+		get { return attributes["size"] as? SVGSize ?? SVGSize(width: SVGLength(100, .Percent), height: SVGLength(100, .Percent)) }
+	}
+	
+	public var viewBox: CGRect? {
+		get { return attributes["viewBox"] as? CGRect ?? nil }
+	}
 	
 	public var description: String {
 		return "{SVGDocument: \(children)}"
 	}
+	
+	public init() {}
 	
 	public func isPermittedContentElement(element: SVGElement) -> Bool {
 		switch element {

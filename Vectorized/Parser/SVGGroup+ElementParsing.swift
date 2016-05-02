@@ -24,12 +24,4 @@
 
 import Foundation
 
-extension SVGGroup: SVGElementParsing {
-	convenience init(parseAttributes attributes: [String : String], location: (Int, Int)?) throws {
-		self.init()
-		
-		
-	}
-	
-	func endElement() throws {}
-}
+extension SVGGroup: SVGElementParsing {}
