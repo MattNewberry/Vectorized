@@ -28,8 +28,8 @@
 
 // An SVGDrawable can be drawn to the screen.  To conform a type must implement one method, draw()
 public protocol SVGDrawable {
-	var onWillDraw: (()->())? { get set }
-	var onDidDraw: (()->())? { get set }
+//	var onWillDraw: (()->())? { get set }
+//	var onDidDraw: (()->())? { get set }
 	
 	func draw()
 }

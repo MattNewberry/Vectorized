@@ -23,8 +23,9 @@
 //---------------------------------------------------------------------------------------
 
 import Foundation
+import CoreGraphics
 
-public final class SVGDocument: SVGContainerElement, SVGStructuralElement {
+public final class SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDrawable {
 	public var attributes: [String : SVGAttribute] = [:]
 	
 	public var parent: SVGElement?
@@ -51,6 +52,13 @@ public final class SVGDocument: SVGContainerElement, SVGStructuralElement {
 	}
 	
 	public init() {}
+	
+	public func draw() {
+		CGContextSaveGState(SVGGraphicsGetCurrentContext())
+		// draw...
+		print("Should draw...")
+		CGContextRestoreGState(SVGGraphicsGetCurrentContext())
+	}
 	
 	public func isPermittedContentElement(element: SVGElement) -> Bool {
 		switch element {

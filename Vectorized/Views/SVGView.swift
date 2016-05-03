@@ -40,7 +40,7 @@
 @IBDesignable public class SVGView: BaseView {
 	@IBInspectable var vectorGraphicName: String? {
 		didSet {
-			//svgNameChanged()
+			svgNameChanged()
 		}
 	}
 	
@@ -52,70 +52,71 @@
 	}
 #endif
 	
-//	public var vectorGraphic: SVGGraphic? {
-//		didSet {
-//			setNeedsDisplay()
-//		}
-//	}
-//	
-//	public convenience init(vectorGraphic: SVGGraphic?) {
-//		self.init(frame: CGRect(x: 0, y: 0, width: vectorGraphic?.size.width ?? 0, height: vectorGraphic?.size.height ?? 0))
-//		
-//		self.vectorGraphic = vectorGraphic
-//	}
-//
-//	/// When the SVG's name changes we'll reparse the new file
-//	private func svgNameChanged() {
-//		guard vectorGraphicName != nil else {
-//			vectorGraphic = nil
-//			return
-//		}
-//		
-//	#if !TARGET_INTERFACE_BUILDER
-//		let bundle = NSBundle.mainBundle()
-//	#else
-//		let bundle = NSBundle(forClass: self.dynamicType)
-//	#endif
-//		
-//		if let path = bundle.pathForResource(vectorGraphicName, ofType: "svg"), parser = SVGParser(path: path) {
-//			do {
-//				vectorGraphic = try parser.parse()
-//			} catch {
-//				Swift.print("\(self): The SVG parser encountered an error: \(error)")
-//				vectorGraphic = nil
-//			}
-//		} else {
-//			Swift.print("\(self): SVG resource named '\(vectorGraphicName!)' was not found!")
-//			vectorGraphic = nil
-//		}
-//	}
-//	
-//	/// Draw the SVGVectorImage to the screen - respecting the contentMode property
-//	override public func drawRect(rect: CGRect) {
-//		super.drawRect(rect)
-//		
-//		if let vectorGraphic = vectorGraphic {
-//			if let context = SVGGraphicsGetCurrentContext() {
-//				let translation = vectorGraphic.translationWithTargetSize(rect.size, contentMode: contentMode)
-//				let scale = vectorGraphic.scaleWithTargetSize(rect.size, contentMode: contentMode)
-//				
-//				#if os(OSX)
-//					let flipVertical = CGAffineTransform(a: 1.0, b: 0.0, c: 0.0, d: -1.0, tx: 0.0, ty: rect.size.height)
-//					CGContextConcatCTM(context, flipVertical)
-//				#endif
-//				
-//				CGContextScaleCTM(context, scale.width, scale.height)
-//				CGContextTranslateCTM(context, translation.x / scale.width, translation.y / scale.height)
-//				
-//				vectorGraphic.draw()
-//			}
-//		}
-//	}
+	public var document: SVGDocument? {
+		didSet {
+			setNeedsDisplay()
+		}
+	}
+	
+	public convenience init(document: SVGDocument?) {
+		self.init(frame: CGRect(x: 0, y: 0, width: CGFloat(document?.size.width.value ?? 0), height: CGFloat(document?.size.height.value ?? 0)))
+		
+		self.document = document
+	}
+
+	/// When the SVG's name changes we'll reparse the new file
+	private func svgNameChanged() {
+		guard vectorGraphicName != nil else {
+			document = nil
+			return
+		}
+		
+	#if !TARGET_INTERFACE_BUILDER
+		let bundle = NSBundle.mainBundle()
+	#else
+		let bundle = NSBundle(forClass: self.dynamicType)
+	#endif
+		
+		if let path = bundle.pathForResource(vectorGraphicName, ofType: "svg"), parser = SVGParser(path: path) {
+			do {
+				let documents = try parser.parse()
+				document = documents.first
+			} catch {
+				Swift.print("\(self): The SVG parser encountered an error: \(error)")
+				document = nil
+			}
+		} else {
+			Swift.print("\(self): SVG resource named '\(vectorGraphicName!)' was not found!")
+			document = nil
+		}
+	}
+	
+	/// Draw the SVGVectorImage to the screen - respecting the contentMode property
+	override public func drawRect(rect: CGRect) {
+		super.drawRect(rect)
+		
+		if let document = document {
+			if let context = SVGGraphicsGetCurrentContext() {
+			//	let translation = vectorGraphic.translationWithTargetSize(rect.size, contentMode: contentMode)
+			//	let scale = vectorGraphic.scaleWithTargetSize(rect.size, contentMode: contentMode)
+				
+				#if os(OSX)
+					let flipVertical = CGAffineTransform(a: 1.0, b: 0.0, c: 0.0, d: -1.0, tx: 0.0, ty: rect.size.height)
+					CGContextConcatCTM(context, flipVertical)
+				#endif
+				
+			//	CGContextScaleCTM(context, scale.width, scale.height)
+			//	CGContextTranslateCTM(context, translation.x / scale.width, translation.y / scale.height)
+				
+				document.draw()
+			}
+		}
+	}
 	
 	/// Interface builder drawing code
 #if TARGET_INTERFACE_BUILDER
 	override func prepareForInterfaceBuilder() {
-		//svgNameChanged()
+		svgNameChanged()
 	}
 #endif
 }
