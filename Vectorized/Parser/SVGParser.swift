@@ -61,10 +61,6 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 		return value
 	}
 
-	/// Initializes an SVGParser for the file at the given path
-	///
-	/// :param: path The path to the SVG file
-	/// :returns: An SVGParser ready to parse()
 	internal convenience init?(path: String) {
 		if path.isEmpty {
 			return nil
@@ -120,8 +116,10 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 			
 			switch name {
 			case .Document:
-				element = try SVGDocument(parseAttributes: attributes, location: location)
-				documents.append(element as! SVGDocument)
+				let document = try SVGDocument(parseAttributes: attributes, location: location)
+				documents.append(document)
+				
+				element = document
 				
 			case .Group:
 				element = try SVGGroup(parseAttributes: attributes, location: location)

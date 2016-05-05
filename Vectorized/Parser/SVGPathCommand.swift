@@ -42,7 +42,9 @@ internal protocol SVGPathCommand {
 }
 
 internal class SVGPathCommandImpl: SVGPathCommand {
+	// swiftlint:disable force_try
 	static let paramRegex = try! NSRegularExpression(pattern: "[-+]?[0-9]*\\.?[0-9]+", options: [])
+	// swiftlint:enable force_try
 	
 	var prevCommand: String?
 	

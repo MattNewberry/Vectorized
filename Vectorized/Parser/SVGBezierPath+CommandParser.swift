@@ -32,7 +32,9 @@
 import Foundation
 
 internal extension SVGBezierPath {
+	// swiftlint:disable force_try
 	private static let commandRegex = try! NSRegularExpression(pattern: "[A-Za-z]", options: [])
+	// swiftlint:enable force_try
 	
 	private class func processCommandString(commandString: String, withPrevCommandString prevCommand: String, forPath path: SVGBezierPath, withFactoryIdentifier identifier: String) throws {
 		guard commandString.characters.count > 0 else {
@@ -54,11 +56,11 @@ internal extension SVGBezierPath {
 		var prevMatch: NSTextCheckingResult?
 		var prevCommand = ""
 		
-		commandRegex.enumerateMatchesInString(SVGString, options: [], range: NSMakeRange(0, SVGString.characters.count)) { (match, flags, stop) in
+		commandRegex.enumerateMatchesInString(SVGString, options: [], range: NSRange(location: 0, length: SVGString.characters.count)) { (match, flags, stop) in
 			if let match = match {
 				if let prevMatchUnwrapped = prevMatch {
 					let length = match.range.location - prevMatchUnwrapped.range.location
-					let commandString = (SVGString as NSString).substringWithRange(NSMakeRange(prevMatchUnwrapped.range.location, length))
+					let commandString = (SVGString as NSString).substringWithRange(NSRange(location: prevMatchUnwrapped.range.location, length: length))
 					
 					do {
 						try processCommandString(commandString, withPrevCommandString: prevCommand, forPath: path, withFactoryIdentifier: identifier)
@@ -74,7 +76,7 @@ internal extension SVGBezierPath {
 		}
 		
 		if let prevMatch = prevMatch {
-			let result = (SVGString as NSString).substringWithRange(NSMakeRange(prevMatch.range.location, SVGString.characters.count - prevMatch.range.location))
+			let result = (SVGString as NSString).substringWithRange(NSRange(location: prevMatch.range.location, length: SVGString.characters.count - prevMatch.range.location))
 			
 			do {
 				try processCommandString(result, withPrevCommandString: prevCommand, forPath: path, withFactoryIdentifier: identifier)
@@ -84,4 +86,3 @@ internal extension SVGBezierPath {
 		}
 	}
 }
-
