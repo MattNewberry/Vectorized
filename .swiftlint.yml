@@ -1,0 +1,7 @@
+included:
+    - Vectorized
+    - VectorizedTests
+    - Examples
+disabled_rules:
+    - line_length
+    - trailing_whitespace
