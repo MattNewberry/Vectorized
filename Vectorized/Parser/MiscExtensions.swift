@@ -23,6 +23,7 @@
 //---------------------------------------------------------------------------------------
 
 import Foundation
+import CoreGraphics
 
 internal extension CGFloat {
 	init?(_ str: String) {

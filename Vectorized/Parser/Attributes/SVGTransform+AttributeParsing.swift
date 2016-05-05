@@ -26,6 +26,7 @@
 //---------------------------------------------------------------------------------------
 
 import Foundation
+import CoreGraphics
 
 extension SVGTransform: SVGAttributeParsing {
 	init?(parseValue: String?, location: (Int, Int)? = nil) throws {

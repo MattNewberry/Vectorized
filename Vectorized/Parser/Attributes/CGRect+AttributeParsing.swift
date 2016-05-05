@@ -23,6 +23,7 @@
 //---------------------------------------------------------------------------------------
 
 import Foundation
+import CoreGraphics
 
 extension CGRect: SVGAttribute, SVGAttributeParsing {
 	init?(parseValue: String?, location: (Int, Int)? = nil) throws {
