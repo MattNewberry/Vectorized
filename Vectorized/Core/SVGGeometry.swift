@@ -22,11 +22,15 @@
 //	THE SOFTWARE.
 //---------------------------------------------------------------------------------------
 
+// swiftlint:disable variable_name
+
 import Foundation
 
 public enum SVGUnit: String {
 	case Emphemeral = "em"
+	// swiftlint:disable type_name
 	case Ex = "ex"
+	// swiftlint:enable type_name
 	case Pixel = "px"
 	case Inch = "in"
 	case Centimeter = "cm"

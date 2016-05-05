@@ -23,6 +23,7 @@
 //---------------------------------------------------------------------------------------
 
 import Foundation
+import CoreGraphics
 
 internal protocol SVGElementParsing: SVGElement {
 	init(parseAttributes: [String : String], location: (Int, Int)?) throws
@@ -33,8 +34,10 @@ internal protocol SVGElementParsing: SVGElement {
 }
 
 private enum AttributeName: String {
+	// swiftlint:disable type_name
 	case X = "x"
 	case Y = "y"
+	// swiftlint:enable type_name
 	case Width = "width"
 	case Height = "height"
 	case RadiusX = "rx"
