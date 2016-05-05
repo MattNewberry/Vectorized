@@ -36,9 +36,9 @@ class TransformParserTests: XCTestCase {
 	}
 	
 	func testEmptyStrings() {
-		XCTAssertTrue(CGAffineTransformIsIdentity(transformNoFail(nil).concattedTransform))
-		XCTAssertTrue(CGAffineTransformIsIdentity(transformNoFail("").concattedTransform))
-		XCTAssertTrue(CGAffineTransformIsIdentity(transformNoFail("              ").concattedTransform))
+		XCTAssertNil(try SVGTransform(parseValue: nil))
+		XCTAssertNil(try SVGTransform(parseValue: ""))
+		XCTAssertNil(try SVGTransform(parseValue: "              "))
 	}
 	
 	func testMatrixSpaceSeparated() {
