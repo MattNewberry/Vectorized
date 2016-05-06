@@ -39,23 +39,17 @@
 /// An SVGView provides a way to display SVGGraphics to the screen respecting the contentMode property.
 @IBDesignable public class SVGView: BaseView {
 	@IBInspectable var SVGName: String? {
-		didSet {
-			svgNameChanged()
-		}
+		didSet { svgNameChanged() }
 	}
 	
 #if os(OSX)
 	public var contentMode: SVGContentMode = .Center {
-		didSet {
-			setNeedsDisplay()
-		}
+		didSet { setNeedsDisplay() }
 	}
 #endif
 	
 	public var document: SVGDocument? {
-		didSet {
-			setNeedsDisplay()
-		}
+		didSet { setNeedsDisplay() }
 	}
 	
 	public convenience init(document: SVGDocument?) {
