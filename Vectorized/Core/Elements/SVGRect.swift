@@ -30,6 +30,8 @@ public final class SVGRect: SVGBasicShapeElement, SVGShapeElement, SVGGraphicsEl
 	public var parent: SVGElement?
 	public var children: [SVGElement]?
 	
+	public var bezierPath: SVGBezierPath?
+	
 	public var position: SVGPoint {
 		get { return attributes["position"] as? SVGPoint ?? SVGPointZero }
 	}
@@ -48,6 +50,8 @@ public final class SVGRect: SVGBasicShapeElement, SVGShapeElement, SVGGraphicsEl
 		}
 	}
 	
+	private var _bezierPath: SVGBezierPath?
+	
 	public init() {}
 
 	public func isPermittedContentElement(element: SVGElement) -> Bool {
@@ -59,5 +63,20 @@ public final class SVGRect: SVGBasicShapeElement, SVGShapeElement, SVGGraphicsEl
 		default:
 			return false
 		}
+	}
+	
+	public func draw() {
+		print("\(self)")
+		
+		if bezierPath == nil {
+			let rect = CGRect(x: CGFloat(position.x.value), y: CGFloat(position.y.value), width: CGFloat(size.width.value), height: CGFloat(size.width.value))
+			
+			bezierPath = SVGBezierPath(rect: rect)
+		}
+		
+		SVGColor.blackColor().setFill()
+		bezierPath!.fill()
+		
+		drawChildren()
 	}
 }

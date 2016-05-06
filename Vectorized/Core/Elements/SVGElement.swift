@@ -38,20 +38,24 @@ public protocol SVGElement: CustomStringConvertible {
 // Element categories
 public protocol SVGContainerElement: SVGElement {}
 public protocol SVGAnimationElement: SVGElement {}
-public protocol SVGShapeElement: SVGElement {}
+
+public protocol SVGShapeElement: SVGElement {
+	var bezierPath: SVGBezierPath? { get set }
+}
+
 public protocol SVGBasicShapeElement: SVGElement {}
 public protocol SVGDescriptiveElement: SVGElement {}
 public protocol SVGFilterElement: SVGElement {}
 public protocol SVGFontElement: SVGElement {}
 public protocol SVGGradientElement: SVGElement {}
-public protocol SVGGraphicsElement: SVGElement {}
+public protocol SVGGraphicsElement: SVGElement, SVGDrawable {}
 public protocol SVGLightSourceElement: SVGElement {}
 public protocol SVGStructuralElement: SVGElement {}
 public protocol SVGTextContentElement: SVGElement {}
 public protocol SVGTextContentChildElement: SVGElement {}
 public protocol SVGUncategorizedElement: SVGElement {}
 
-public extension SVGElement {	
+public extension SVGElement {
 	public var description: String {
 		return "{SVGElement}"
 	}

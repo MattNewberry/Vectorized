@@ -1,6 +1,10 @@
 //---------------------------------------------------------------------------------------
 //	The MIT License (MIT)
 //
+//	Created by Austin Fitzpatrick on 3/19/15 (the "SwiftVG" project)
+//	Modified by Brian Christensen <brian@alienorb.com>
+//
+//	Copyright (c) 2015 Seedling
 //	Copyright (c) 2016 Alien Orb Software LLC
 //
 //	Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -101,11 +105,88 @@ public final class SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDr
 		children = root.children
 	}
 	
-	public func draw() {
+	public func drawIntoContext(context: CGContext, rect: CGRect, contentMode: SVGContentMode) {
 		CGContextSaveGState(SVGGraphicsGetCurrentContext())
-		// draw...
-		print("Should draw...")
+		
+		let translation = translationWithTargetSize(rect.size, contentMode: contentMode)
+		let scale = scaledSizeWithTargetSize(rect.size, contentMode: contentMode)
+		
+		CGContextScaleCTM(context, scale.width, scale.height)
+		CGContextTranslateCTM(context, translation.x / scale.width, translation.y / scale.height)
+		
+		draw()
+		
 		CGContextRestoreGState(SVGGraphicsGetCurrentContext())
+	}
+	
+	private func scaledSizeWithTargetSize(targetSize: CGSize, contentMode: SVGContentMode) -> CGSize {
+	switch contentMode {
+		case .ScaleAspectFit:
+			let scaleFactor = min(targetSize.width / CGFloat(size.width.value), targetSize.height / CGFloat(size.height.value))
+			let scale = CGSize(width: scaleFactor, height: scaleFactor)
+			
+			return CGSize(width: CGFloat(size.width.value) * scale.width, height: CGFloat(size.height.value) * scale.height)
+			
+		case .ScaleAspectFill:
+			let scaleFactor = max(targetSize.width / CGFloat(size.width.value), targetSize.height / CGFloat(size.height.value))
+			let scale = CGSize(width: scaleFactor, height: scaleFactor)
+			
+			return CGSize(width: CGFloat(size.width.value) * scale.width, height: CGFloat(size.height.value) * scale.height)
+			
+		case .ScaleToFill:
+			return CGSize(width: CGFloat(size.width.value), height: CGFloat(size.height.value))
+			
+		case .Center:
+			return CGSize(width: CGFloat(size.width.value), height: CGFloat(size.height.value))
+		
+		default:
+			return CGSize(width: CGFloat(size.width.value), height: CGFloat(size.height.value))
+		}
+	}
+	
+	private func translationWithTargetSize(targetSize: CGSize, contentMode: SVGContentMode) -> CGPoint {
+		var newSize: CGSize
+		
+		switch contentMode {
+		case .ScaleAspectFit:
+			let scaleFactor = min(targetSize.width / CGFloat(size.width.value), targetSize.height / CGFloat(size.height.value))
+			let scale = CGSize(width: scaleFactor, height: scaleFactor)
+			
+			newSize = CGSize(width: CGFloat(size.width.value) * scale.width, height: CGFloat(size.height.value) * scale.height)
+			
+			let xTranslation = (targetSize.width - newSize.width) / 2.0
+			let yTranslation = (targetSize.height - newSize.height) / 2.0
+			
+			return CGPoint(x: xTranslation, y: yTranslation)
+			
+		case .ScaleAspectFill:
+			let scaleFactor = max(targetSize.width / CGFloat(size.width.value), targetSize.height / CGFloat(size.height.value))
+			let scale = CGSize(width: scaleFactor, height: scaleFactor)
+			
+			newSize = CGSize(width: CGFloat(size.width.value) * scale.width, height: CGFloat(size.height.value) * scale.height)
+			
+			let xTranslation = (targetSize.width - newSize.width) / 2.0
+			let yTranslation = (targetSize.height - newSize.height) / 2.0
+			
+			return CGPoint(x: xTranslation, y: yTranslation)
+			
+		case .ScaleToFill:
+			newSize = targetSize
+			
+			//??? WTF
+			//let scaleFactor = CGSize(width: bounds.width / targetSize.width, height: bounds.height / targetSize.height)
+			
+			return CGPoint.zero
+			
+		case .Center:
+			let xTranslation = (targetSize.width - CGFloat(size.width.value)) / 2.0
+			let yTranslation = (targetSize.height - CGFloat(size.height.value)) / 2.0
+			
+			return CGPoint(x: xTranslation, y: yTranslation)
+			
+		default:
+			return CGPoint.zero
+		}
 	}
 	
 	public func isPermittedContentElement(element: SVGElement) -> Bool {
