@@ -326,11 +326,11 @@
 				471318561CCDACD1005FEABB /* CrossPlatform.swift */,
 				47657E7B1CD2FC3100A4424A /* SVGError.swift */,
 				474870EE1CD6D9C900512DE0 /* SVGGeometry.swift */,
+				479DE15A1CD7B201008C7439 /* SVGDrawable.swift */,
 				479DE1631CD7CDAE008C7439 /* Elements */,
 				476BB46A1CCCA9E3000D49E2 /* Attributes */,
 				479DE14E1CD7094B008C7439 /* SVGBezierPath+SVGPathDescription.swift */,
 				471318581CCDB27E005FEABB /* SVGColor+Hex.swift */,
-				479DE15A1CD7B201008C7439 /* SVGDrawable.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";

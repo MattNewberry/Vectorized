@@ -24,6 +24,8 @@
 		47386B9E1CCDFD600017DDB8 /* Vectorized.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 47D2D9FB1CCD98E00051757B /* Vectorized.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		47386BA11CCDFD750017DDB8 /* Vectorized.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 471318861CCDE7DF005FEABB /* Vectorized.framework */; };
 		47386BA21CCDFD750017DDB8 /* Vectorized.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 471318861CCDE7DF005FEABB /* Vectorized.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		47565E091CDD400C007DB832 /* shapes-rect-01-t.svg in Resources */ = {isa = PBXBuildFile; fileRef = 47565E081CDD400C007DB832 /* shapes-rect-01-t.svg */; };
+		47565E0A1CDD400C007DB832 /* shapes-rect-01-t.svg in Resources */ = {isa = PBXBuildFile; fileRef = 47565E081CDD400C007DB832 /* shapes-rect-01-t.svg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +108,7 @@
 		471BB7761CCD8CE600871570 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		471BB7781CCD8CE600871570 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		471BB78C1CCD8D9A00871570 /* Vectorized.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Vectorized.xcodeproj; sourceTree = "<group>"; };
+		47565E081CDD400C007DB832 /* shapes-rect-01-t.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "shapes-rect-01-t.svg"; path = "../../../VectorizedTests/Graphics/W3C_SVG_11_Tests/svg/shapes-rect-01-t.svg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +147,7 @@
 		4713183A1CCDA129005FEABB /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				47565E081CDD400C007DB832 /* shapes-rect-01-t.svg */,
 				4713183B1CCDA14A005FEABB /* dragon_0.svg */,
 				4713183C1CCDA14A005FEABB /* knight_0.svg */,
 			);
@@ -314,6 +318,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47565E0A1CDD400C007DB832 /* shapes-rect-01-t.svg in Resources */,
 				471318401CCDA14A005FEABB /* knight_0.svg in Resources */,
 				4713183E1CCDA14A005FEABB /* dragon_0.svg in Resources */,
 				471318341CCDA094005FEABB /* LaunchScreen.storyboard in Resources */,
@@ -326,6 +331,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47565E091CDD400C007DB832 /* shapes-rect-01-t.svg in Resources */,
 				4713183D1CCDA14A005FEABB /* dragon_0.svg in Resources */,
 				471BB7741CCD8CE600871570 /* Assets.xcassets in Resources */,
 				4713183F1CCDA14A005FEABB /* knight_0.svg in Resources */,

@@ -682,7 +682,7 @@
                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vF8-XH-GK9" customClass="SVGView" customModule="Vectorized">
                                 <rect key="frame" x="516" y="20" width="423" height="610"/>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="SVGName" value="knight_0"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="SVGName" value="shapes-rect-01-t"/>
                                 </userDefinedRuntimeAttributes>
                             </customView>
                         </subviews>
