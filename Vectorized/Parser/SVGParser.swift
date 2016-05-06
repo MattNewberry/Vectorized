@@ -34,14 +34,14 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	
 	// Enumeration defining the possible XML tags in an SVG file
 	private enum ElementName: String {
-		case Fragment = "svg"
+		case Document = "svg"
 		case Group = "g"
 		case Rect = "rect"
 	}
 
 	private var xmlParser: NSXMLParser
 	private var elementStack: [SVGElement] = []
-	private var root: SVGFragment?
+	private var root: SVGDocument?
 	
 	internal class func sanitizedValue(parseValue: String?) -> String? {
 		guard let parseValue = parseValue else { return nil }
@@ -55,9 +55,9 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 		return value
 	}
 
-	internal convenience init?(path: String) {
+	internal convenience init(path: String) throws {
 		if path.isEmpty {
-			return nil
+			throw SVGError.InvalidDocumentPath(path)
 		}
 		
 		let url = NSURL(fileURLWithPath: path)
@@ -66,8 +66,8 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 			self.init(parser: parser)
 			return
 		}
-		
-		return nil
+
+		throw SVGError.UnknownParserFailure
 	}
 	
 	internal convenience init(data: NSData) {
@@ -91,7 +91,12 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 				throw error
 			}
 			
-			return SVGDocument(root: root)
+			if let root = root {
+				return root
+			}
+			
+			parserError = SVGError.NoRootDocumentFound
+			throw parserError!
 		}
 		
 		if let error = xmlParser.parserError {
@@ -109,14 +114,14 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 			let location = (line, column)
 			
 			switch name {
-			case .Fragment:
-				let fragment = try SVGFragment(parseAttributes: attributes, location: location)
+			case .Document:
+				let document = try SVGDocument(parseAttributes: attributes, location: location)
 				
 				if root == nil {
-					root = fragment
+					root = document
 				}
 				
-				element = fragment
+				element = document
 				
 			case .Group:
 				element = try SVGGroup(parseAttributes: attributes, location: location)

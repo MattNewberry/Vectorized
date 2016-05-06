@@ -38,7 +38,7 @@
 
 /// An SVGView provides a way to display SVGGraphics to the screen respecting the contentMode property.
 @IBDesignable public class SVGView: BaseView {
-	@IBInspectable var vectorGraphicName: String? {
+	@IBInspectable var SVGName: String? {
 		didSet {
 			svgNameChanged()
 		}
@@ -59,33 +59,16 @@
 	}
 	
 	public convenience init(document: SVGDocument?) {
-		self.init(frame: CGRect(x: 0, y: 0, width: CGFloat(document?.root?.size.width.value ?? 0), height: CGFloat(document?.root?.size.height.value ?? 0)))
+		self.init(frame: CGRect(x: 0, y: 0, width: CGFloat(document?.size.width.value ?? 0), height: CGFloat(document?.size.height.value ?? 0)))
 		
 		self.document = document
 	}
 
 	/// When the SVG's name changes we'll reparse the new file
 	private func svgNameChanged() {
-		guard vectorGraphicName != nil else {
-			document = nil
-			return
-		}
-		
-	#if !TARGET_INTERFACE_BUILDER
-		let bundle = NSBundle.mainBundle()
-	#else
-		let bundle = NSBundle(forClass: self.dynamicType)
-	#endif
-		
-		if let path = bundle.pathForResource(vectorGraphicName, ofType: "svg"), parser = SVGParser(path: path) {
-			do {
-				document = try parser.parse()
-			} catch {
-				Swift.print("\(self): The SVG parser encountered an error: \(error)")
-				document = nil
-			}
+		if let name = SVGName {
+			document = SVGDocument(named: name)
 		} else {
-			Swift.print("\(self): SVG resource named '\(vectorGraphicName!)' was not found!")
 			document = nil
 		}
 	}

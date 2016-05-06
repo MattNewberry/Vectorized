@@ -25,7 +25,7 @@
 import Foundation
 import CoreGraphics
 
-public final class SVGFragment: SVGContainerElement, SVGStructuralElement, SVGDrawable {
+public final class SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDrawable {
 	public var attributes: [String : SVGAttribute] = [:]
 	
 	public var parent: SVGElement?
@@ -52,6 +52,54 @@ public final class SVGFragment: SVGContainerElement, SVGStructuralElement, SVGDr
 	}
 	
 	public init() {}
+	
+	public convenience init?(contentsOfFile path: String) {
+		do {
+			try self.init(contentsOfFile_throws: path)
+		} catch {
+			Swift.print("SVGDocument.init: The SVG parser encountered an error: \(error)")
+			return nil
+		}
+	}
+	
+	public convenience init(contentsOfFile_throws path: String) throws {
+		self.init()
+		
+		try parseFile(path)
+	}
+	
+	public convenience init?(named name: String) {
+		do {
+			try self.init(named_throws: name)
+		} catch {
+			Swift.print("SVGDocument.init: The SVG parser encountered an error: \(error)")
+			return nil
+		}
+	}
+	
+	public convenience init(named_throws name: String) throws {
+		self.init()
+		
+	#if !TARGET_INTERFACE_BUILDER
+		let bundle = NSBundle.mainBundle()
+	#else
+		let bundle = NSBundle(forClass: self.dynamicType)
+	#endif
+		
+		if let path = bundle.pathForResource(name, ofType: "svg") {
+			try parseFile(path)
+		} else {
+			throw SVGError.BundleResourceNotFound(name)
+		}
+	}
+	
+	private func parseFile(path: String) throws {
+		let parser = try SVGParser(path: path)
+		let root = try parser.parse()
+		
+		attributes = root.attributes
+		children = root.children
+	}
 	
 	public func draw() {
 		CGContextSaveGState(SVGGraphicsGetCurrentContext())

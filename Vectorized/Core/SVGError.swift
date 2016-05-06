@@ -32,6 +32,10 @@ public enum SVGError: ErrorType {
 	case InvalidPathDescriptionCommand(String)
 	case UnknownPathDescriptionCommand(String)
 	
+	case InvalidDocumentPath(String)
+	case BundleResourceNotFound(String)
+	
+	case NoRootDocumentFound
 	case EncounteredElementBeforeRootFragment(String, location: (Int, Int)?)
 	
 	case InvalidAttributeValue(String, location: (Int, Int)?, message: String?)

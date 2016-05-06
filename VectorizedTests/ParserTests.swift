@@ -27,13 +27,25 @@ import Foundation
 @testable import Vectorized
 
 class ParserTests: XCTestCase {
+	func parserNoThrow(path: String) -> SVGParser {
+		var parser: SVGParser?
+		
+		do {
+			parser = try SVGParser(path: path)
+		} catch {
+			XCTFail("Shouldn't throw: \(path)")
+		}
+		
+		return parser!
+	}
+	
 	func testEmptyPath() {
-		XCTAssertNil(SVGParser(path: ""))
-		XCTAssertNotNil(SVGParser(path: "non/existent/but/not/empty.xml"))
+		XCTAssertThrowsError(try SVGParser(path: ""))
+		parserNoThrow("non/existent/but/not/empty.xml")
 	}
 	
 	func testNonexistentParse() {
-		let parser = SVGParser(path: "non_existent.xml")!
+		let parser = parserNoThrow("non_existent.xml")
 
 		XCTAssertThrowsError(try parser.parse())
 		XCTAssertNotNil(parser.parserError)
@@ -41,16 +53,14 @@ class ParserTests: XCTestCase {
 	}
 	
 	func testBasicShapesRect() {
-		if let parser = SVGParser(path: NSBundle(forClass: self.dynamicType).pathForResource("shapes-rect-01-t", ofType: "svg")!) {
-			XCTAssertNil(parser.parserError)
-			
-			do {
-				try parser.parse()
-			} catch {
-				XCTFail("Shouldn't throw any error: \(error)")
-			}
-		} else {
-			XCTFail("Shouldn't be a nil parser!")
+		let parser = parserNoThrow(NSBundle(forClass: self.dynamicType).pathForResource("shapes-rect-01-t", ofType: "svg")!)
+
+		XCTAssertNil(parser.parserError)
+		
+		do {
+			try parser.parse()
+		} catch {
+			XCTFail("Shouldn't throw any error: \(error)")
 		}
 	}
 }
