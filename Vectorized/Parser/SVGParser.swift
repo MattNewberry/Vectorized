@@ -29,25 +29,19 @@ import Foundation
 
 internal class SVGParser: NSObject, NSXMLParserDelegate {
 	internal var parserError: ErrorType?
-	
-	internal var line: Int {
-		return xmlParser.lineNumber
-	}
-	
-	internal var column: Int {
-		return xmlParser.columnNumber
-	}
+	internal var line: Int { return xmlParser.lineNumber }
+	internal var column: Int { return xmlParser.columnNumber }
 	
 	// Enumeration defining the possible XML tags in an SVG file
 	private enum ElementName: String {
-		case Document = "svg"
+		case Fragment = "svg"
 		case Group = "g"
 		case Rect = "rect"
 	}
 
 	private var xmlParser: NSXMLParser
 	private var elementStack: [SVGElement] = []
-	private var documents: [SVGDocument] = []
+	private var root: SVGFragment?
 	
 	internal class func sanitizedValue(parseValue: String?) -> String? {
 		guard let parseValue = parseValue else { return nil }
@@ -91,13 +85,13 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 		xmlParser.abortParsing()
 	}
 	
-	internal func parse() throws -> [SVGDocument] {
+	internal func parse() throws -> SVGDocument {
 		if xmlParser.parse() {
 			if let error = parserError {
 				throw error
 			}
 			
-			return documents
+			return SVGDocument(root: root)
 		}
 		
 		if let error = xmlParser.parserError {
@@ -115,11 +109,14 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 			let location = (line, column)
 			
 			switch name {
-			case .Document:
-				let document = try SVGDocument(parseAttributes: attributes, location: location)
-				documents.append(document)
+			case .Fragment:
+				let fragment = try SVGFragment(parseAttributes: attributes, location: location)
 				
-				element = document
+				if root == nil {
+					root = fragment
+				}
+				
+				element = fragment
 				
 			case .Group:
 				element = try SVGGroup(parseAttributes: attributes, location: location)
@@ -131,6 +128,10 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 			if var top = elementStack.last {
 				if !top.appendChild(element) {
 					throw SVGError.UnpermittedContentElement(name.rawValue, location: location, message: nil)
+				}
+			} else {
+				if root == nil {
+					throw SVGError.EncounteredElementBeforeRootFragment(name.rawValue, location: location)
 				}
 			}
 			

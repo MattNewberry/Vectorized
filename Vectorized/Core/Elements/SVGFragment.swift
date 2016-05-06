@@ -25,7 +25,7 @@
 import Foundation
 import CoreGraphics
 
-public final class SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDrawable {
+public final class SVGFragment: SVGContainerElement, SVGStructuralElement, SVGDrawable {
 	public var attributes: [String : SVGAttribute] = [:]
 	
 	public var parent: SVGElement?

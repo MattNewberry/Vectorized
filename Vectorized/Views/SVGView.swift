@@ -59,7 +59,7 @@
 	}
 	
 	public convenience init(document: SVGDocument?) {
-		self.init(frame: CGRect(x: 0, y: 0, width: CGFloat(document?.size.width.value ?? 0), height: CGFloat(document?.size.height.value ?? 0)))
+		self.init(frame: CGRect(x: 0, y: 0, width: CGFloat(document?.root?.size.width.value ?? 0), height: CGFloat(document?.root?.size.height.value ?? 0)))
 		
 		self.document = document
 	}
@@ -79,8 +79,7 @@
 		
 		if let path = bundle.pathForResource(vectorGraphicName, ofType: "svg"), parser = SVGParser(path: path) {
 			do {
-				let documents = try parser.parse()
-				document = documents.first
+				document = try parser.parse()
 			} catch {
 				Swift.print("\(self): The SVG parser encountered an error: \(error)")
 				document = nil

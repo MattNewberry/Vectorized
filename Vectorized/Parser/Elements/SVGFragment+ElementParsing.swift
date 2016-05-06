@@ -24,20 +24,4 @@
 
 import Foundation
 
-public enum SVGError: ErrorType {
-	case InvalidTransformDefinition(String, error: String)
-	case MissingOpeningBrace(String)
-	case MissingClosingBrace(String)
-	
-	case InvalidPathDescriptionCommand(String)
-	case UnknownPathDescriptionCommand(String)
-	
-	case EncounteredElementBeforeRootFragment(String, location: (Int, Int)?)
-	
-	case InvalidAttributeValue(String, location: (Int, Int)?, message: String?)
-	case InvalidMeasurementUnit(String, location: (Int, Int)?, message: String?)
-	case UnpermittedContentElement(String, location: (Int, Int)?, message: String?)
-	
-	case NSXMLParserError(NSError)
-	case UnknownParserFailure
-}
+extension SVGFragment: SVGElementParsing {}

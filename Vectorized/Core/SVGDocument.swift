@@ -1,6 +1,10 @@
 //---------------------------------------------------------------------------------------
 //	The MIT License (MIT)
 //
+//	Created by Austin Fitzpatrick on 3/19/15 (the "SwiftVG" project)
+//	Modified by Brian Christensen <brian@alienorb.com>
+//
+//	Copyright (c) 2015 Seedling
 //	Copyright (c) 2016 Alien Orb Software LLC
 //
 //	Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,4 +28,15 @@
 
 import Foundation
 
-extension SVGDocument: SVGElementParsing {}
+public class SVGDocument {
+	public var root: SVGFragment?
+
+	public init(root: SVGFragment?) {
+		self.root = root
+	}
+	
+	
+	public func draw() {
+		
+	}
+}
