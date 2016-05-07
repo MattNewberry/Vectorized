@@ -81,11 +81,20 @@ public extension SVGShapeElement {
 		return attributes[.Stroke] as? SVGStroke
 	}
 	
+	public var fill: SVGFill? {
+		return attributes[.Fill] as? SVGFill
+	}
+	
 	public func draw(intoContext context: CGContext) {
 		guard let bezierPath = bezierPath else { return }
-	
-		//SVGColor.blackColor().setStroke()
-
+		
+		if let fill = fill {
+			if let color = fill.color {
+				color.setFill()
+				bezierPath.fill()
+			}
+		}
+		
 		if let stroke = stroke {
 			if let color = stroke.color {
 				color.setStroke()

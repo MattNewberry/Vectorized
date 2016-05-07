@@ -36,7 +36,8 @@ private var _combinedAttributeParsers: [SVGCombinedAttributeParsing.Type] = [
 	SVGPoint.self,
 	SVGSize.self,
 	SVGLength.self,
-	SVGStroke.self
+	SVGStroke.self,
+	SVGFill.self
 ]
 
 internal extension SVGElementParsing {

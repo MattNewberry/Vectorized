@@ -23,36 +23,8 @@
 //---------------------------------------------------------------------------------------
 
 import Foundation
+import CoreGraphics
 
-public enum SVGAttributeName: String {
-	// swiftlint:disable type_name
-	case X = "x"
-	case Y = "y"
-	// swiftlint:enable type_name
-	case Width = "width"
-	case Height = "height"
-	case RadiusX = "rx"
-	case RadiusY = "ry"
-	case ViewBox = "viewBox"
-	case Transform = "transform"
-	case Stroke = "stroke"
-	case StrokeWidth = "stroke-width"
-	case Fill = "fill"
-	case Version = "version"
-	
-	// Not in spec
-	case Position = "position"
-	case Size = "size"
+public struct SVGFill: SVGAttribute {
+	public var color: SVGColor?
 }
-
-public protocol SVGAttribute: CustomStringConvertible {
-	//var value: AnyObject? { get set }
-}
-
-public extension SVGAttribute {
-	public var description: String {
-		return "{SVGAttribute}"
-	}
-}
-
-extension String: SVGAttribute {}

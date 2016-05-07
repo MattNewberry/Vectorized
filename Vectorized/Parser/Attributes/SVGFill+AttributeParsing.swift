@@ -24,35 +24,18 @@
 
 import Foundation
 
-public enum SVGAttributeName: String {
-	// swiftlint:disable type_name
-	case X = "x"
-	case Y = "y"
-	// swiftlint:enable type_name
-	case Width = "width"
-	case Height = "height"
-	case RadiusX = "rx"
-	case RadiusY = "ry"
-	case ViewBox = "viewBox"
-	case Transform = "transform"
-	case Stroke = "stroke"
-	case StrokeWidth = "stroke-width"
-	case Fill = "fill"
-	case Version = "version"
-	
-	// Not in spec
-	case Position = "position"
-	case Size = "size"
-}
+extension SVGFill: SVGCombinedAttributeParsing {
+	static func parseAttributes(attributes: [SVGAttributeName : String], location: (Int, Int)?) throws -> ([SVGAttributeName : SVGAttribute], [SVGAttributeName])? {
+		let color = try SVGColor.colorForValue(attributes[.Fill], location: location)
 
-public protocol SVGAttribute: CustomStringConvertible {
-	//var value: AnyObject? { get set }
-}
-
-public extension SVGAttribute {
-	public var description: String {
-		return "{SVGAttribute}"
+		if color == nil {
+			return nil
+		}
+		
+		var fill = SVGFill()
+		
+		fill.color = color
+		
+		return ([.Fill : fill], [.Fill])
 	}
 }
-
-extension String: SVGAttribute {}
