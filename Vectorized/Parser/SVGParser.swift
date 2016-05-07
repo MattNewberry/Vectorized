@@ -49,6 +49,7 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	private var xmlParser: NSXMLParser
 	private var elementStack: [SVGElement] = []
 	private var root: SVGDocument?
+	private var filename: String?
 	
 	internal class func sanitizedValue(parseValue: String?) -> String? {
 		guard let parseValue = parseValue else { return nil }
@@ -71,6 +72,9 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 		
 		if let parser = NSXMLParser(contentsOfURL: url) {
 			self.init(parser: parser)
+			
+			filename = url.pathComponents?.last
+			
 			return
 		}
 
@@ -154,7 +158,7 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 			elementStack.append(element)
 		} else {
 			if mode == .StrictWarns {
-				print("SVGParser \(line), \(column): Encountered unhandled element: \(name)")
+				print("{SVGParser: \(filename ?? "")<line \(line), col \(column)>}: Unhandled element: \(name)")
 			} else if mode == .StrictThrows {
 				throw SVGError.UnhandledElement(name, location: (line, column))
 			}
