@@ -55,6 +55,3 @@ public extension SVGAttribute {
 }
 
 extension String: SVGAttribute {}
-
-// Attribute categories
-public protocol SVGPresentationAttribute: SVGAttribute {}

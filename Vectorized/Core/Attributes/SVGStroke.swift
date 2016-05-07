@@ -25,7 +25,7 @@
 import Foundation
 import CoreGraphics
 
-public struct SVGStroke: SVGPresentationAttribute {
+public struct SVGStroke: SVGAttribute {
 	public var color: SVGColor?
 	public var width: SVGLength?
 }
