@@ -34,10 +34,21 @@ public protocol SVGDrawable: SVGElement {
 //	var onDidDraw: (()->())? { get set }
 	
 	func draw(intoContext context: CGContext)
+	
+	func drawElement(intoContext context: CGContext)
 	func drawChildren(intoContext context: CGContext)
 }
 
 public extension SVGDrawable {
+	public func drawElement(intoContext context: CGContext) {
+		draw(intoContext: context)
+		drawChildren(intoContext: context)
+	}
+	
+	public func drawChildren(intoContext context: CGContext) {
+		drawChildren(startingAtRoot: self, intoContext: context)
+	}
+	
 	private func drawChildren(startingAtRoot root: SVGElement, intoContext context: CGContext) {
 		if let children = root.children {
 			for child in children {
@@ -50,13 +61,5 @@ public extension SVGDrawable {
 				drawChildren(startingAtRoot: child, intoContext: context)
 			}
 		}
-	}
-	
-	public func draw(intoContext context: CGContext) {
-		drawChildren(intoContext: context)
-	}
-	
-	public func drawChildren(intoContext context: CGContext) {
-		drawChildren(startingAtRoot: self, intoContext: context)
 	}
 }

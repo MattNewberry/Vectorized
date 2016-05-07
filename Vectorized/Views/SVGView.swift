@@ -72,8 +72,8 @@
 		
 		if let document = document {
 			if let context = SVGGraphicsGetCurrentContext() {
-				SVGColor.grayColor().setFill()
-				CGContextFillRect(context, rect)
+				//SVGColor.grayColor().setFill()
+				//CGContextFillRect(context, rect)
 				
 			#if os(OSX)
 				let flipVertical = CGAffineTransform(a: 1.0, b: 0.0, c: 0.0, d: -1.0, tx: 0.0, ty: rect.size.height)

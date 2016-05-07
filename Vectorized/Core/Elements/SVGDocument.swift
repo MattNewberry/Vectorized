@@ -30,25 +30,25 @@ import Foundation
 import CoreGraphics
 
 public final class SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDrawable {
-	public var attributes: [String : SVGAttribute] = [:]
+	public var attributes: [SVGAttributeName : SVGAttribute] = [:]
 	
 	public var parent: SVGElement?
 	public var children: [SVGElement]?
 	
 	public var version: String? {
-		get { return attributes["version"] as? String ?? nil }
+		get { return attributes[.Version] as? String ?? nil }
 	}
 	
 	public var position: SVGPoint {
-		get { return attributes["position"] as? SVGPoint ?? SVGPointZero }
+		get { return attributes[.Position] as? SVGPoint ?? SVGPointZero }
 	}
 	
 	public var size: SVGSize {
-		get { return attributes["size"] as? SVGSize ?? SVGSize(width: SVGLength(100, .Percent), height: SVGLength(100, .Percent)) }
+		get { return attributes[.Size] as? SVGSize ?? SVGSize(width: SVGLength(100, .Percent), height: SVGLength(100, .Percent)) }
 	}
 	
 	public var viewBox: CGRect? {
-		get { return attributes["viewBox"] as? CGRect ?? nil }
+		get { return attributes[.ViewBox] as? CGRect ?? nil }
 	}
 	
 	public var description: String {
@@ -114,7 +114,7 @@ public final class SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDr
 		CGContextScaleCTM(context, scale.width, scale.height)
 		CGContextTranslateCTM(context, translation.x / scale.width, translation.y / scale.height)
 		
-		draw(intoContext: context)
+		drawElement(intoContext: context)
 		
 		CGContextRestoreGState(context)
 	}
@@ -123,8 +123,6 @@ public final class SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDr
 		if let viewBox = viewBox {
 			CGContextTranslateCTM(context, viewBox.origin.x, viewBox.origin.y)
 		}
-		
-		drawChildren(intoContext: context)
 	}
 	
 	private func scaleFactorWithTargetSize(targetSize: CGSize, contentMode: SVGContentMode) -> CGSize {

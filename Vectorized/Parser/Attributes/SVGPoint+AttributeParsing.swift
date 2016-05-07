@@ -1,10 +1,6 @@
 //---------------------------------------------------------------------------------------
 //	The MIT License (MIT)
 //
-//	Created by Austin Fitzpatrick on 3/19/15 (the "SwiftVG" project)
-//	Modified by Brian Christensen <brian@alienorb.com>
-//
-//	Copyright (c) 2015 Seedling
 //	Copyright (c) 2016 Alien Orb Software LLC
 //
 //	Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,26 +24,15 @@
 
 import Foundation
 
-public final class SVGGroup: SVGContainerElement, SVGStructuralElement {
-	public var attributes: [SVGAttributeName : SVGAttribute] = [:]
-	
-	public var parent: SVGElement?
-	public var children: [SVGElement]?
-	
-	public init() {}
-	
-	public func isPermittedContentElement(element: SVGElement) -> Bool {
-		switch element {
-		case _ as SVGAnimationElement: fallthrough
-		case _ as SVGDescriptiveElement: fallthrough
-		case _ as SVGShapeElement: fallthrough
-		case _ as SVGStructuralElement: fallthrough
-		case _ as SVGGradientElement:
-			return true
-			
-		default:
-			return false
+extension SVGPoint: SVGCombinedAttributeParsing {
+	static func parseAttributes(attributes: [SVGAttributeName : String], location: (Int, Int)?) throws -> ([SVGAttributeName : SVGAttribute], [SVGAttributeName])? {
+		let x = try SVGLength(parseValue: attributes[.X], location: location)
+		let y = try SVGLength(parseValue: attributes[.Y], location: location)
+		
+		if x == nil && y == nil {
+			return nil
 		}
-		//<a>, <altGlyphDef>, <clipPath>, <color-profile>, <cursor>, <filter>, <font>, <font-face>, <foreignObject>, <image>, <marker>, <mask>, <pattern>, <script>, <style>, <switch>, <text>, <view>
+		
+		return ([.Position : self.init(x: x ?? SVGLengthZero, y: y ?? SVGLengthZero)], [.X, .Y])
 	}
 }

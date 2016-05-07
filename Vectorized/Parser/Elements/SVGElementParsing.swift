@@ -28,102 +28,75 @@ import CoreGraphics
 internal protocol SVGElementParsing: SVGElement {
 	init(parseAttributes: [String : String], location: (Int, Int)?) throws
 	
-	func parseAttribute(name: String, value: String, location: (Int, Int)?) throws -> SVGAttribute?
-	func processParsedAttributes(attributes: [String : SVGAttribute], location: (Int, Int)?) throws -> [String : SVGAttribute]
+	func parseAttribute(name: SVGAttributeName, value: String, location: (Int, Int)?) throws -> SVGAttribute?
 	func endElement() throws
 }
 
-private enum AttributeName: String {
-	// swiftlint:disable type_name
-	case X = "x"
-	case Y = "y"
-	// swiftlint:enable type_name
-	case Width = "width"
-	case Height = "height"
-	case RadiusX = "rx"
-	case RadiusY = "ry"
-	case ViewBox = "viewBox"
-	case Transform = "transform"
-}
+private var _combinedAttributeParsers: [SVGCombinedAttributeParsing.Type] = [
+	SVGPoint.self,
+	SVGSize.self,
+	SVGLength.self,
+	SVGStroke.self
+]
 
 internal extension SVGElementParsing {
 	init(parseAttributes attributes: [String : String], location: (Int, Int)?) throws {
 		self.init()
 		
-		var parsedAttributes: [String : SVGAttribute] = [:]
+		var remainingAttributes: [SVGAttributeName : String] = [:]
 		
 		for attribute in attributes {
+			if let attributeName = SVGAttributeName(rawValue: attribute.0) {
+				remainingAttributes[attributeName] = attribute.1
+			}
+		}
+		
+		var parsedAttributes: [SVGAttributeName : SVGAttribute] = [:]
+		
+		for parser in _combinedAttributeParsers {
+			if remainingAttributes.isEmpty {
+				break
+			}
+			
+			if let (resultingAttributes, removableKeys) = try parser.parseAttributes(remainingAttributes, location: location) {
+				for attribute in resultingAttributes {
+					parsedAttributes[attribute.0] = attribute.1
+				}
+				
+				for removeKey in removableKeys {
+					remainingAttributes[removeKey] = nil
+				}
+			}
+		}
+		
+		for attribute in remainingAttributes {
 			if let parsed = try parseAttribute(attribute.0, value: attribute.1, location: location) {
 				parsedAttributes[attribute.0] = parsed
 			}
 		}
-
-		if !attributes.isEmpty {
-			parsedAttributes = try processParsedAttributes(attributesByProcessingCommon(parsedAttributes), location: location)
-		}
 		
 		self.attributes = parsedAttributes
 	}
-	
-	func parseAttribute(name: String, value: String, location: (Int, Int)?) throws -> SVGAttribute? {
+
+	func parseAttribute(name: SVGAttributeName, value: String, location: (Int, Int)?) throws -> SVGAttribute? {
 		var attribute: SVGAttribute?
 
-		if let attributeName = AttributeName(rawValue: name) {
-			switch attributeName {
-			case .X: fallthrough
-			case .Y: fallthrough
-			case .Width: fallthrough
-			case .Height: fallthrough
-			case .RadiusX: fallthrough
-			case .RadiusY:
-				attribute = try SVGLength(parseValue: value, location: location)
-				
-			case .ViewBox:
-				attribute = try CGRect(parseValue: value, location: location)
-				
-			case .Transform:
-				attribute = try SVGTransform(parseValue: value, location: location)
-			}
+		switch name {
+		case .Version:
+			attribute = value
+			
+		case .ViewBox:
+			attribute = try CGRect(parseValue: value, location: location)
+			
+		case .Transform:
+			attribute = try SVGTransform(parseValue: value, location: location)
+			
+		default:
+			throw SVGError.UnhandledAttribute(name.rawValue, location: location)
 		}
 		
 		return attribute
 	}
-	
-	private func attributesByProcessingCommon(attributes: [String : SVGAttribute]) -> [String : SVGAttribute] {
-		var processedAttributes: [String : SVGAttribute] = attributes
-		
-		let x = processedAttributes["x"] as? SVGLength
-		let y = processedAttributes["y"] as? SVGLength
-		
-		if x != nil || y != nil {
-			processedAttributes["position"] = SVGPoint(x: x ?? SVGLengthZero, y: y ?? SVGLengthZero)
-			processedAttributes["x"] = nil
-			processedAttributes["y"] = nil
-		}
-		
-		let width = processedAttributes["width"] as? SVGLength
-		let height = processedAttributes["height"] as? SVGLength
-		
-		if width != nil || height != nil {
-			processedAttributes["size"] = SVGSize(width: width ?? SVGLengthZero, height: height ?? SVGLengthZero)
-			processedAttributes["width"] = nil
-			processedAttributes["height"] = nil
-		}
-		
-		let rx = processedAttributes["rx"] as? SVGLength
-		let ry = processedAttributes["ry"] as? SVGLength
-		
-		if rx != nil || ry != nil {
-			processedAttributes["rx"] = rx ?? ry
-			processedAttributes["ry"] = ry ?? rx
-		}
-		
-		return processedAttributes
-	}
-	
-	func processParsedAttributes(attributes: [String : SVGAttribute], location: (Int, Int)?) throws -> [String : SVGAttribute] {
-		return attributes
-	}
-	
+
 	func endElement() throws {}
 }

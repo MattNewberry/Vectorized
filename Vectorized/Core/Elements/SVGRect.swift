@@ -25,32 +25,37 @@
 import Foundation
 
 public final class SVGRect: SVGBasicShapeElement, SVGShapeElement, SVGGraphicsElement {
-	public var attributes: [String : SVGAttribute] = [:]
+	public var attributes: [SVGAttributeName : SVGAttribute] = [:]
 	
 	public var parent: SVGElement?
 	public var children: [SVGElement]?
 	
-	public var bezierPath: SVGBezierPath?
+	public lazy var bezierPath: SVGBezierPath? = {
+		let position = self.position
+		let size = self.size
+		let rect = CGRect(x: CGFloat(position.x.value), y: CGFloat(position.y.value), width: CGFloat(size.width.value), height: CGFloat(size.height.value))
+		let radius = self.cornerRadius
+		
+		return SVGBezierPath(roundedRect: rect, xRadius: CGFloat(radius.x.value), yRadius: CGFloat(radius.y.value))
+	}()
 	
 	public var position: SVGPoint {
-		get { return attributes["position"] as? SVGPoint ?? SVGPointZero }
+		get { return attributes[.Position] as? SVGPoint ?? SVGPointZero }
 	}
 	
 	public var size: SVGSize {
-		get { return attributes["size"] as? SVGSize ?? SVGSizeZero }
+		get { return attributes[.Size] as? SVGSize ?? SVGSizeZero }
 	}
 	
 	public var cornerRadius: SVGPoint {
 		get {
-			if let rx = attributes["rx"] as? SVGLength, ry = attributes["ry"] as? SVGLength {
+			if let rx = attributes[.RadiusX] as? SVGLength, ry = attributes[.RadiusY] as? SVGLength {
 				return SVGPoint(x: rx, y: ry)
 			}
 			
 			return SVGPointZero
 		}
 	}
-	
-	private var _bezierPath: SVGBezierPath?
 	
 	public init() {}
 
@@ -63,18 +68,5 @@ public final class SVGRect: SVGBasicShapeElement, SVGShapeElement, SVGGraphicsEl
 		default:
 			return false
 		}
-	}
-	
-	public func draw(intoContext context: CGContext) {
-		if bezierPath == nil {
-			let rect = CGRect(x: CGFloat(position.x.value), y: CGFloat(position.y.value), width: CGFloat(size.width.value), height: CGFloat(size.height.value))
-			
-			bezierPath = SVGBezierPath(rect: rect)
-		}
-		
-		SVGColor.blackColor().setStroke()
-		bezierPath!.stroke()
-		
-		drawChildren(intoContext: context)
 	}
 }

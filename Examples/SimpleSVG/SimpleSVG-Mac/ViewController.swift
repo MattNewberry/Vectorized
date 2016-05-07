@@ -31,6 +31,6 @@ class ViewController: NSViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		svgView.contentMode = .Center
+		svgView.contentMode = .ScaleAspectFit
 	}
 }

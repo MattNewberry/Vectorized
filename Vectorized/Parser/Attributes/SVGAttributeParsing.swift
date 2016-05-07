@@ -27,3 +27,7 @@ import Foundation
 internal protocol SVGAttributeParsing {
 	init?(parseValue: String?, location: (Int, Int)?) throws
 }
+
+internal protocol SVGCombinedAttributeParsing {
+	static func parseAttributes(attributes: [SVGAttributeName : String], location: (Int, Int)?) throws -> ([SVGAttributeName : SVGAttribute], [SVGAttributeName])?
+}

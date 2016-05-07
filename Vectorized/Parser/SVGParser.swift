@@ -99,6 +99,10 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 			throw parserError!
 		}
 		
+		if let error = parserError {
+			throw error
+		}
+		
 		if let error = xmlParser.parserError {
 			parserError = SVGError.NSXMLParserError(error)
 			throw parserError!
@@ -186,6 +190,6 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	}
 	
 	@objc internal func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
-		abortParsingWithError(parseError)
+		//abortParsingWithError(parseError)
 	}
 }

@@ -55,3 +55,16 @@ extension SVGLength: SVGAttributeParsing {
 		}
 	}
 }
+
+extension SVGLength: SVGCombinedAttributeParsing {
+	static func parseAttributes(attributes: [SVGAttributeName : String], location: (Int, Int)?) throws -> ([SVGAttributeName : SVGAttribute], [SVGAttributeName])? {
+		let rx = try SVGLength(parseValue: attributes[.RadiusX], location: location)
+		let ry = try SVGLength(parseValue: attributes[.RadiusY], location: location)
+		
+		if rx == nil && ry == nil {
+			return nil
+		}
+		
+		return ([.RadiusX : rx ?? ry!, .RadiusY : ry ?? rx!], [.RadiusX, .RadiusY])
+	}
+}

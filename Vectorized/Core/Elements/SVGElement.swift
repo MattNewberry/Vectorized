@@ -25,7 +25,7 @@
 import Foundation
 
 public protocol SVGElement: CustomStringConvertible {
-	var attributes: [String : SVGAttribute] { get set }
+	var attributes: [SVGAttributeName : SVGAttribute] { get set }
 	
 	var parent: SVGElement? { get set }
 	var children: [SVGElement]? { get set }
@@ -34,26 +34,6 @@ public protocol SVGElement: CustomStringConvertible {
 	
 	func isPermittedContentElement(element: SVGElement) -> Bool
 }
-
-// Element categories
-public protocol SVGContainerElement: SVGElement {}
-public protocol SVGAnimationElement: SVGElement {}
-
-public protocol SVGShapeElement: SVGElement {
-	var bezierPath: SVGBezierPath? { get set }
-}
-
-public protocol SVGBasicShapeElement: SVGElement {}
-public protocol SVGDescriptiveElement: SVGElement {}
-public protocol SVGFilterElement: SVGElement {}
-public protocol SVGFontElement: SVGElement {}
-public protocol SVGGradientElement: SVGElement {}
-public protocol SVGGraphicsElement: SVGElement, SVGDrawable {}
-public protocol SVGLightSourceElement: SVGElement {}
-public protocol SVGStructuralElement: SVGElement {}
-public protocol SVGTextContentElement: SVGElement {}
-public protocol SVGTextContentChildElement: SVGElement {}
-public protocol SVGUncategorizedElement: SVGElement {}
 
 public extension SVGElement {
 	public var description: String {
@@ -68,7 +48,7 @@ public extension SVGElement {
 		if !isPermittedContentElement(child) {
 			return false
 		}
-		
+
 		if children == nil {
 			children = []
 		}
@@ -81,3 +61,51 @@ public extension SVGElement {
 		return true
 	}
 }
+
+// Element categories
+public protocol SVGContainerElement: SVGElement {}
+public protocol SVGAnimationElement: SVGElement {}
+public protocol SVGDescriptiveElement: SVGElement {}
+public protocol SVGFilterElement: SVGElement {}
+public protocol SVGFontElement: SVGElement {}
+public protocol SVGGradientElement: SVGElement {}
+
+public protocol SVGGraphicsElement: SVGElement, SVGDrawable {}
+
+public protocol SVGShapeElement: SVGGraphicsElement {
+	var bezierPath: SVGBezierPath? { get set }
+}
+
+public extension SVGShapeElement {
+	public var stroke: SVGStroke? {
+		return attributes[.Stroke] as? SVGStroke
+	}
+	
+	public func draw(intoContext context: CGContext) {
+		guard let bezierPath = bezierPath else { return }
+	
+		//SVGColor.blackColor().setStroke()
+
+		if let stroke = stroke {
+			if let color = stroke.color {
+				color.setStroke()
+			}
+			
+			if let width = stroke.width {
+				bezierPath.lineWidth = CGFloat(width.value)
+			}
+			
+			if bezierPath.lineWidth > 0 {
+				bezierPath.stroke()
+			}
+		}
+	}
+}
+
+public protocol SVGBasicShapeElement: SVGShapeElement {}
+
+public protocol SVGLightSourceElement: SVGElement {}
+public protocol SVGStructuralElement: SVGElement {}
+public protocol SVGTextContentElement: SVGElement {}
+public protocol SVGTextContentChildElement: SVGElement {}
+public protocol SVGUncategorizedElement: SVGElement {}
