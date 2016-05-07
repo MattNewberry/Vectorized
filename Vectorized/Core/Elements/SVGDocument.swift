@@ -30,6 +30,7 @@ import Foundation
 import CoreGraphics
 
 public final class SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDrawable {
+	public private(set) var tag: String = "svg"
 	public var attributes: [SVGAttributeName : SVGAttribute] = [:]
 	
 	public var parent: SVGElement?

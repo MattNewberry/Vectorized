@@ -86,7 +86,7 @@ internal extension SVGElementParsing {
 				convertedAttributes[attributeName] = attribute.1
 			} else if let parser = parser {
 				if parser.mode == .WarnsUnhandled {
-					print("\t{SVGParser: \(parser.filename ?? "")<\(parser.line)::\(parser.column)>}: Unhandled attribute: \(attribute.0)")
+					print("{SVGParser: \(parser.filename ?? "")<\(parser.line)::\(parser.column)>}: \(self): Unhandled attribute: \(attribute.0)")
 				} else if parser.mode == .ThrowsUnhandled {
 					throw SVGError.UnhandledAttribute(attribute.0, location: (parser.line, parser.column))
 				}

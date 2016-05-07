@@ -29,6 +29,7 @@
 import Foundation
 
 public final class SVGGroup: SVGContainerElement, SVGStructuralElement {
+	public private(set) var tag: String = "g"
 	public var attributes: [SVGAttributeName : SVGAttribute] = [:]
 	
 	public var parent: SVGElement?

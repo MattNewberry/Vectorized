@@ -25,6 +25,7 @@
 import Foundation
 
 public final class SVGRect: SVGBasicShapeElement, SVGShapeElement, SVGGraphicsElement {
+	public private(set) var tag: String = "rect"
 	public var attributes: [SVGAttributeName : SVGAttribute] = [:]
 	
 	public var parent: SVGElement?
