@@ -26,6 +26,7 @@ import Foundation
 
 public enum SVGAttributeName: String {
 	// swiftlint:disable type_name
+	case ID = "id"
 	case X = "x"
 	case Y = "y"
 	// swiftlint:enable type_name

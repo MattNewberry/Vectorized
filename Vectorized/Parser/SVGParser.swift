@@ -31,12 +31,13 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	internal var parserError: ErrorType?
 	internal var line: Int { return xmlParser.lineNumber }
 	internal var column: Int { return xmlParser.columnNumber }
-	internal var mode: ParseMode = .StrictWarns
-	
+	internal var mode: ParseMode = .WarnsUnhandled
+	internal var filename: String?
+
 	internal enum ParseMode {
-		case Permissive
-		case StrictWarns
-		case StrictThrows
+		case IgnoresUnhandled
+		case WarnsUnhandled
+		case ThrowsUnhandled
 	}
 	
 	// Enumeration defining the possible XML tags in an SVG file
@@ -49,7 +50,6 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	private var xmlParser: NSXMLParser
 	private var elementStack: [SVGElement] = []
 	private var root: SVGDocument?
-	private var filename: String?
 	
 	internal class func sanitizedValue(parseValue: String?) -> String? {
 		guard let parseValue = parseValue else { return nil }
@@ -125,44 +125,48 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	
 	private func beginElement(name: String, withAttributes attributes: [String : String]) throws {
 		if let name = ElementName(rawValue: name.lowercaseString) {
-			var element: SVGElement
-			let location = (line, column)
-			
-			switch name {
-			case .Document:
-				let document = try SVGDocument(parseAttributes: attributes, location: location)
-				
-				if root == nil {
-					root = document
-				}
-				
-				element = document
-				
-			case .Group:
-				element = try SVGGroup(parseAttributes: attributes, location: location)
-				
-			case .Rect:
-				element = try SVGRect(parseAttributes: attributes, location: location)
-			}
-			
-			if var top = elementStack.last {
-				if !top.appendChild(element) {
-					throw SVGError.UnpermittedContentElement(name.rawValue, location: location, message: nil)
-				}
-			} else {
-				if root == nil {
-					throw SVGError.EncounteredElementBeforeRootFragment(name.rawValue, location: location)
-				}
-			}
-			
-			elementStack.append(element)
+			try parseElement(name, withAttributes: attributes)
 		} else {
-			if mode == .StrictWarns {
+			if mode == .WarnsUnhandled {
 				print("{SVGParser: \(filename ?? "")<\(line)::\(column)>}: Unhandled element: \(name)")
-			} else if mode == .StrictThrows {
+			} else if mode == .ThrowsUnhandled {
 				throw SVGError.UnhandledElement(name, location: (line, column))
 			}
 		}
+	}
+	
+	private func parseElement(name: ElementName, withAttributes attributes: [String : String]) throws {
+		var element: SVGElement
+		let location = (line, column)
+		
+		switch name {
+		case .Document:
+			let document = try SVGDocument(parseAttributes: attributes, parser: self)
+			
+			if root == nil {
+				root = document
+			}
+			
+			element = document
+			
+		case .Group:
+			element = try SVGGroup(parseAttributes: attributes, parser: self)
+			
+		case .Rect:
+			element = try SVGRect(parseAttributes: attributes, parser: self)
+		}
+		
+		if var top = elementStack.last {
+			if !top.appendChild(element) {
+				throw SVGError.UnpermittedContentElement(name.rawValue, location: location, message: nil)
+			}
+		} else {
+			if root == nil {
+				throw SVGError.EncounteredElementBeforeRootFragment(name.rawValue, location: location)
+			}
+		}
+		
+		elementStack.append(element)
 	}
 	
 	private func endElement(name: String) throws {

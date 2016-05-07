@@ -26,9 +26,10 @@ import Foundation
 import CoreGraphics
 
 internal protocol SVGElementParsing: SVGElement {
-	init(parseAttributes: [String : String], location: (Int, Int)?) throws
+	init(parseAttributes: [String : String], parser: SVGParser?) throws
 	
 	func parseAttribute(name: SVGAttributeName, value: String, location: (Int, Int)?) throws -> SVGAttribute?
+	func processParsedAttributes(attributes: [SVGAttributeName : SVGAttribute], location: (Int, Int)?) throws -> [SVGAttributeName : SVGAttribute]
 	func endElement() throws
 }
 
@@ -41,17 +42,11 @@ private var _combinedAttributeParsers: [SVGCombinedAttributeParsing.Type] = [
 ]
 
 internal extension SVGElementParsing {
-	init(parseAttributes attributes: [String : String], location: (Int, Int)?) throws {
+	init(parseAttributes attributes: [String : String], parser: SVGParser?) throws {
 		self.init()
 		
-		var remainingAttributes: [SVGAttributeName : String] = [:]
-		
-		for attribute in attributes {
-			if let attributeName = SVGAttributeName(rawValue: attribute.0) {
-				remainingAttributes[attributeName] = attribute.1
-			}
-		}
-		
+		let location: (Int, Int)? = parser != nil ? (parser!.line, parser!.column) : nil
+		var remainingAttributes = try convertedAttributes(attributes, parser: parser)
 		var parsedAttributes: [SVGAttributeName : SVGAttribute] = [:]
 		
 		for parser in _combinedAttributeParsers {
@@ -76,16 +71,41 @@ internal extension SVGElementParsing {
 			}
 		}
 		
+		if !attributes.isEmpty {
+			parsedAttributes = try processParsedAttributes(parsedAttributes, location: location)
+		}
+		
 		self.attributes = parsedAttributes
+	}
+	
+	func convertedAttributes(attributes: [String : String], parser: SVGParser?) throws -> [SVGAttributeName : String] {
+		var convertedAttributes: [SVGAttributeName : String] = [:]
+		
+		for attribute in attributes {
+			if let attributeName = SVGAttributeName(rawValue: attribute.0) {
+				convertedAttributes[attributeName] = attribute.1
+			} else if let parser = parser {
+				if parser.mode == .WarnsUnhandled {
+					print("\t{SVGParser: \(parser.filename ?? "")<\(parser.line)::\(parser.column)>}: Unhandled attribute: \(attribute.0)")
+				} else if parser.mode == .ThrowsUnhandled {
+					throw SVGError.UnhandledAttribute(attribute.0, location: (parser.line, parser.column))
+				}
+			}
+		}
+		
+		return convertedAttributes
 	}
 
 	func parseAttribute(name: SVGAttributeName, value: String, location: (Int, Int)?) throws -> SVGAttribute? {
 		var attribute: SVGAttribute?
 
 		switch name {
+		case .ID:
+			attribute = SVGParser.sanitizedValue(value)
+		
 		case .Version:
-			attribute = value
-			
+			attribute = SVGParser.sanitizedValue(value)
+		
 		case .ViewBox:
 			attribute = try CGRect(parseValue: value, location: location)
 			
@@ -97,6 +117,10 @@ internal extension SVGElementParsing {
 		}
 		
 		return attribute
+	}
+	
+	func processParsedAttributes(attributes: [SVGAttributeName : SVGAttribute], location: (Int, Int)?) throws -> [SVGAttributeName : SVGAttribute] {
+		return attributes
 	}
 
 	func endElement() throws {}

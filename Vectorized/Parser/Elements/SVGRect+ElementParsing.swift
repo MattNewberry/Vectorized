@@ -25,8 +25,8 @@
 import Foundation
 
 extension SVGRect: SVGElementParsing {
-	func processParsedAttributes(attributes: [String : SVGAttribute], location: (Int, Int)?) throws -> [String : SVGAttribute] {
-		if let size = attributes["size"] as? SVGSize {
+	func processParsedAttributes(attributes: [SVGAttributeName : SVGAttribute], location: (Int, Int)?) throws -> [SVGAttributeName : SVGAttribute] {
+		if let size = attributes[.Size] as? SVGSize {
 			if size.width.value < 0 || size.height.value < 0 {
 				throw SVGError.InvalidAttributeValue("\(size)", location: location, message: "Expected non-negative width and height")
 			}
