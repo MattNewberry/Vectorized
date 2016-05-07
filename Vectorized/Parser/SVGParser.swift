@@ -158,7 +158,7 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 			elementStack.append(element)
 		} else {
 			if mode == .StrictWarns {
-				print("{SVGParser: \(filename ?? "")<line \(line), col \(column)>}: Unhandled element: \(name)")
+				print("{SVGParser: \(filename ?? "")<\(line)::\(column)>}: Unhandled element: \(name)")
 			} else if mode == .StrictThrows {
 				throw SVGError.UnhandledElement(name, location: (line, column))
 			}
