@@ -36,6 +36,11 @@ public extension SVGColor {
 	}
 	
 	public convenience init?(keyword: SVGColorKeyword) {
+		if keyword == .None {
+			self.init(white: 0, alpha: 0)
+			return
+		}
+		
 		if let rgb = _colorKeywordTable[keyword] {
 			self.init(red: rgb.0, green: rgb.1, blue: rgb.2)
 			return
@@ -46,8 +51,10 @@ public extension SVGColor {
 	}
 }
 
-// http://www.w3.org/TR/SVG/types.html#ColorKeywords
 public enum SVGColorKeyword: String {
+	case None = "none"
+	
+	// http://www.w3.org/TR/SVG/types.html#ColorKeywords
 	case AliceBlue = "aliceblue"
 	case AntiqueWhite = "antiquewhite"
 	case Aqua = "aqua"
