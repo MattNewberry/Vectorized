@@ -679,7 +679,7 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="SVGName" value="dragon_0"/>
                                 </userDefinedRuntimeAttributes>
                             </customView>
-                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vF8-XH-GK9" customClass="SVGView" customModule="Vectorized">
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="vF8-XH-GK9" customClass="SVGView" customModule="Vectorized">
                                 <rect key="frame" x="516" y="20" width="423" height="610"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="SVGName" value="shapes-rect-01-t"/>
@@ -687,14 +687,18 @@
                             </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="uGi-FE-N8J" secondAttribute="bottom" constant="20" symbolic="YES" id="CER-48-vRM"/>
-                            <constraint firstItem="uGi-FE-N8J" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" symbolic="YES" id="JS6-fi-W2M"/>
-                            <constraint firstAttribute="trailing" secondItem="uGi-FE-N8J" secondAttribute="trailing" constant="451" id="faV-NB-g4B"/>
-                            <constraint firstItem="uGi-FE-N8J" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" symbolic="YES" id="kWb-HV-sfX"/>
+                            <constraint firstItem="uGi-FE-N8J" firstAttribute="bottom" secondItem="vF8-XH-GK9" secondAttribute="bottom" id="0HW-88-kiF"/>
+                            <constraint firstItem="vF8-XH-GK9" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="516" id="4sT-fn-cw0"/>
+                            <constraint firstItem="uGi-FE-N8J" firstAttribute="top" secondItem="vF8-XH-GK9" secondAttribute="top" id="Fo6-Mj-J0b"/>
+                            <constraint firstAttribute="bottom" secondItem="uGi-FE-N8J" secondAttribute="bottom" constant="20" symbolic="YES" id="MVm-Dg-zBD"/>
+                            <constraint firstItem="uGi-FE-N8J" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" symbolic="YES" id="OnH-Bi-veg"/>
+                            <constraint firstItem="uGi-FE-N8J" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" symbolic="YES" id="Po9-FO-Bdr"/>
+                            <constraint firstItem="vF8-XH-GK9" firstAttribute="leading" secondItem="uGi-FE-N8J" secondAttribute="trailing" constant="8" symbolic="YES" id="fAn-po-Ea8"/>
+                            <constraint firstAttribute="trailing" secondItem="vF8-XH-GK9" secondAttribute="trailing" constant="20" symbolic="YES" id="g96-NC-LsH"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="svgView" destination="uGi-FE-N8J" id="iUY-Gn-VAR"/>
+                        <outlet property="svgView" destination="vF8-XH-GK9" id="rIM-1x-Xh2"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

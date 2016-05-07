@@ -65,18 +65,16 @@ public final class SVGRect: SVGBasicShapeElement, SVGShapeElement, SVGGraphicsEl
 		}
 	}
 	
-	public func draw() {
-		print("\(self)")
-		
+	public func draw(intoContext context: CGContext) {
 		if bezierPath == nil {
-			let rect = CGRect(x: CGFloat(position.x.value), y: CGFloat(position.y.value), width: CGFloat(size.width.value), height: CGFloat(size.width.value))
+			let rect = CGRect(x: CGFloat(position.x.value), y: CGFloat(position.y.value), width: CGFloat(size.width.value), height: CGFloat(size.height.value))
 			
 			bezierPath = SVGBezierPath(rect: rect)
 		}
 		
-		SVGColor.blackColor().setFill()
-		bezierPath!.fill()
+		SVGColor.blackColor().setStroke()
+		bezierPath!.stroke()
 		
-		drawChildren()
+		drawChildren(intoContext: context)
 	}
 }

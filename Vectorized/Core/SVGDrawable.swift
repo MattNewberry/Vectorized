@@ -33,30 +33,30 @@ public protocol SVGDrawable: SVGElement {
 //	var onWillDraw: (()->())? { get set }
 //	var onDidDraw: (()->())? { get set }
 	
-	func draw()
-	func drawChildren()
+	func draw(intoContext context: CGContext)
+	func drawChildren(intoContext context: CGContext)
 }
 
 public extension SVGDrawable {
-	private func drawChildren(root: SVGElement) {
+	private func drawChildren(startingAtRoot root: SVGElement, intoContext context: CGContext) {
 		if let children = root.children {
 			for child in children {
 				if let drawable = child as? SVGDrawable {
-					CGContextSaveGState(SVGGraphicsGetCurrentContext())
-					drawable.draw()
-					CGContextRestoreGState(SVGGraphicsGetCurrentContext())
+					CGContextSaveGState(context)
+					drawable.draw(intoContext: context)
+					CGContextRestoreGState(context)
 				}
 				
-				drawChildren(child)
+				drawChildren(startingAtRoot: child, intoContext: context)
 			}
 		}
 	}
 	
-	public func draw() {
-		drawChildren()
+	public func draw(intoContext context: CGContext) {
+		drawChildren(intoContext: context)
 	}
 	
-	public func drawChildren() {
-		drawChildren(self)
+	public func drawChildren(intoContext context: CGContext) {
+		drawChildren(startingAtRoot: self, intoContext: context)
 	}
 }

@@ -105,54 +105,62 @@ public final class SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDr
 		children = root.children
 	}
 	
-	public func drawIntoContext(context: CGContext, rect: CGRect, contentMode: SVGContentMode) {
-		CGContextSaveGState(SVGGraphicsGetCurrentContext())
+	public func draw(intoContext context: CGContext, frameRect: CGRect, contentMode: SVGContentMode) {
+		CGContextSaveGState(context)
 		
-		let translation = translationWithTargetSize(rect.size, contentMode: contentMode)
-		let scale = scaledSizeWithTargetSize(rect.size, contentMode: contentMode)
+		let translation = translationWithTargetSize(frameRect.size, contentMode: contentMode)
+		let scale = scaleFactorWithTargetSize(frameRect.size, contentMode: contentMode)
 		
 		CGContextScaleCTM(context, scale.width, scale.height)
 		CGContextTranslateCTM(context, translation.x / scale.width, translation.y / scale.height)
 		
-		draw()
+		draw(intoContext: context)
 		
-		CGContextRestoreGState(SVGGraphicsGetCurrentContext())
+		CGContextRestoreGState(context)
 	}
 	
-	private func scaledSizeWithTargetSize(targetSize: CGSize, contentMode: SVGContentMode) -> CGSize {
-	switch contentMode {
+	public func draw(intoContext context: CGContext) {
+		if let viewBox = viewBox {
+			CGContextTranslateCTM(context, viewBox.origin.x, viewBox.origin.y)
+		}
+		
+		drawChildren(intoContext: context)
+	}
+	
+	private func scaleFactorWithTargetSize(targetSize: CGSize, contentMode: SVGContentMode) -> CGSize {
+		guard let viewBox = viewBox else { return CGSize.zero }
+
+		switch contentMode {
 		case .ScaleAspectFit:
-			let scaleFactor = min(targetSize.width / CGFloat(size.width.value), targetSize.height / CGFloat(size.height.value))
-			let scale = CGSize(width: scaleFactor, height: scaleFactor)
-			
-			return CGSize(width: CGFloat(size.width.value) * scale.width, height: CGFloat(size.height.value) * scale.height)
+			let scaleFactor = min(targetSize.width / viewBox.size.width, targetSize.height / viewBox.size.height)
+			return CGSize(width: scaleFactor, height: scaleFactor)
 			
 		case .ScaleAspectFill:
-			let scaleFactor = max(targetSize.width / CGFloat(size.width.value), targetSize.height / CGFloat(size.height.value))
-			let scale = CGSize(width: scaleFactor, height: scaleFactor)
-			
-			return CGSize(width: CGFloat(size.width.value) * scale.width, height: CGFloat(size.height.value) * scale.height)
+			let scaleFactor = max(targetSize.width / viewBox.size.width, targetSize.height / viewBox.size.height)
+			return CGSize(width: scaleFactor, height: scaleFactor)
 			
 		case .ScaleToFill:
-			return CGSize(width: CGFloat(size.width.value), height: CGFloat(size.height.value))
+			return CGSize(width: targetSize.width / viewBox.size.width, height: targetSize.height / viewBox.size.height)
 			
 		case .Center:
-			return CGSize(width: CGFloat(size.width.value), height: CGFloat(size.height.value))
-		
+			return CGSize(width: 1, height: 1)
+			
 		default:
-			return CGSize(width: CGFloat(size.width.value), height: CGFloat(size.height.value))
+			return CGSize(width: 1, height: 1)
 		}
 	}
 	
 	private func translationWithTargetSize(targetSize: CGSize, contentMode: SVGContentMode) -> CGPoint {
+		guard let viewBox = viewBox else { return CGPoint.zero }
+		
 		var newSize: CGSize
 		
 		switch contentMode {
 		case .ScaleAspectFit:
-			let scaleFactor = min(targetSize.width / CGFloat(size.width.value), targetSize.height / CGFloat(size.height.value))
+			let scaleFactor = min(targetSize.width / viewBox.size.width, targetSize.height / viewBox.size.height)
 			let scale = CGSize(width: scaleFactor, height: scaleFactor)
 			
-			newSize = CGSize(width: CGFloat(size.width.value) * scale.width, height: CGFloat(size.height.value) * scale.height)
+			newSize = CGSize(width: viewBox.size.width * scale.width, height: viewBox.size.height * scale.height)
 			
 			let xTranslation = (targetSize.width - newSize.width) / 2.0
 			let yTranslation = (targetSize.height - newSize.height) / 2.0
@@ -160,10 +168,10 @@ public final class SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDr
 			return CGPoint(x: xTranslation, y: yTranslation)
 			
 		case .ScaleAspectFill:
-			let scaleFactor = max(targetSize.width / CGFloat(size.width.value), targetSize.height / CGFloat(size.height.value))
+			let scaleFactor = max(targetSize.width / viewBox.size.width, targetSize.height / viewBox.size.height)
 			let scale = CGSize(width: scaleFactor, height: scaleFactor)
 			
-			newSize = CGSize(width: CGFloat(size.width.value) * scale.width, height: CGFloat(size.height.value) * scale.height)
+			newSize = CGSize(width: viewBox.size.width * scale.width, height: viewBox.size.height * scale.height)
 			
 			let xTranslation = (targetSize.width - newSize.width) / 2.0
 			let yTranslation = (targetSize.height - newSize.height) / 2.0
@@ -179,8 +187,8 @@ public final class SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDr
 			return CGPoint.zero
 			
 		case .Center:
-			let xTranslation = (targetSize.width - CGFloat(size.width.value)) / 2.0
-			let yTranslation = (targetSize.height - CGFloat(size.height.value)) / 2.0
+			let xTranslation = (targetSize.width - viewBox.size.width) / 2.0
+			let yTranslation = (targetSize.height - viewBox.size.height) / 2.0
 			
 			return CGPoint(x: xTranslation, y: yTranslation)
 			

@@ -38,7 +38,7 @@
 
 /// An SVGView provides a way to display SVGGraphics to the screen respecting the contentMode property.
 @IBDesignable public class SVGView: BaseView {
-	@IBInspectable var SVGName: String? {
+	@IBInspectable public var SVGName: String? {
 		didSet { svgNameChanged() }
 	}
 	
@@ -72,12 +72,15 @@
 		
 		if let document = document {
 			if let context = SVGGraphicsGetCurrentContext() {
+				SVGColor.grayColor().setFill()
+				CGContextFillRect(context, rect)
+				
 			#if os(OSX)
 				let flipVertical = CGAffineTransform(a: 1.0, b: 0.0, c: 0.0, d: -1.0, tx: 0.0, ty: rect.size.height)
 				CGContextConcatCTM(context, flipVertical)
 			#endif
 
-				document.drawIntoContext(context, rect: rect, contentMode: contentMode)
+				document.draw(intoContext: context, frameRect: rect, contentMode: contentMode)
 			}
 		}
 	}
