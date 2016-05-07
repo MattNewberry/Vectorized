@@ -26,12 +26,7 @@ import Foundation
 
 extension SVGStroke: SVGCombinedAttributeParsing {
 	static func parseAttributes(attributes: [SVGAttributeName : String], location: (Int, Int)?) throws -> ([SVGAttributeName : SVGAttribute], [SVGAttributeName])? {
-		var color: SVGColor?
-		
-		if let colorValue = attributes[.Stroke] {
-			color = SVGColor(hex: colorValue)
-		}
-		
+		let color = try SVGColor.colorForValue(attributes[.Stroke], location: location)
 		let width = try SVGLength(parseValue: attributes[.StrokeWidth], location: location)
 		
 		if color == nil && width == nil {
