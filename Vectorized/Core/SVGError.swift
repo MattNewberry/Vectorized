@@ -38,6 +38,8 @@ public enum SVGError: ErrorType {
 	case NoRootDocumentFound
 	case EncounteredElementBeforeRootFragment(String, location: (Int, Int)?)
 	
+	case UnhandledElement(String, location: (Int, Int)?)
+	
 	case UnhandledAttribute(String, location: (Int, Int)?)
 	case InvalidAttributeValue(String, location: (Int, Int)?, message: String?)
 	case InvalidMeasurementUnit(String, location: (Int, Int)?, message: String?)

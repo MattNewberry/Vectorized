@@ -31,6 +31,13 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	internal var parserError: ErrorType?
 	internal var line: Int { return xmlParser.lineNumber }
 	internal var column: Int { return xmlParser.columnNumber }
+	internal var mode: ParseMode = .StrictWarns
+	
+	internal enum ParseMode {
+		case Permissive
+		case StrictWarns
+		case StrictThrows
+	}
 	
 	// Enumeration defining the possible XML tags in an SVG file
 	private enum ElementName: String {
@@ -145,6 +152,12 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 			}
 			
 			elementStack.append(element)
+		} else {
+			if mode == .StrictWarns {
+				print("SVGParser \(line), \(column): Encountered unhandled element: \(name)")
+			} else if mode == .StrictThrows {
+				throw SVGError.UnhandledElement(name, location: (line, column))
+			}
 		}
 	}
 	
