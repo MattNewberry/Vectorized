@@ -43,7 +43,12 @@ class ViewController: NSViewController {
 			filePopupButton?.addItemsWithTitles(names)
 		}
 		
-		filePopupButton?.selectItemWithTitle("shapes-rect-01-t")
+		if let recentName = NSUserDefaults.standardUserDefaults().valueForKey("MostRecentTestFileName") as? String {
+			filePopupButton?.selectItemWithTitle(recentName)
+		} else {
+			filePopupButton?.selectItemWithTitle("shapes-rect-01-t")
+		}
+		
 		changePopupSelection(self)
 	}
 	
@@ -51,6 +56,8 @@ class ViewController: NSViewController {
 		if let name = filePopupButton?.titleOfSelectedItem {
 			svgView?.SVGName = name
 			webView?.mainFrameURL = NSBundle.mainBundle().URLForResource(name, withExtension: "svg")?.absoluteString
+			
+			NSUserDefaults.standardUserDefaults().setValue(name, forKey: "MostRecentTestFileName")
 		}
 	}
 }
