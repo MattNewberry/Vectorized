@@ -52,6 +52,10 @@
 		didSet { setNeedsDisplay() }
 	}
 	
+	public var backgroundColor: SVGColor? {
+		didSet { setNeedsDisplay() }
+	}
+	
 	public convenience init(document: SVGDocument?) {
 		self.init(frame: CGRect(x: 0, y: 0, width: CGFloat(document?.size.width.value ?? 0), height: CGFloat(document?.size.height.value ?? 0)))
 		
@@ -70,11 +74,17 @@
 	override public func drawRect(rect: CGRect) {
 		super.drawRect(rect)
 		
-		if let document = document {
-			if let context = SVGGraphicsGetCurrentContext() {
-				//SVGColor.grayColor().setFill()
-				//CGContextFillRect(context, rect)
+		if let context = SVGGraphicsGetCurrentContext() {
+			if let background = backgroundColor {
+				CGContextSaveGState(context)
 				
+				background.setFill()
+				CGContextFillRect(context, rect)
+				
+				CGContextRestoreGState(context)
+			}
+			
+			if let document = document {
 			#if os(OSX)
 				let flipVertical = CGAffineTransform(a: 1.0, b: 0.0, c: 0.0, d: -1.0, tx: 0.0, ty: rect.size.height)
 				CGContextConcatCTM(context, flipVertical)
