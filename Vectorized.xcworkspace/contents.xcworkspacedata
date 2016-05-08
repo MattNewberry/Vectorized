@@ -8,6 +8,9 @@
       location = "container:"
       name = "Examples">
       <FileRef
+         location = "group:Examples/TestSuiteViewer/TestSuiteViewer.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:Examples/SimpleSVG/SimpleSVG.xcodeproj">
       </FileRef>
    </Group>
