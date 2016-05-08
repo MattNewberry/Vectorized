@@ -32,12 +32,25 @@ class ViewController: NSViewController {
 	@IBOutlet var webView: WebView?
 	
 	override func viewDidLoad() {
+		svgView?.backgroundColor = SVGColor.whiteColor()
+		svgView?.contentMode = .ScaleAspectFit
+		
 		filePopupButton?.removeAllItems()
 		
 		let paths = NSBundle.mainBundle().URLsForResourcesWithExtension("svg", subdirectory: nil)
 
-		if let names = paths?.map({ $0.lastPathComponent! }) {
+		if let names = paths?.map({ $0.lastPathComponent!.stringByReplacingOccurrencesOfString(".svg", withString: "", options: [], range: nil) }) {
 			filePopupButton?.addItemsWithTitles(names)
+		}
+		
+		filePopupButton?.selectItemWithTitle("shapes-rect-01-t")
+		changePopupSelection(self)
+	}
+	
+	@IBAction func changePopupSelection(sender: AnyObject?) {
+		if let name = filePopupButton?.titleOfSelectedItem {
+			svgView?.SVGName = name
+			webView?.mainFrameURL = NSBundle.mainBundle().URLForResource(name, withExtension: "svg")?.absoluteString
 		}
 	}
 }

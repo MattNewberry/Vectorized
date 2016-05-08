@@ -15,6 +15,15 @@
 		47565E5E1CDEFE51007DB832 /* Vectorized.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 47565E581CDEFE2F007DB832 /* Vectorized.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		47565E631CDF001B007DB832 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47565E621CDF001B007DB832 /* WebKit.framework */; };
 		47BE18C11CDF0DE800E489BE /* shapes-rect-01-t.svg in Resources */ = {isa = PBXBuildFile; fileRef = 47BE18C01CDF0DE800E489BE /* shapes-rect-01-t.svg */; };
+		47BE18CB1CDF244700E489BE /* shapes-circle-01-t.svg in Resources */ = {isa = PBXBuildFile; fileRef = 47BE18C21CDF244700E489BE /* shapes-circle-01-t.svg */; };
+		47BE18CC1CDF244700E489BE /* shapes-circle-02-t.svg in Resources */ = {isa = PBXBuildFile; fileRef = 47BE18C31CDF244700E489BE /* shapes-circle-02-t.svg */; };
+		47BE18CD1CDF244700E489BE /* shapes-ellipse-01-t.svg in Resources */ = {isa = PBXBuildFile; fileRef = 47BE18C41CDF244700E489BE /* shapes-ellipse-01-t.svg */; };
+		47BE18CE1CDF244700E489BE /* shapes-ellipse-02-t.svg in Resources */ = {isa = PBXBuildFile; fileRef = 47BE18C51CDF244700E489BE /* shapes-ellipse-02-t.svg */; };
+		47BE18CF1CDF244700E489BE /* shapes-intro-01-t.svg in Resources */ = {isa = PBXBuildFile; fileRef = 47BE18C61CDF244700E489BE /* shapes-intro-01-t.svg */; };
+		47BE18D01CDF244700E489BE /* shapes-line-01-t.svg in Resources */ = {isa = PBXBuildFile; fileRef = 47BE18C71CDF244700E489BE /* shapes-line-01-t.svg */; };
+		47BE18D11CDF244700E489BE /* shapes-polygon-01-t.svg in Resources */ = {isa = PBXBuildFile; fileRef = 47BE18C81CDF244700E489BE /* shapes-polygon-01-t.svg */; };
+		47BE18D21CDF244700E489BE /* shapes-polyline-01-t.svg in Resources */ = {isa = PBXBuildFile; fileRef = 47BE18C91CDF244700E489BE /* shapes-polyline-01-t.svg */; };
+		47BE18D31CDF244700E489BE /* shapes-rect-02-t.svg in Resources */ = {isa = PBXBuildFile; fileRef = 47BE18CA1CDF244700E489BE /* shapes-rect-02-t.svg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +81,15 @@
 		47565E511CDEFE2F007DB832 /* Vectorized.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Vectorized.xcodeproj; path = ../../Vectorized.xcodeproj; sourceTree = "<group>"; };
 		47565E621CDF001B007DB832 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		47BE18C01CDF0DE800E489BE /* shapes-rect-01-t.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "shapes-rect-01-t.svg"; path = "../../../VectorizedTests/Graphics/W3C_SVG_11_Tests/svg/shapes-rect-01-t.svg"; sourceTree = "<group>"; };
+		47BE18C21CDF244700E489BE /* shapes-circle-01-t.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "shapes-circle-01-t.svg"; path = "../../../VectorizedTests/Graphics/W3C_SVG_11_Tests/svg/shapes-circle-01-t.svg"; sourceTree = "<group>"; };
+		47BE18C31CDF244700E489BE /* shapes-circle-02-t.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "shapes-circle-02-t.svg"; path = "../../../VectorizedTests/Graphics/W3C_SVG_11_Tests/svg/shapes-circle-02-t.svg"; sourceTree = "<group>"; };
+		47BE18C41CDF244700E489BE /* shapes-ellipse-01-t.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "shapes-ellipse-01-t.svg"; path = "../../../VectorizedTests/Graphics/W3C_SVG_11_Tests/svg/shapes-ellipse-01-t.svg"; sourceTree = "<group>"; };
+		47BE18C51CDF244700E489BE /* shapes-ellipse-02-t.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "shapes-ellipse-02-t.svg"; path = "../../../VectorizedTests/Graphics/W3C_SVG_11_Tests/svg/shapes-ellipse-02-t.svg"; sourceTree = "<group>"; };
+		47BE18C61CDF244700E489BE /* shapes-intro-01-t.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "shapes-intro-01-t.svg"; path = "../../../VectorizedTests/Graphics/W3C_SVG_11_Tests/svg/shapes-intro-01-t.svg"; sourceTree = "<group>"; };
+		47BE18C71CDF244700E489BE /* shapes-line-01-t.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "shapes-line-01-t.svg"; path = "../../../VectorizedTests/Graphics/W3C_SVG_11_Tests/svg/shapes-line-01-t.svg"; sourceTree = "<group>"; };
+		47BE18C81CDF244700E489BE /* shapes-polygon-01-t.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "shapes-polygon-01-t.svg"; path = "../../../VectorizedTests/Graphics/W3C_SVG_11_Tests/svg/shapes-polygon-01-t.svg"; sourceTree = "<group>"; };
+		47BE18C91CDF244700E489BE /* shapes-polyline-01-t.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "shapes-polyline-01-t.svg"; path = "../../../VectorizedTests/Graphics/W3C_SVG_11_Tests/svg/shapes-polyline-01-t.svg"; sourceTree = "<group>"; };
+		47BE18CA1CDF244700E489BE /* shapes-rect-02-t.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "shapes-rect-02-t.svg"; path = "../../../VectorizedTests/Graphics/W3C_SVG_11_Tests/svg/shapes-rect-02-t.svg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +157,15 @@
 		47BE18BD1CDF0DDF00E489BE /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				47BE18C21CDF244700E489BE /* shapes-circle-01-t.svg */,
+				47BE18C31CDF244700E489BE /* shapes-circle-02-t.svg */,
+				47BE18C41CDF244700E489BE /* shapes-ellipse-01-t.svg */,
+				47BE18C51CDF244700E489BE /* shapes-ellipse-02-t.svg */,
+				47BE18C61CDF244700E489BE /* shapes-intro-01-t.svg */,
+				47BE18C71CDF244700E489BE /* shapes-line-01-t.svg */,
+				47BE18C81CDF244700E489BE /* shapes-polygon-01-t.svg */,
+				47BE18C91CDF244700E489BE /* shapes-polyline-01-t.svg */,
+				47BE18CA1CDF244700E489BE /* shapes-rect-02-t.svg */,
 				47BE18C01CDF0DE800E489BE /* shapes-rect-01-t.svg */,
 			);
 			name = Graphics;
@@ -236,7 +263,16 @@
 			files = (
 				47BE18C11CDF0DE800E489BE /* shapes-rect-01-t.svg in Resources */,
 				47565E461CDEFE05007DB832 /* Assets.xcassets in Resources */,
+				47BE18CB1CDF244700E489BE /* shapes-circle-01-t.svg in Resources */,
 				47565E491CDEFE05007DB832 /* Main.storyboard in Resources */,
+				47BE18CC1CDF244700E489BE /* shapes-circle-02-t.svg in Resources */,
+				47BE18D31CDF244700E489BE /* shapes-rect-02-t.svg in Resources */,
+				47BE18D21CDF244700E489BE /* shapes-polyline-01-t.svg in Resources */,
+				47BE18CD1CDF244700E489BE /* shapes-ellipse-01-t.svg in Resources */,
+				47BE18CE1CDF244700E489BE /* shapes-ellipse-02-t.svg in Resources */,
+				47BE18D11CDF244700E489BE /* shapes-polygon-01-t.svg in Resources */,
+				47BE18CF1CDF244700E489BE /* shapes-intro-01-t.svg in Resources */,
+				47BE18D01CDF244700E489BE /* shapes-line-01-t.svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

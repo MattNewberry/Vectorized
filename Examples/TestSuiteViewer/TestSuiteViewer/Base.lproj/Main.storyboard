@@ -679,17 +679,20 @@
                             </customView>
                             <popUpButton verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Fp-QF-scq">
                                 <rect key="frame" x="553" y="808" width="230" height="26"/>
-                                <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="CQv-vv-pE5" id="tzu-6r-Idq">
+                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="tzu-6r-Idq">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="cQ3-eM-z2K">
                                         <items>
-                                            <menuItem title="Item 1" state="on" id="CQv-vv-pE5"/>
+                                            <menuItem title="Item 1" id="CQv-vv-pE5"/>
                                             <menuItem title="Item 2" id="86e-xu-iiK"/>
                                             <menuItem title="Item 3" id="z1e-9T-PgC"/>
                                         </items>
                                     </menu>
                                 </popUpButtonCell>
+                                <connections>
+                                    <action selector="changePopupSelection:" target="XfG-lQ-9wD" id="KQx-dZ-zyw"/>
+                                </connections>
                             </popUpButton>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0bS-Ek-GA5">
                                 <rect key="frame" x="18" y="767" width="648" height="17"/>
