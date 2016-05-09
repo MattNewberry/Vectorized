@@ -30,7 +30,6 @@ internal protocol SVGElementParsing: SVGElement {
 	
 	func parseAttribute(name: SVGAttributeName, value: String, location: (Int, Int)?) throws -> SVGAttribute?
 	func processParsedAttributes(attributes: [SVGAttributeName : SVGAttribute], location: (Int, Int)?) throws -> [SVGAttributeName : SVGAttribute]
-	func endElement() throws
 }
 
 private var _combinedAttributeParsers: [SVGCombinedAttributeParsing.Type] = [
@@ -122,6 +121,4 @@ internal extension SVGElementParsing {
 	func processParsedAttributes(attributes: [SVGAttributeName : SVGAttribute], location: (Int, Int)?) throws -> [SVGAttributeName : SVGAttribute] {
 		return attributes
 	}
-
-	func endElement() throws {}
 }

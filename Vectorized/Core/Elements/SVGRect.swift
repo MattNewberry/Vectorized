@@ -24,21 +24,19 @@
 
 import Foundation
 
-public final class SVGRect: SVGBasicShapeElement, SVGShapeElement, SVGGraphicsElement {
-	public private(set) var tag: String = "rect"
+public struct SVGRect: SVGBasicShapeElement, SVGShapeElement, SVGGraphicsElement {
+	public private(set) var name: String = "rect"
 	public var attributes: [SVGAttributeName : SVGAttribute] = [:]
-	
-	public var parent: SVGElement?
 	public var children: [SVGElement]?
 	
-	public lazy var bezierPath: SVGBezierPath? = {
+	public var bezierPath: SVGBezierPath? {
 		let position = self.position
 		let size = self.size
 		let rect = CGRect(x: CGFloat(position.x.value), y: CGFloat(position.y.value), width: CGFloat(size.width.value), height: CGFloat(size.height.value))
 		let radius = self.cornerRadius
 		
 		return SVGBezierPath(roundedRect: rect, xRadius: CGFloat(radius.x.value), yRadius: CGFloat(radius.y.value))
-	}()
+	}
 	
 	public var position: SVGPoint {
 		get { return attributes[.Position] as? SVGPoint ?? SVGPointZero }
@@ -60,7 +58,7 @@ public final class SVGRect: SVGBasicShapeElement, SVGShapeElement, SVGGraphicsEl
 	
 	public init() {}
 
-	public func isPermittedContentElement(element: SVGElement) -> Bool {
+	public func isPermittedChild(element: SVGElement) -> Bool {
 		switch element {
 		case _ as SVGAnimationElement: fallthrough
 		case _ as SVGDescriptiveElement:

@@ -25,28 +25,26 @@
 import Foundation
 
 public protocol SVGElement: CustomStringConvertible {
-	var tag: String { get }
+	var name: String { get }
 	var attributes: [SVGAttributeName : SVGAttribute] { get set }
-	
-	var parent: SVGElement? { get set }
 	var children: [SVGElement]? { get set }
 
 	init()
 	
-	func isPermittedContentElement(element: SVGElement) -> Bool
+	func isPermittedChild(element: SVGElement) -> Bool
 }
 
 public extension SVGElement {
 	public var description: String {
-		return "{SVGElement <\(tag)>}"
+		return "{SVGElement <\(name)>}"
 	}
 	
-	public func isPermittedContentElement(element: SVGElement) -> Bool {
+	public func isPermittedChild(element: SVGElement) -> Bool {
 		return true
 	}
 	
 	mutating func appendChild(child: SVGElement) -> Bool {
-		if !isPermittedContentElement(child) {
+		if !isPermittedChild(child) {
 			return false
 		}
 
@@ -54,9 +52,6 @@ public extension SVGElement {
 			children = []
 		}
 		
-		var child = child
-		
-		child.parent = self
 		children!.append(child)
 		
 		return true
@@ -74,7 +69,7 @@ public protocol SVGGradientElement: SVGElement {}
 public protocol SVGGraphicsElement: SVGElement, SVGDrawable {}
 
 public protocol SVGShapeElement: SVGGraphicsElement {
-	var bezierPath: SVGBezierPath? { get set }
+	var bezierPath: SVGBezierPath? { get }
 }
 
 public extension SVGShapeElement {

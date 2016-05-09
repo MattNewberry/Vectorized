@@ -46,10 +46,11 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 		case Group = "g"
 		case Rect = "rect"
 	}
-
+	
 	private var xmlParser: NSXMLParser
 	private var elementStack: [SVGElement] = []
 	private var root: SVGDocument?
+	private var foundRoot: Bool = false
 	
 	internal class func sanitizedValue(parseValue: String?) -> String? {
 		guard let parseValue = parseValue else { return nil }
@@ -137,17 +138,11 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 	
 	private func parseElement(name: ElementName, withAttributes attributes: [String : String]) throws {
 		var element: SVGElement
-		let location = (line, column)
 		
 		switch name {
 		case .Document:
-			let document = try SVGDocument(parseAttributes: attributes, parser: self)
-			
-			if root == nil {
-				root = document
-			}
-			
-			element = document
+			element = try SVGDocument(parseAttributes: attributes, parser: self)
+			foundRoot = true
 			
 		case .Group:
 			element = try SVGGroup(parseAttributes: attributes, parser: self)
@@ -155,27 +150,33 @@ internal class SVGParser: NSObject, NSXMLParserDelegate {
 		case .Rect:
 			element = try SVGRect(parseAttributes: attributes, parser: self)
 		}
-		
-		if var top = elementStack.last {
-			if !top.appendChild(element) {
-				throw SVGError.UnpermittedContentElement(name.rawValue, location: location, message: nil)
-			}
-		} else {
-			if root == nil {
-				throw SVGError.EncounteredElementBeforeRootFragment(name.rawValue, location: location)
-			}
-		}
-		
+
 		elementStack.append(element)
 	}
 	
 	private func endElement(name: String) throws {
 		if let _ = ElementName(rawValue: name.lowercaseString) {
-			if let top = elementStack.last as? SVGElementParsing {
-				try top.endElement()
+			if elementStack.count == 1 {
+				if let document = elementStack.last as? SVGDocument {
+					root = document
+					return
+				} else {
+					
+				}
 			}
 			
-			elementStack.removeLast()
+			if let top = elementStack.last {
+				elementStack.removeLast()
+				
+				if var parent = elementStack.last {
+					if parent.appendChild(top) {
+						elementStack.removeLast()
+						elementStack.append(parent)
+					} else {
+						throw SVGError.UnpermittedContentElement(name, location: (line, column), message: nil)
+					}
+				}
+			}
 		}
 	}
 

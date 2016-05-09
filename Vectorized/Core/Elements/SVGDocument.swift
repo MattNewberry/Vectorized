@@ -29,11 +29,9 @@
 import Foundation
 import CoreGraphics
 
-public final class SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDrawable {
-	public private(set) var tag: String = "svg"
+public struct SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDrawable {
+	public private(set) var name: String = "svg"
 	public var attributes: [SVGAttributeName : SVGAttribute] = [:]
-	
-	public var parent: SVGElement?
 	public var children: [SVGElement]?
 	
 	public var version: String? {
@@ -58,7 +56,7 @@ public final class SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDr
 	
 	public init() {}
 	
-	public convenience init?(contentsOfFile path: String) {
+	public init?(contentsOfFile path: String) {
 		do {
 			try self.init(contentsOfFile_throws: path)
 		} catch {
@@ -67,13 +65,13 @@ public final class SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDr
 		}
 	}
 	
-	public convenience init(contentsOfFile_throws path: String) throws {
+	public init(contentsOfFile_throws path: String) throws {
 		self.init()
 		
 		try parseFile(path)
 	}
 	
-	public convenience init?(named name: String) {
+	public init?(named name: String) {
 		do {
 			try self.init(named_throws: name)
 		} catch {
@@ -82,7 +80,7 @@ public final class SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDr
 		}
 	}
 	
-	public convenience init(named_throws name: String) throws {
+	public init(named_throws name: String) throws {
 		self.init()
 		
 	#if !TARGET_INTERFACE_BUILDER
@@ -98,7 +96,7 @@ public final class SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDr
 		}
 	}
 	
-	private func parseFile(path: String) throws {
+	private mutating func parseFile(path: String) throws {
 		let parser = try SVGParser(path: path)
 		let root = try parser.parse()
 		
@@ -196,7 +194,7 @@ public final class SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDr
 		}
 	}
 	
-	public func isPermittedContentElement(element: SVGElement) -> Bool {
+	public func isPermittedChild(element: SVGElement) -> Bool {
 		switch element {
 		case _ as SVGAnimationElement: fallthrough
 		case _ as SVGDescriptiveElement: fallthrough
