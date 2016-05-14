@@ -601,7 +601,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "sh ${PROJECT_DIR}/Scripts/swiftlint.sh";
+			shellScript = "sh \"${PROJECT_DIR}/Carthage/Checkouts/AlienXcode/Scripts/swiftlint.sh\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
