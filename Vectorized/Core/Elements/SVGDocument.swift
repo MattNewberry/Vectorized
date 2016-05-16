@@ -39,7 +39,7 @@ public struct SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDrawabl
 	}
 	
 	public var position: SVGPoint {
-		get { return attributes[.Position] as? SVGPoint ?? SVGPointZero }
+		get { return attributes[.Position] as? SVGPoint ?? SVGPoint.zero }
 	}
 	
 	public var size: SVGSize {

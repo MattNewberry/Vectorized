@@ -33,6 +33,6 @@ extension SVGSize: SVGCombinedAttributeParsing {
 			return nil
 		}
 		
-		return ([.Size : self.init(width: width ?? SVGLengthZero, height: height ?? SVGLengthZero)], [.Width, .Height])
+		return ([.Size : self.init(width: width ?? SVGLength.zero, height: height ?? SVGLength.zero)], [.Width, .Height])
 	}
 }

@@ -33,6 +33,6 @@ extension SVGPoint: SVGCombinedAttributeParsing {
 			return nil
 		}
 		
-		return ([.Position : self.init(x: x ?? SVGLengthZero, y: y ?? SVGLengthZero)], [.X, .Y])
+		return ([.Position : self.init(x: x ?? SVGLength.zero, y: y ?? SVGLength.zero)], [.X, .Y])
 	}
 }

@@ -39,11 +39,11 @@ public struct SVGRect: SVGBasicShapeElement, SVGShapeElement, SVGGraphicsElement
 	}
 	
 	public var position: SVGPoint {
-		get { return attributes[.Position] as? SVGPoint ?? SVGPointZero }
+		get { return attributes[.Position] as? SVGPoint ?? SVGPoint.zero }
 	}
 	
 	public var size: SVGSize {
-		get { return attributes[.Size] as? SVGSize ?? SVGSizeZero }
+		get { return attributes[.Size] as? SVGSize ?? SVGSize.zero }
 	}
 	
 	public var cornerRadius: SVGPoint {
@@ -52,7 +52,7 @@ public struct SVGRect: SVGBasicShapeElement, SVGShapeElement, SVGGraphicsElement
 				return SVGPoint(x: rx, y: ry)
 			}
 			
-			return SVGPointZero
+			return SVGPoint.zero
 		}
 	}
 	

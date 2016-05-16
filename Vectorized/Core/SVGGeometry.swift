@@ -44,6 +44,8 @@ public struct SVGLength: SVGAttribute, CustomStringConvertible {
 	public var value: Float
 	public var unit: SVGUnit?
 	
+	public static var zero = SVGLength(0)
+	
 	public init(_ value: Float, _ unit: SVGUnit? = nil) {
 		self.value = value
 		self.unit = unit
@@ -57,6 +59,8 @@ public struct SVGLength: SVGAttribute, CustomStringConvertible {
 public struct SVGSize: SVGAttribute, CustomStringConvertible {
 	public var width: SVGLength
 	public var height: SVGLength
+	
+	public static var zero = SVGSize(width: 0, height: 0)
 	
 	public init(width: SVGLength, height: SVGLength) {
 		self.width = width
@@ -80,6 +84,8 @@ public struct SVGPoint: SVGAttribute, CustomStringConvertible {
 	public var x: SVGLength
 	public var y: SVGLength
 	
+	public static var zero = SVGPoint(x: 0, y: 0)
+	
 	public init(x: SVGLength, y: SVGLength) {
 		self.x = x
 		self.y = y
@@ -96,16 +102,4 @@ public struct SVGPoint: SVGAttribute, CustomStringConvertible {
 	public var description: String {
 		return "{SVGPoint: x<\(x)> y<\(y)>}"
 	}
-}
-
-public var SVGLengthZero: SVGLength {
-get { return SVGLength(0) }
-}
-
-public var SVGSizeZero: SVGSize {
-get { return SVGSize(width: SVGLength(0), height: SVGLength(0)) }
-}
-
-public var SVGPointZero: SVGPoint {
-get { return SVGPoint(x: 0, y: 0) }
 }
