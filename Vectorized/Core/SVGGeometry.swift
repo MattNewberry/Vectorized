@@ -40,7 +40,7 @@ public enum SVGUnit: String {
 	case Percent = "%"
 }
 
-public struct SVGLength: SVGAttribute, CustomStringConvertible {
+public struct SVGLength: SVGAttribute, CustomStringConvertible, Equatable {
 	public var value: Float
 	public var unit: SVGUnit?
 	
@@ -56,7 +56,15 @@ public struct SVGLength: SVGAttribute, CustomStringConvertible {
 	}
 }
 
-public struct SVGSize: SVGAttribute, CustomStringConvertible {
+public func ==(lhs: SVGLength, rhs: SVGLength) -> Bool {
+	if lhs.unit != rhs.unit {
+		return false
+	}
+	
+	return lhs.value == rhs.value
+}
+
+public struct SVGSize: SVGAttribute, CustomStringConvertible, Equatable {
 	public var width: SVGLength
 	public var height: SVGLength
 	
@@ -80,7 +88,11 @@ public struct SVGSize: SVGAttribute, CustomStringConvertible {
 	}
 }
 
-public struct SVGPoint: SVGAttribute, CustomStringConvertible {
+public func ==(lhs: SVGSize, rhs: SVGSize) -> Bool {
+	return lhs.width == rhs.width && lhs.height == rhs.height
+}
+
+public struct SVGPoint: SVGAttribute, CustomStringConvertible, Equatable {
 	public var x: SVGLength
 	public var y: SVGLength
 	
@@ -102,4 +114,8 @@ public struct SVGPoint: SVGAttribute, CustomStringConvertible {
 	public var description: String {
 		return "{SVGPoint: x<\(x)> y<\(y)>}"
 	}
+}
+
+public func ==(lhs: SVGPoint, rhs: SVGPoint) -> Bool {
+	return lhs.x == rhs.x && lhs.y == rhs.y
 }
