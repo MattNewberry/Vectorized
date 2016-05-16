@@ -34,8 +34,8 @@ public protocol SVGRenderer {
 	func saveGraphicsState()
 	func restoreGraphicsState()
 	
-	func scale(scale: CGSize)
-	func translate(translation: CGPoint)
+	func scale(scale: SVGSize)
+	func translate(translation: SVGPoint)
 }
 
 extension CGContext: SVGRenderer {
@@ -47,11 +47,11 @@ extension CGContext: SVGRenderer {
 		CGContextRestoreGState(self)
 	}
 	
-	public func scale(scale: CGSize) {
-		CGContextScaleCTM(self, scale.width, scale.height)
+	public func scale(scale: SVGSize) {
+		CGContextScaleCTM(self, CGFloat(scale.width.value), CGFloat(scale.height.value))
 	}
 	
-	public func translate(translation: CGPoint) {
-		CGContextTranslateCTM(self, translation.x, translation.y)
+	public func translate(translation: SVGPoint) {
+		CGContextTranslateCTM(self, CGFloat(translation.x.value), CGFloat(translation.y.value))
 	}
 }

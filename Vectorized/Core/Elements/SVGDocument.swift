@@ -110,8 +110,8 @@ public struct SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDrawabl
 		let translation = translationWithTargetSize(frameRect.size, contentMode: contentMode)
 		let scale = scaleFactorWithTargetSize(frameRect.size, contentMode: contentMode)
 		
-		renderer.scale(scale)
-		renderer.translate(CGPoint(x: translation.x / scale.width, y: translation.y / scale.height))
+		renderer.scale(SVGSize(scale))
+		renderer.translate(SVGPoint(x: Float(translation.x / scale.width), y: Float(translation.y / scale.height)))
 
 		draw(root: self, renderer: renderer)
 		
@@ -120,7 +120,7 @@ public struct SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDrawabl
 	
 	public func draw(renderer: SVGRenderer) {
 		if let viewBox = viewBox {
-			renderer.translate(viewBox.origin)
+			renderer.translate(SVGPoint(viewBox.origin))
 		}
 	}
 	
