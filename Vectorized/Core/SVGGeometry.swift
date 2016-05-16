@@ -63,6 +63,14 @@ public struct SVGSize: SVGAttribute, CustomStringConvertible {
 		self.height = height
 	}
 	
+	public init(width: Float, height: Float) {
+		self.init(width: SVGLength(width), height: SVGLength(height))
+	}
+	
+	public init(_ size: CGSize) {
+		self.init(width: Float(size.width), height: Float(size.height))
+	}
+	
 	public var description: String {
 		return "{SVGSize: width<\(width)> height<\(height)>}"
 	}
@@ -79,6 +87,10 @@ public struct SVGPoint: SVGAttribute, CustomStringConvertible {
 	
 	public init(x: Float, y: Float) {
 		self.init(x: SVGLength(x), y: SVGLength(y))
+	}
+	
+	public init(_ point: CGPoint) {
+		self.init(x: Float(point.x), y: Float(point.y))
 	}
 	
 	public var description: String {
