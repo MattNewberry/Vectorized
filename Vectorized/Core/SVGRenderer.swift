@@ -1,10 +1,6 @@
 //---------------------------------------------------------------------------------------
 //	The MIT License (MIT)
 //
-//	Created by Austin Fitzpatrick on 3/19/15 (the "SwiftVG" project)
-//	Modified by Brian Christensen <brian@alienorb.com>
-//
-//	Copyright (c) 2015 Seedling
 //	Copyright (c) 2016 Alien Orb Software LLC
 //
 //	Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,24 +24,34 @@
 
 import CoreGraphics
 
-// An SVGDrawable can be drawn to the screen.  To conform a type must implement one method, draw()
-public protocol SVGDrawable: SVGElement {
-	func draw(renderer: SVGRenderer)
-	func draw(root root: SVGElement, renderer: SVGRenderer)
+public protocol SVGRenderer {
+	//var fillColor: SVGColor { get set }
+	//var strokeColor: SVGColor { get set }
+	
+	//func fill()
+	//func stroke()
+	
+	func saveGraphicsState()
+	func restoreGraphicsState()
+	
+	func scale(scale: CGSize)
+	func translate(translation: CGPoint)
 }
 
-public extension SVGDrawable {
-	public func draw(root root: SVGElement, renderer: SVGRenderer) {
-		if let root = root as? SVGDrawable {
-			renderer.saveGraphicsState()
-			root.draw(renderer)
-			renderer.restoreGraphicsState()
-		}
-		
-		if let children = root.children {
-			for child in children {
-				draw(root: child, renderer: renderer)
-			}
-		}
+extension CGContext: SVGRenderer {
+	public func saveGraphicsState() {
+		CGContextSaveGState(self)
+	}
+	
+	public func restoreGraphicsState() {
+		CGContextRestoreGState(self)
+	}
+	
+	public func scale(scale: CGSize) {
+		CGContextScaleCTM(self, scale.width, scale.height)
+	}
+	
+	public func translate(translation: CGPoint) {
+		CGContextTranslateCTM(self, translation.x, translation.y)
 	}
 }

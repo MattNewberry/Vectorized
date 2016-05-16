@@ -81,7 +81,7 @@ public extension SVGShapeElement {
 		return attributes[.Fill] as? SVGFill
 	}
 	
-	public func draw(intoContext context: CGContext) {
+	public func draw(renderer: SVGRenderer) {
 		guard let bezierPath = bezierPath else { return }
 		
 		if let fill = fill {

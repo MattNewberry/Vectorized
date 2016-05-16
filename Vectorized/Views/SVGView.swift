@@ -90,7 +90,7 @@
 				CGContextConcatCTM(context, flipVertical)
 			#endif
 
-				document.draw(intoContext: context, frameRect: rect, contentMode: contentMode)
+				document.draw(context, frameRect: rect, contentMode: contentMode)
 			}
 		}
 	}

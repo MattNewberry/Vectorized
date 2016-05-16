@@ -104,23 +104,23 @@ public struct SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDrawabl
 		children = root.children
 	}
 	
-	public func draw(intoContext context: CGContext, frameRect: CGRect, contentMode: SVGContentMode) {
-		CGContextSaveGState(context)
+	public func draw(renderer: SVGRenderer, frameRect: CGRect, contentMode: SVGContentMode) {
+		renderer.saveGraphicsState()
 		
 		let translation = translationWithTargetSize(frameRect.size, contentMode: contentMode)
 		let scale = scaleFactorWithTargetSize(frameRect.size, contentMode: contentMode)
 		
-		CGContextScaleCTM(context, scale.width, scale.height)
-		CGContextTranslateCTM(context, translation.x / scale.width, translation.y / scale.height)
+		renderer.scale(scale)
+		renderer.translate(CGPoint(x: translation.x / scale.width, y: translation.y / scale.height))
+
+		draw(root: self, renderer: renderer)
 		
-		draw(self, intoContext: context)
-		
-		CGContextRestoreGState(context)
+		renderer.restoreGraphicsState()
 	}
 	
-	public func draw(intoContext context: CGContext) {
+	public func draw(renderer: SVGRenderer) {
 		if let viewBox = viewBox {
-			CGContextTranslateCTM(context, viewBox.origin.x, viewBox.origin.y)
+			renderer.translate(viewBox.origin)
 		}
 	}
 	
