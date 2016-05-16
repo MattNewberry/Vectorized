@@ -30,35 +30,21 @@ import CoreGraphics
 
 // An SVGDrawable can be drawn to the screen.  To conform a type must implement one method, draw()
 public protocol SVGDrawable: SVGElement {
-//	var onWillDraw: (()->())? { get set }
-//	var onDidDraw: (()->())? { get set }
-	
 	func draw(intoContext context: CGContext)
-	
-	func drawElement(intoContext context: CGContext)
-	func drawChildren(intoContext context: CGContext)
+	func draw(root: SVGElement, intoContext context: CGContext)
 }
 
 public extension SVGDrawable {
-	public func drawElement(intoContext context: CGContext) {
-		draw(intoContext: context)
-		drawChildren(intoContext: context)
-	}
-	
-	public func drawChildren(intoContext context: CGContext) {
-		drawChildren(startingAtRoot: self, intoContext: context)
-	}
-	
-	private func drawChildren(startingAtRoot root: SVGElement, intoContext context: CGContext) {
+	public func draw(root: SVGElement, intoContext context: CGContext) {
+		if let root = root as? SVGDrawable {
+			CGContextSaveGState(context)
+			root.draw(intoContext: context)
+			CGContextRestoreGState(context)
+		}
+		
 		if let children = root.children {
 			for child in children {
-				if let drawable = child as? SVGDrawable {
-					CGContextSaveGState(context)
-					drawable.draw(intoContext: context)
-					CGContextRestoreGState(context)
-				}
-				
-				drawChildren(startingAtRoot: child, intoContext: context)
+				draw(child, intoContext: context)
 			}
 		}
 	}

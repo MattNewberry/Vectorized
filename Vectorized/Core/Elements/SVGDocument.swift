@@ -113,7 +113,7 @@ public struct SVGDocument: SVGContainerElement, SVGStructuralElement, SVGDrawabl
 		CGContextScaleCTM(context, scale.width, scale.height)
 		CGContextTranslateCTM(context, translation.x / scale.width, translation.y / scale.height)
 		
-		drawElement(intoContext: context)
+		draw(self, intoContext: context)
 		
 		CGContextRestoreGState(context)
 	}
