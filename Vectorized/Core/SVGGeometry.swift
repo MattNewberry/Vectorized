@@ -56,7 +56,7 @@ public struct SVGLength: SVGAttribute, CustomStringConvertible, Equatable {
 	}
 }
 
-public func ==(lhs: SVGLength, rhs: SVGLength) -> Bool {
+public func == (lhs: SVGLength, rhs: SVGLength) -> Bool {
 	if lhs.unit != rhs.unit {
 		return false
 	}
@@ -88,7 +88,7 @@ public struct SVGSize: SVGAttribute, CustomStringConvertible, Equatable {
 	}
 }
 
-public func ==(lhs: SVGSize, rhs: SVGSize) -> Bool {
+public func == (lhs: SVGSize, rhs: SVGSize) -> Bool {
 	return lhs.width == rhs.width && lhs.height == rhs.height
 }
 
@@ -116,6 +116,6 @@ public struct SVGPoint: SVGAttribute, CustomStringConvertible, Equatable {
 	}
 }
 
-public func ==(lhs: SVGPoint, rhs: SVGPoint) -> Bool {
+public func == (lhs: SVGPoint, rhs: SVGPoint) -> Bool {
 	return lhs.x == rhs.x && lhs.y == rhs.y
 }
